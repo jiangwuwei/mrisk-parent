@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.4//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zoom.risk.operating.decision.dao.DtDimMapper">
+
+    <resultMap id="dim" type="com.zoom.risk.operating.decision.po.TDim">
+        <result column="code" property="code" javaType="String" jdbcType="VARCHAR"/>
+        <result column="id" property="id" javaType="String" jdbcType="VARCHAR"/>
+        <result column="name" property="name" javaType="String" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="findByCode" resultMap="dim">
+		select 
+			*
+		from
+			zoom_dt_dim
+		where 
+			code = #{code,jdbcType=VARCHAR}
+		order by
+			id
+	</select>
+
+    <insert id="insert">
+		insert into zoom_dt_dim(code,id,name) values
+		(
+			#{dim.code,jdbcType=VARCHAR},
+			#{dim.id,jdbcType=VARCHAR},
+			#{dim.name,jdbcType=VARCHAR}
+		)
+	</insert>
+
+
+    <delete id="delete">
+		delete from zoom_dt_dim
+		where
+		    code = #{dim.code,jdbcType=VARCHAR}
+		and
+		    id = #{dim.id,jdbcType=VARCHAR}
+	</delete>
+
+</mapper>

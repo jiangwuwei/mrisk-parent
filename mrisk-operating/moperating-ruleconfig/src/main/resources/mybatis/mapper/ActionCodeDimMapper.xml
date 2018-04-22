@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zoom.risk.operating.ruleconfig.dao.ActionCodeDimMapper">
+  <resultMap id="BaseResultMap" type="com.zoom.risk.operating.ruleconfig.model.ActionCodeDim">
+    <id column="code" jdbcType="VARCHAR" property="code" />
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    code, id, name
+  </sql>
+  
+  <select id="selectAll" resultMap="BaseResultMap">
+  	select
+  		<include refid="Base_Column_List"/>
+  	from zoom_dim_actioncode
+  	order by code
+  </select>
+  
+  <update id="updateByPrimaryKey" parameterType="map">
+    update zoom_dim_actioncode
+     <set>
+     <if test="code != null">
+       code = #{code,jdbcType=VARCHAR},
+     </if>
+      <if test="id != null">
+       id = #{id,jdbcType=VARCHAR},
+     </if>
+        <if test="name != null">
+       name = #{name,jdbcType=VARCHAR}
+     </if>
+     </set>
+    where code = #{conditionCode,jdbcType=VARCHAR}
+    	<if test="id != null">
+    		and  id = #{conditionId, jdbcType=VARCHAR}
+    	</if>
+  </update>
+</mapper>

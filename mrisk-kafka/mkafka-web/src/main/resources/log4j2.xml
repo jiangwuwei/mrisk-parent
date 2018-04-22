@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--这一行设置为OFF 表示不记录log4j2本身的日志-->
+<Configuration status="off">
+	<Properties>
+		<Property name="base">/data/tomcat/logs/risk-kafka</Property>
+		<Property name="serverName">default</Property>
+		<Property name="logLevel">INFO</Property>
+	</Properties>
+	<Appenders>
+		<Console name="STDOUT">
+			<PatternLayout pattern="%d %p %C{1.} [%t] %m%n" />
+		</Console>
+		<RollingFile name="RollingFileApp"
+			fileName="${base}/${sys:serverName}/riskkafka-rolling.log"
+			filePattern="${base}/${sys:serverName}/%d{yyyy-MM-dd}.log">
+			<PatternLayout>
+				<Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy/>
+			</Policies>
+			<DefaultRolloverStrategy max="30" />
+		</RollingFile>
+	</Appenders>
+	<Loggers>
+		<Root level="${logLevel}" includeLocation="false">
+			<AppenderRef ref="RollingFileApp" />
+			<!--AppenderRef ref="STDOUT" /-->
+		</Root>
+	</Loggers>
+</Configuration>

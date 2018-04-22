@@ -1,0 +1,28 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.zoom</groupId>
+		<artifactId>mrisk-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>mrisk-platform</artifactId>
+	<packaging>pom</packaging>
+	<name>${artifactId} V:${project.version}</name>
+	<description>大数据风控平台</description>
+
+	<modules> 
+		<module>mplatform-httpclient</module>
+	    <module>mplatform-common</module>
+		<module>mplatform-ctr</module>
+		<module>mplatform-redis</module>
+		<module>mplatform-sharding</module>
+		<module>mplatform-rpc</module>
+		<module>mplatform-config</module>
+	</modules>
+
+	<!-- 统一版本号、参数等管理 -->
+	<properties>
+	</properties>
+
+</project>

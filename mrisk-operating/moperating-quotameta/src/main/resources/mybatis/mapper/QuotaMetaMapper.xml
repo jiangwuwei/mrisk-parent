@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.4//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zoom.risk.operating.quotameta.dao.QuotaMetaMapper">
+
+	<resultMap id="paramInstance" type="com.zoom.risk.operating.quotameta.po.ParamInstance">
+		<result column="id" property="id" javaType="long" jdbcType="BIGINT"/>
+		<result column="quota_id" property="quotaId" javaType="long" jdbcType="BIGINT"/>
+		<result column="template_id" property="templateId" javaType="long" jdbcType="BIGINT"/>
+		<result column="chinese_name" property="chineseName" javaType="String" jdbcType="VARCHAR"/>
+		<result column="name" property="name" javaType="String" jdbcType="VARCHAR"/>
+		<result column="data_type" property="dataType" javaType="int" jdbcType="INTEGER"/>
+		<result column="default_value" property="defaultValue" javaType="String" jdbcType="VARCHAR"/>
+		<result column="mandatory" property="mandatory" javaType="int" jdbcType="INTEGER"/>
+		<result column="description" property="description" javaType="String" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<resultMap id="paramTemplate" type="com.zoom.risk.operating.quotameta.po.ParamTemplate">
+		<result column="id" property="id" javaType="long" jdbcType="BIGINT"/>
+		<result column="chinese_name" property="chineseName" javaType="String" jdbcType="VARCHAR"/>
+		<result column="name" property="name" javaType="String" jdbcType="VARCHAR"/>
+		<result column="data_type" property="dataType" javaType="int" jdbcType="INTEGER"/>
+		<result column="default_value" property="defaultValue" javaType="String" jdbcType="VARCHAR"/>
+		<result column="mandatory" property="mandatory" javaType="int" jdbcType="INTEGER"/>
+		<result column="description" property="description" javaType="String" jdbcType="VARCHAR"/>
+		<result column="modified_date" property="modifiedDate" javaType="java.sql.Timestamp" jdbcType="DATE"/>
+	</resultMap>
+
+	<resultMap id="quotaDefinition" type="com.zoom.risk.operating.quotameta.po.QuotaDefinition">
+		<result column="id" property="id" javaType="long" jdbcType="BIGINT"/>
+		<result column="source_id" property="sourceId" javaType="int" jdbcType="INTEGER"/>
+		<result column="chinese_name" property="chineseName" javaType="String" jdbcType="VARCHAR"/>
+		<result column="param_name" property="paramName" javaType="String" jdbcType="VARCHAR"/>
+		<result column="data_type" property="dataType" javaType="int" jdbcType="INTEGER"/>
+		<result column="request_params" property="requestParams" javaType="String" jdbcType="VARCHAR"/>
+		<result column="syc_status" property="sycStatus" javaType="int" jdbcType="INTEGER"/>
+		<result column="description" property="description" javaType="String" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<resultMap id="quotaDefinitionVo" type="com.zoom.risk.operating.quotameta.vo.QuotaDefinitionVo">
+		<result column="id" property="id" javaType="long" jdbcType="BIGINT"/>
+		<result column="source_id" property="sourceId" javaType="int" jdbcType="INTEGER"/>
+		<result column="chinese_name" property="chineseName" javaType="String" jdbcType="VARCHAR"/>
+		<result column="param_name" property="paramName" javaType="String" jdbcType="VARCHAR"/>
+		<result column="data_type" property="dataType" javaType="int" jdbcType="INTEGER"/>
+		<result column="request_params" property="requestParams" javaType="String" jdbcType="VARCHAR"/>
+		<result column="syc_status" property="sycStatus" javaType="int" jdbcType="INTEGER"/>
+		<result column="description" property="description" javaType="String" jdbcType="VARCHAR"/>
+		<result column="modified_date" property="modifiedDate" javaType="java.sql.Timestamp" jdbcType="DATE"/>
+		<result column="source_name" property="sourceName" javaType="String" jdbcType="VARCHAR"/>
+	</resultMap>
+
+
+	<select id="findDefinitionById" resultMap="quotaDefinition" parameterType="Long">
+		select
+			*
+		from
+			zoom_service_definition
+		where
+			id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<delete id="delQuotaDefinition" parameterType="Long">
+		delete
+		from
+			zoom_service_definition
+		where
+			id = #{id,jdbcType=BIGINT}
+	</delete>
+
+	<insert id="saveQuotaDefinition" useGeneratedKeys="true" parameterType="com.zoom.risk.operating.quotameta.po.QuotaDefinition">
+		insert into zoom_service_definition (source_id, chinese_name, param_name, data_type, syc_status, description) values
+		(
+			#{sourceId,jdbcType=INTEGER},
+			#{chineseName,jdbcType=VARCHAR},
+			#{paramName,jdbcType=VARCHAR},
+			#{dataType,jdbcType=INTEGER},
+			0,
+			#{description,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<update id="updateQuotaDefinition" parameterType="com.zoom.risk.operating.quotameta.po.QuotaDefinition">
+		update
+			zoom_service_definition
+		set
+			source_id = #{sourceId,jdbcType=INTEGER},
+			chinese_name = #{chineseName,jdbcType=VARCHAR},
+			param_name = #{paramName,jdbcType=VARCHAR},
+			data_type = #{dataType,jdbcType=INTEGER},
+			description = #{description,jdbcType=VARCHAR}
+		where
+			id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<update id="sycStatusQuotaDefinition">
+		update
+			zoom_service_definition
+		set
+			syc_status = 1
+		where
+			id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<select id="findByQuotaId" resultMap="paramInstance" parameterType="Long">
+		select 
+			*
+		from
+			zoom_service_param_instance
+		where 
+			quota_id = #{quotaId,jdbcType=BIGINT}
+		order by
+			id
+	</select>
+
+	<update id="updateRequestParams">
+		update
+			zoom_service_definition
+		set
+			request_params = #{requestParams,jdbcType=VARCHAR}
+		where
+			id = #{quotaId,jdbcType=BIGINT}
+	</update>
+
+
+	<select id="findParamInstance" resultMap="paramInstance" parameterType="Long">
+		select
+			*
+		from
+			zoom_service_param_instance
+		where
+			id = #{id,jdbcType=BIGINT}
+		order by
+			id
+	</select>
+
+	<select id="findParamTemplate" resultMap="paramTemplate" parameterType="Long">
+		select
+			*
+		from
+			zoom_service_param_template
+		where
+			id = #{id,jdbcType=BIGINT}
+		order by
+			id
+	</select>
+
+	<update id="updateParamInstance" parameterType="com.zoom.risk.operating.quotameta.po.ParamInstance">
+		update
+			zoom_service_param_instance
+		set
+			chinese_name = #{chineseName,jdbcType=VARCHAR},
+			name = #{name,jdbcType=VARCHAR},
+			data_type = #{dataType,jdbcType=INTEGER},
+			default_value = #{defaultValue,jdbcType=VARCHAR},
+			mandatory = #{mandatory,jdbcType=INTEGER},
+			description = #{description,jdbcType=VARCHAR}
+		where
+			id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<delete id="delParamInstance" parameterType="Long">
+		delete
+		from
+			zoom_service_param_instance
+		where
+			id = #{paramInstanceId,jdbcType=BIGINT}
+	</delete>
+
+
+
+	<insert id="saveQuotaDefinitionLink" useGeneratedKeys="true">
+		insert into zoom_service_param_instance (quota_id,template_id,chinese_name, name, data_type, default_value,mandatory, description) values
+		<foreach item="item" index="index" collection="paramTemplateList" separator=",">
+			(
+				#{quotaId,jdbcType=BIGINT},
+				#{item.id,jdbcType=BIGINT},
+				#{item.chineseName,jdbcType=VARCHAR},
+				#{item.name,jdbcType=VARCHAR},
+				#{item.dataType,jdbcType=INTEGER},
+				#{item.defaultValue,jdbcType=VARCHAR},
+				#{item.mandatory,jdbcType=INTEGER},
+				<if test="item.description!= null">
+					#{item.description,jdbcType=VARCHAR}
+				</if>
+				<if test="item.description == null">
+					null
+				</if>
+			)
+		</foreach>
+	</insert>
+
+	<insert id="saveParamTemplate" useGeneratedKeys="true">
+		insert into zoom_service_param_template (chinese_name, name, data_type, default_value, mandatory, description) values
+		(
+			#{template.chineseName,jdbcType=VARCHAR},
+			#{template.name,jdbcType=VARCHAR},
+			#{template.dataType,jdbcType=INTEGER},
+			#{template.defaultValue,jdbcType=VARCHAR},
+			#{template.mandatory,jdbcType=INTEGER},
+			#{template.description,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<update id="updateParamTemplate" parameterType="com.zoom.risk.operating.quotameta.po.ParamTemplate">
+		update
+			zoom_service_param_template
+		set
+			chinese_name = #{chineseName,jdbcType=VARCHAR},
+			name = #{name,jdbcType=VARCHAR},
+			data_type = #{dataType,jdbcType=INTEGER},
+			default_value = #{defaultValue,jdbcType=VARCHAR},
+			mandatory = #{mandatory,jdbcType=INTEGER},
+			description = #{description,jdbcType=VARCHAR}
+		where
+			id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<delete id="delParamTemplate" parameterType="Long">
+		delete
+		from
+			zoom_service_param_template
+		where
+			id = #{paramInstanceId,jdbcType=BIGINT}
+	</delete>
+
+	<select id="findAllParamTemplate" resultMap="paramTemplate">
+		select
+			*
+		from
+			zoom_service_param_template
+		order by
+			id desc
+	</select>
+
+	<select id="findAllQuotaDefinition" resultMap="quotaDefinitionVo">
+		select
+			q.*, d.name as sourceName
+		from
+			zoom_service_definition q
+		inner join
+			zoom_service_source_dim d
+		on
+			q.source_id = d.id
+		order by
+			source_id
+	</select>
+
+
+	<select id="findSourceDim" resultType="map">
+		select
+			id, name
+		from
+			zoom_service_source_dim
+	  	order by
+	  		id
+	</select>
+
+</mapper>

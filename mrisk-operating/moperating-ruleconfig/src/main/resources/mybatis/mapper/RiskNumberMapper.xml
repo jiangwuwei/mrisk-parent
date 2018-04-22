@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zoom.risk.operating.ruleconfig.dao.RiskNumberMapper">
+  <resultMap id="BaseResultMap" type="com.zoom.risk.operating.ruleconfig.model.RiskNumber">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="entity_class" jdbcType="VARCHAR" property="entityClass" />
+    <result column="scene_no" jdbcType="VARCHAR" property="sceneNo" />
+    <result column="seq_no" jdbcType="INTEGER" property="seqNo" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, entity_class, scene_no, seq_no
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zoom_number
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+    <select id="selectSeqNo" parameterType="com.zoom.risk.operating.ruleconfig.model.RiskNumber" resultType="java.lang.Integer">
+    select 
+  		seq_no
+    from zoom_number
+    where entity_class = #{entityClass,jdbcType=VARCHAR}
+    	and
+    	  scene_no = #{sceneNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from zoom_number
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.zoom.risk.operating.ruleconfig.model.RiskNumber">
+    insert into zoom_number (id, entity_class, scene_no,
+      seq_no)
+    values (#{id,jdbcType=BIGINT}, #{entityClass,jdbcType=VARCHAR}, #{sceneNo,jdbcType=VARCHAR}, 
+      #{seqNo,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zoom.risk.operating.ruleconfig.model.RiskNumber">
+    insert into zoom_number
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="entityClass != null">
+        entity_class,
+      </if>
+      <if test="sceneNo != null">
+        scene_no,
+      </if>
+      <if test="seqNo != null">
+        seq_no,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="entityClass != null">
+        #{entityClass,jdbcType=VARCHAR},
+      </if>
+      <if test="sceneNo != null">
+        #{sceneNo,jdbcType=VARCHAR},
+      </if>
+      <if test="seqNo != null">
+        #{seqNo,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zoom.risk.operating.ruleconfig.model.RiskNumber">
+    update zoom_number
+    <set>
+      <if test="entityClass != null">
+        entity_class = #{entityClass,jdbcType=VARCHAR},
+      </if>
+      <if test="sceneNo != null">
+        scene_no = #{sceneNo,jdbcType=VARCHAR},
+      </if>
+      <if test="seqNo != null">
+        seq_no = #{seqNo,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zoom.risk.operating.ruleconfig.model.RiskNumber">
+    update zoom_number
+    set entity_class = #{entityClass,jdbcType=VARCHAR},
+      scene_no = #{sceneNo,jdbcType=VARCHAR},
+      seq_no = #{seqNo,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="update" parameterType="com.zoom.risk.operating.ruleconfig.model.RiskNumber">
+    update zoom_number
+    set
+      seq_no = #{seqNo,jdbcType=INTEGER}
+    where entity_class = #{entityClass,jdbcType=VARCHAR}
+    	and
+      scene_no = #{sceneNo,jdbcType=VARCHAR}
+  </update>
+</mapper>

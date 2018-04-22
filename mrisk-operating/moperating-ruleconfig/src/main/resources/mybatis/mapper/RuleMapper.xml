@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zoom.risk.operating.ruleconfig.dao.RuleMapper">
+  <resultMap id="BaseResultMap" type="com.zoom.risk.operating.ruleconfig.model.Rule">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="policy_id" jdbcType="BIGINT" property="policyId" />
+    <result column="rule_content" jdbcType="VARCHAR" property="ruleContent" />
+    <result column="rule_content_json" jdbcType="VARCHAR" property="ruleContentJson" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="rule_mode" jdbcType="TINYINT" property="ruleMode" />
+    <result column="scene_no" jdbcType="VARCHAR" property="sceneNo" />
+    <result column="score" jdbcType="DECIMAL" property="score" />
+    <result column="decision_code" jdbcType="INTEGER" property="decisionCode" />
+    <result column="action_code" jdbcType="VARCHAR" property="actionCode" />
+    <result column="rule_no" jdbcType="VARCHAR" property="ruleNo" />
+    <result column="weight_value" jdbcType="INTEGER" property="weightValue" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+    <result column="modified_date" jdbcType="TIMESTAMP" property="modifiedDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, policy_id, rule_content, rule_content_json, name, status, scene_no, score, decision_code, action_code, rule_no,
+    weight_value, description, created_date, modified_date,rule_mode
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zoom_rule
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByPolicyId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  	select
+  		<include refid="Base_Column_List" />
+  	from zoom_rule
+  	where policy_id = #{policyId}
+    AND status != 3
+  	order by weight_value desc
+  </select>
+  <select id="selectIdByPolicyId" parameterType="java.lang.Long" resultType="java.lang.Long">
+  	select
+  		id
+  	from zoom_rule
+  	where policy_id = #{policyId}
+  	 AND status != 3
+  	order by weight_value desc
+  </select>
+  <select id="selectPage" parameterType="map" resultMap="BaseResultMap">
+  	select
+  		<include refid="Base_Column_List"/>
+  	from zoom_rule
+  	where 
+  		policy_id = #{policyId}
+    AND status != 3
+    order by weight_value desc
+  	limit #{limit}
+  	offset #{offset}
+
+  </select>
+  <select id="selectCount" parameterType="java.lang.Long" resultType="java.lang.Integer">
+  	select count(1)
+  	from zoom_rule
+  	where
+  		policy_id = #{policyId}
+  		 AND status != 3
+  </select>
+  <select id="existWeightValue" parameterType="map" resultType="java.lang.Integer">
+  	select count(1)
+  	from zoom_rule
+  	where 
+  		policy_id = #{policyId, jdbcType=BIGINT}
+  		and id != #{ruleId, jdbcType=BIGINT}
+  		and weight_value = #{weightValue, jdbcType=INTEGER}
+  		 AND status != 3
+  </select>
+   <select id="selectByNamePolicyId" parameterType="map" resultMap="BaseResultMap">
+  	select
+  		<include refid="Base_Column_List" />
+  	from zoom_rule
+  	where policy_id = #{policyId}
+  		and
+  		  name like '%${ruleName}%'
+     AND status != 3
+     order by weight_value
+  </select>
+   <select id="selectByRuleNo" parameterType="map" resultMap="BaseResultMap">
+  	select
+  		<include refid="Base_Column_List" />
+  	from zoom_rule
+  	where rule_no = #{ruleNo}
+     AND status != 3
+   </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from zoom_rule
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.zoom.risk.operating.ruleconfig.model.Rule">
+    insert into zoom_rule (id, policy_id, rule_content, rule_content_json,
+      name, status, scene_no, 
+      score, decision_code, action_code,
+      weight_value, rule_no, description,rule_mode) 
+    values (#{id,jdbcType=BIGINT}, #{policyId,jdbcType=BIGINT}, #{ruleContent,jdbcType=VARCHAR}, #{ruleContentJson,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{sceneNo,jdbcType=VARCHAR}, 
+      #{score,jdbcType=DECIMAL}, #{decisionCode,jdbcType=INTEGER}, #{actionCode,jdbcType=VARCHAR}, 
+      #{weightValue,jdbcType=INTEGER}, #{ruleNo,jdbcType=VARCHAR},#{description,jdbcType=VARCHAR},
+      #{ruleMode, jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zoom.risk.operating.ruleconfig.model.Rule">
+    insert into zoom_rule
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="policyId != null">
+        policy_id,
+      </if>
+      <if test="ruleContent != null">
+        rule_content,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="sceneNo != null">
+        scene_no,
+      </if>
+      <if test="score != null">
+        score,
+      </if>
+      <if test="decisionCode != null">
+        decision_code,
+      </if>
+      <if test="actionCode != null">
+        action_code,
+      </if>
+      <if test="weightValue != null">
+        weight_value,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="createdDate != null">
+        created_date,
+      </if>
+      <if test="modifiedDate != null">
+        modified_date,
+      </if>
+      <if test="rule_mode != null">
+        rule_mode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="policyId != null">
+        #{policyId,jdbcType=BIGINT},
+      </if>
+      <if test="ruleContent != null">
+        #{ruleContent,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="sceneNo != null">
+        #{sceneNo,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=DECIMAL},
+      </if>
+      <if test="decisionCode != null">
+        #{decisionCode,jdbcType=INTEGER},
+      </if>
+      <if test="actionCode != null">
+        #{actionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="weightValue != null">
+        #{weightValue,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDate != null">
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedDate != null">
+        #{modifiedDate,jdbcType=TIMESTAMP},
+      </if>
+       <if test="ruleMode != null">
+        #{ruleMode,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zoom.risk.operating.ruleconfig.model.Rule">
+    update zoom_rule
+    <set>
+      <if test="policyId != null">
+        policy_id = #{policyId,jdbcType=BIGINT},
+      </if>
+      <if test="ruleContent != null">
+        rule_content = #{ruleContent,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleContentJson != null">
+        rule_content_json = #{ruleContentJson,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="sceneNo != null">
+        scene_no = #{sceneNo,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null">
+        score = #{score,jdbcType=DECIMAL},
+      </if>
+      <if test="decisionCode != null">
+        decision_code = #{decisionCode,jdbcType=INTEGER},
+      </if>
+      <if test="actionCode != null">
+        action_code = #{actionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="weightValue != null">
+        weight_value = #{weightValue,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+       modified_date = now(),
+       rule_mode = #{ruleMode, jdbcType=INTEGER}
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zoom.risk.operating.ruleconfig.model.Rule">
+    update zoom_rule
+    set policy_id = #{policyId,jdbcType=BIGINT},
+      rule_content = #{ruleContent,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      scene_no = #{sceneNo,jdbcType=VARCHAR},
+      score = #{score,jdbcType=DECIMAL},
+      decision_code = #{decisionCode,jdbcType=INTEGER},
+      action_code = #{actionCode,jdbcType=VARCHAR},
+      weight_value = #{weightValue,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR},
+      rule_content_json = #{ruleContentJson,jdbcType=VARCHAR},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      modified_date = #{modifiedDate,jdbcType=TIMESTAMP},
+      rule_mode =  #{ruleMode, jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+	<update id="updateStatus" parameterType="map">
+		update zoom_rule
+		set status=#{status}
+		where
+			<!--按照ruleId更新-->
+			<if test="type == 1">
+				id = #{id,jdbcType=BIGINT}
+			</if>
+            <!--按照policyId更新,根据策略启动，只能启动状态不为3的规则-->
+			<if test="type == 2">
+				policy_id = #{id,jdbcType=BIGINT}
+              <if test="status == 2 or status == 1">
+                and status != 3
+              </if>
+			</if>
+	</update>
+	
+</mapper>

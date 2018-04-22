@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zoom.risk.platform.scard.dao.SCardAllMapper">
+
+    <resultMap id="SCardPoliciesMap" type="com.zoom.risk.platform.scard.mode.SCardPolicies">
+        <id column="scene_no" jdbcType="VARCHAR" property="sceneNo"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+    </resultMap>
+
+    <resultMap id="SCardMap" type="com.zoom.risk.platform.scard.mode.SCard">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="scene_no" jdbcType="VARCHAR" property="sceneNo"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+        <result column="weight_value" jdbcType="INTEGER" property="weightValue"/>
+        <result column="weight_flag" jdbcType="INTEGER" property="weightFlag"/>
+        <result column="percentage_flag" jdbcType="INTEGER" property="percentageFlag"/>
+        <result column="scard_no" jdbcType="VARCHAR" property="scardNo"/>
+    </resultMap>
+
+    <resultMap id="SCardParamMap" type="com.zoom.risk.platform.scard.mode.SCardParam">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="scard_id" jdbcType="BIGINT" property="scardId"/>
+        <result column="type_id" jdbcType="INTEGER" property="typeId"/>
+        <result column="chinese_name" jdbcType="VARCHAR" property="chineseName"/>
+        <result column="param_name" jdbcType="VARCHAR" property="paramName"/>
+        <result column="param_no" jdbcType="VARCHAR" property="paramNo"/>
+        <result column="db_type" jdbcType="INTEGER" property="dbType"/>
+        <result column="default_score" jdbcType="FLOAT" property="defaultScore"/>
+        <result column="weight_value" jdbcType="FLOAT" property="weightValue"/>
+    </resultMap>
+
+
+    <resultMap id="SCardRouterMap" type="com.zoom.risk.platform.scard.mode.SCardRouter">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="scene_no" jdbcType="VARCHAR" property="sceneNo"/>
+        <result column="scard_id" jdbcType="BIGINT" property="scardId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="router_no" jdbcType="VARCHAR" property="routerNo"/>
+        <result column="router_expression" jdbcType="VARCHAR" property="routerExpression"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="weight_value" jdbcType="INTEGER" property="weightValue"/>
+    </resultMap>
+
+    <resultMap id="SCardRuleMap" type="com.zoom.risk.platform.scard.mode.SCardRule">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="scard_id" jdbcType="BIGINT" property="scardId"/>
+        <result column="route_name" jdbcType="VARCHAR" property="routeName"/>
+        <result column="route_expression" jdbcType="VARCHAR" property="routeExpression"/>
+        <result column="final_result" jdbcType="VARCHAR" property="finalResult"/>
+    </resultMap>
+
+    <resultMap id="SCardParamRouteMap" type="com.zoom.risk.platform.scard.mode.SCardParamRoute">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="param_id" jdbcType="BIGINT" property="paramId"/>
+        <result column="param_name" jdbcType="VARCHAR" property="paramName"/>
+        <result column="route_name" jdbcType="VARCHAR" property="routeName"/>
+        <result column="route_expression" jdbcType="VARCHAR" property="routeExpression"/>
+        <result column="db_type" jdbcType="INTEGER" property="dbType"/>
+        <result column="route_score" jdbcType="VARCHAR" property="routeScore"/>
+    </resultMap>
+
+    <sql id="SCardPolicies_Column_List">
+        scene_no, name
+    </sql>
+
+    <sql id="SCard_Column_List">
+        id, scene_no, name, status, weight_value, weight_flag, percentage_flag, scard_no
+    </sql>
+
+    <sql id="SCardParam_Column_List">
+        id, scard_id, type_id, chinese_name, param_name, param_no, db_type, default_score, weight_value
+    </sql>
+
+    <sql id="SCardParamRoute_Column_List">
+        id, param_id, param_name, route_name, route_expression, db_type, route_score
+    </sql>
+
+    <sql id="SCardRouter_Column_List">
+        id, scene_no, scard_id, name, router_expression, router_no, status, weight_value
+    </sql>
+
+    <sql id="SCardRule_Column_List">
+        id, scard_id, route_name, route_expression, final_result
+    </sql>
+
+    <select id="selectSCardPolicies" resultMap="SCardPoliciesMap">
+        select
+        <include refid="SCardPolicies_Column_List"/>
+        from zoom_sc_policies
+    </select>
+
+    <select id="selectSCard" resultMap="SCardMap">
+        select
+        <include refid="SCard_Column_List"/>
+        from zoom_sc_definition where status = 2 order by scene_no, weight_value desc
+    </select>
+
+    <select id="selectSCardParam" resultMap="SCardParamMap">
+        select
+        <include refid="SCardParam_Column_List"/>
+        from zoom_sc_params
+    </select>
+
+    <select id="selectSCardParamRoute" resultMap="SCardParamRouteMap">
+        select
+        <include refid="SCardParamRoute_Column_List"/>
+        from zoom_sc_params_route
+    </select>
+
+    <select id="selectSCardRouter" resultMap="SCardRouterMap">
+        select
+        <include refid="SCardRouter_Column_List"/>
+        from zoom_sc_policy_router
+        where status = 2
+    </select>
+
+    <select id="selectSCardRule" resultMap="SCardRuleMap">
+        select
+        <include refid="SCardRule_Column_List" />
+        from zoom_sc_result_rule
+    </select>
+
+</mapper>

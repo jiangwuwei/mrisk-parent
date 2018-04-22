@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zoom.risk.operating.scard.dao.SCardParamMapper">
+
+    <resultMap id="BaseResultMap" type="com.zoom.risk.operating.scard.model.SCardParam">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="scard_id" jdbcType="BIGINT" property="scardId"/>
+        <result column="type_id" jdbcType="INTEGER" property="typeId"/>
+        <result column="chinese_name" jdbcType="VARCHAR" property="chineseName"/>
+        <result column="param_name" jdbcType="VARCHAR" property="paramName"/>
+        <result column="param_no" jdbcType="VARCHAR" property="paramNo"/>
+        <result column="db_type" jdbcType="INTEGER" property="dbType"/>
+        <result column="default_score" jdbcType="FLOAT" property="defaultScore"/>
+        <result column="weight_value" jdbcType="FLOAT" property="weightValue"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, scard_id, type_id, chinese_name, param_name, param_no, db_type, default_score, weight_value
+    </sql>
+
+    <select id="selectPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from zoom_sc_params
+        where id = #{paramId,jdbcType=BIGINT}
+    </select>
+
+
+    <select id="getSCardParams" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from zoom_sc_params
+        where scard_id = #{scardId,jdbcType=BIGINT} order by type_id
+    </select>
+
+    <insert id="batchSaveParams" useGeneratedKeys="true">
+        insert into zoom_sc_params (scard_id, type_id, chinese_name, param_name, param_no, db_type, default_score, weight_value) values
+        <foreach item="item" index="index" collection="paramsList" separator=",">
+            (
+                #{item.scardId,jdbcType=VARCHAR},
+                #{item.typeId,jdbcType=INTEGER},
+                #{item.chineseName,jdbcType=VARCHAR},
+                #{item.paramName,jdbcType=VARCHAR},
+                #{item.paramNo,jdbcType=VARCHAR},
+                #{item.dbType,jdbcType=INTEGER},
+                1,
+                1
+            )
+        </foreach>
+    </insert>
+
+    <insert id="insertParams" useGeneratedKeys="true"  keyProperty="id">
+        insert into zoom_sc_params (scard_id, type_id, chinese_name, param_name, param_no, db_type, default_score, weight_value) values
+        (
+            #{scardId,jdbcType=VARCHAR},
+            #{typeId,jdbcType=INTEGER},
+            #{chineseName,jdbcType=VARCHAR},
+            #{paramName,jdbcType=VARCHAR},
+            #{paramNo,jdbcType=VARCHAR},
+            #{dbType,jdbcType=INTEGER},
+            1,
+            1
+        )
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.zoom.risk.operating.scard.model.SCardParam">
+        update zoom_sc_params
+        <set>
+            <if test="weightValue != null">
+                weight_value = #{weightValue,jdbcType=FLOAT},
+            </if>
+            default_score = #{defaultScore,jdbcType=FLOAT}
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from zoom_sc_params
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+
+    <select id="findReferanceCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(1)
+        from zoom_sc_params
+        where param_name = #{paramName,jdbcType=VARCHAR}
+    </select>
+
+    <select id="findUsedParams" parameterType="java.lang.Long" resultType="java.lang.String">
+        select param_name
+        from zoom_sc_params
+        where scard_id = #{scardId,jdbcType=BIGINT}
+    </select>
+
+</mapper>

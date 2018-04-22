@@ -1,0 +1,36 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.zoom</groupId>
+		<artifactId>mrisk-thirdparty</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>thirdparty-minivision</artifactId>
+	<packaging>jar</packaging>
+
+	<name>${project.artifactId} V:${project.version}</name>
+	<description>小视数据接入</description>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>com.zoom</groupId>
+			<artifactId>mplatform-httpclient</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.zoom</groupId>
+			<artifactId>thirdparty-common</artifactId>
+		</dependency>
+
+		<!-- Junit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+</project>

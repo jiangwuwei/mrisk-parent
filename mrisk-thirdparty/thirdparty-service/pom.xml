@@ -1,0 +1,61 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.zoom</groupId>
+		<artifactId>mrisk-thirdparty</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>thirdparty-service</artifactId>
+	<packaging>jar</packaging>
+
+	<name>${project.artifactId} V:${project.version}</name>
+	<description>第三方接口的调用入口</description>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-ctr</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.zoom</groupId>
+			<artifactId>thirdparty-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.zoom</groupId>
+			<artifactId>thirdparty-tongdun</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.zoom</groupId>
+			<artifactId>thirdparty-bairong</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.zoom</groupId>
+			<artifactId>thirdparty-zhima</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.zoom</groupId>
+			<artifactId>thirdparty-minivision</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.zoom</groupId>
+			<artifactId>thirdparty-tencent</artifactId>
+		</dependency>
+
+		<!-- Junit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+</project>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zoom.risk.operating.ruleconfig.dao.ExtendAttributeDimMapper" >
+  <resultMap id="BaseResultMap" type="com.zoom.risk.operating.ruleconfig.model.ExtendAttributeDim" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="param_name" property="paramName" jdbcType="VARCHAR" />
+    <result column="chinese_name" property="chineseName" jdbcType="VARCHAR" />
+    <result column="data_type" property="dataType" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, param_name, chinese_name, data_type
+  </sql>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from zoom_dim_extend_attribute
+    order by id
+  </select>
+</mapper>

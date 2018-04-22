@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.4//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zoom.risk.operating.decision.dao.RiskDecisionTreeMapper">
+
+    <resultMap id="dbNode" type="com.zoom.risk.operating.decision.po.DBNode">
+        <result column="id" property="id" javaType="long" jdbcType="BIGINT"/>
+        <result column="parent_id" property="parentId" javaType="long" jdbcType="BIGINT"/>
+        <result column="policy_id" property="policyId" javaType="long" jdbcType="BIGINT"/>
+        <result column="scene_no" property="sceneNo" javaType="String" jdbcType="VARCHAR"/>
+        <result column="node_no" property="nodeNo" javaType="String" jdbcType="VARCHAR"/>
+        <result column="node_type" property="nodeType" javaType="int" jdbcType="INTEGER"/>
+        <result column="quota_id" property="quotaId" javaType="long" jdbcType="BIGINT"/>
+        <result column="chinese_name" property="chineseName" javaType="String" jdbcType="VARCHAR"/>
+        <result column="param_name" property="paramName" javaType="String" jdbcType="VARCHAR"/>
+        <result column="route_name" property="routeName" javaType="String" jdbcType="VARCHAR"/>
+        <result column="route_expression" property="routeExpression" javaType="String" jdbcType="VARCHAR"/>
+        <result column="score" property="score" javaType="int" jdbcType="INTEGER"/>
+        <result column="decision_code" property="decisionCode" javaType="int" jdbcType="INTEGER"/>
+        <result column="action_code" property="actionCode" javaType="String" jdbcType="VARCHAR"/>
+        <result column="reason" property="reason" javaType="String" jdbcType="VARCHAR"/>
+        <result column="description" property="description" javaType="String" jdbcType="VARCHAR"/>
+        <result column="created_date" property="createdDate" javaType="java.util.Date" jdbcType="DATE"/>
+        <result column="modified_date" property="modifiedDate" javaType="java.util.Date" jdbcType="DATE"/>
+    </resultMap>
+
+    <resultMap id="tpolicy" type="com.zoom.risk.operating.decision.po.TPolicy">
+        <result column="id" property="id" javaType="long" jdbcType="BIGINT"/>
+        <result column="scene_no" property="sceneNo" javaType="String" jdbcType="VARCHAR"/>
+        <result column="policy_no" property="policyNo" javaType="String" jdbcType="VARCHAR"/>
+        <result column="name" property="name" javaType="String" jdbcType="VARCHAR"/>
+        <result column="status" property="status" javaType="int" jdbcType="INTEGER"/>
+        <result column="weight_value" property="weightValue" javaType="int" jdbcType="INTEGER"/>
+        <result column="description" property="description" javaType="String" jdbcType="VARCHAR"/>
+        <result column="created_date" property="createdDate" javaType="java.util.Date" jdbcType="DATE"/>
+        <result column="modified_date" property="modifiedDate" javaType="java.util.Date" jdbcType="DATE"/>
+    </resultMap>
+
+    <resultMap id="tquota" type="com.zoom.risk.operating.decision.po.TQuota">
+        <result column="id" property="id" javaType="long" jdbcType="BIGINT"/>
+        <result column="template_id" property="templateId" javaType="long" jdbcType="BIGINT"/>
+        <result column="scene_no" property="sceneNo" javaType="String" jdbcType="VARCHAR"/>
+        <result column="quota_no" property="quotaNo" javaType="String" jdbcType="VARCHAR"/>
+        <result column="chinese_name" property="chineseName" javaType="String" jdbcType="VARCHAR"/>
+        <result column="param_name" property="paramName" javaType="String" jdbcType="VARCHAR"/>
+        <result column="source_type" property="sourceType" javaType="int" jdbcType="INTEGER"/>
+        <result column="data_type" property="dataType" javaType="int" jdbcType="INTEGER"/>
+        <result column="request_params" property="requestParams" javaType="String" jdbcType="VARCHAR"/>
+        <result column="status" property="status" javaType="int" jdbcType="INTEGER"/>
+        <result column="description" property="description" javaType="String" jdbcType="VARCHAR"/>
+        <result column="created_date" property="createdDate" javaType="java.util.Date" jdbcType="DATE"/>
+        <result column="modified_date" property="modifiedDate" javaType="java.util.Date" jdbcType="DATE"/>
+    </resultMap>
+
+    <resultMap id="tdim" type="com.zoom.risk.operating.decision.po.TDim">
+        <result column="code" property="code" javaType="String" jdbcType="VARCHAR"/>
+        <result column="id" property="id" javaType="String" jdbcType="VARCHAR"/>
+        <result column="name" property="name" javaType="String" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="scenes" type="com.zoom.risk.operating.decision.po.Scenes">
+        <id column="scene_no" jdbcType="VARCHAR" property="sceneNo"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="created_date" jdbcType="TIMESTAMP" property="createdDate"/>
+        <result column="modified_date" jdbcType="TIMESTAMP" property="modifiedDate"/>
+    </resultMap>
+
+    <select id="findNodesByPolicyId" resultMap="dbNode" parameterType="Long">
+		select 
+			*
+		from
+			zoom_dt_tree_node
+		where 
+			policy_id = #{policyId,jdbcType=BIGINT}
+		order by
+			id
+	</select>
+
+    <insert id="saveDecisionTree" useGeneratedKeys="true" parameterType="list">
+        insert into zoom_dt_rule(policy_id,scene_no,name,rule_content,rule_layer,rule_params, rule_no,
+        status,score,decision_code,action_code,description,reason) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            (
+            #{item.policyId},
+            #{item.sceneNo},
+            #{item.name},
+            #{item.ruleContent},
+            #{item.ruleLayer},
+            #{item.ruleParams},
+            #{item.ruleNo},
+            1,
+            #{item.score},
+            #{item.decisionCode},
+            #{item.actionCode},
+            #{item.description},
+            #{item.reason}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="saveNumber" useGeneratedKeys="true">
+		insert into zoom_dt_number(entity_class,scene_no,seq_no) values
+		(
+			#{entityClass},
+			#{sceneNo},
+			1
+		)
+	</insert>
+
+    <update id="increaseNumber">
+		update
+			zoom_dt_number
+		set
+			seq_no = seq_no+1
+		where
+			entity_class = #{entityClass}
+			and
+			scene_no = #{sceneNo}
+	</update>
+
+    <select id="getNextNumber" resultType="java.lang.Integer">
+		select seq_no
+		from zoom_dt_number
+		where
+			entity_class = #{entityClass}
+			and
+			scene_no = #{sceneNo}
+	</select>
+
+    <select id="selectDtScenes" resultMap="scenes">
+		select *
+		from zoom_scenes
+		where scene_type = 2
+	</select>
+    <!--find node and it's children by nodeId-->
+    <select id="findNodesByNodeId" resultMap="dbNode">
+		select *
+		from zoom_dt_tree_node
+		where parent_id = #{nodeId}
+		  || id = #{nodeId}
+	</select>
+
+    <delete id="delNodeByNodeId">
+		delete from zoom_dt_tree_node
+		where id = #{nodeId}
+	</delete>
+
+    <select id="findQuotaByScene" resultMap="tquota">
+		select *
+		from zoom_dt_quota
+		where scene_no = #{sceneNo}
+	</select>
+    <insert id="saveNode" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.zoom.risk.operating.decision.po.DBNode">
+        insert into zoom_dt_tree_node(parent_id, quota_id, policy_id, scene_no, node_no, chinese_name,
+        param_name, route_name, node_type, route_expression, score, decision_code, action_code, reason,
+        description)
+        values(
+          #{parentId}, #{quotaId}, #{policyId}, #{sceneNo}, #{nodeNo}, #{chineseName}, #{paramName},
+          #{routeName}, #{nodeType}, #{routeExpression}, #{score}, #{decisionCode}, #{actionCode}, #{reason},
+          #{description}
+        )
+    </insert>
+    <update id="updateNodeParent">
+        update zoom_dt_tree_node
+        set parent_id = #{parentId}
+        where id = #{id}
+    </update>
+    <update id="updateParentNode" parameterType="com.zoom.risk.operating.decision.po.DBNode">
+        update zoom_dt_tree_node
+        set
+        chinese_name = #{chineseName},
+        param_name = #{paramName},
+        quota_id = #{quotaId}
+        where
+        id = #{id}
+    </update>
+    <update id="updateBranchNode" parameterType="com.zoom.risk.operating.decision.po.DBNode">
+        update zoom_dt_tree_node
+        set
+          route_name = #{routeName},
+          route_expression = #{routeExpression},
+          score = #{score}
+        where
+        id = #{id}
+    </update>
+    <update id="updateLeafNode" parameterType="com.zoom.risk.operating.decision.po.DBNode">
+        update zoom_dt_tree_node
+        set
+          node_type = #{nodeType},
+          decision_code = #{decisionCode},
+          action_code = #{actionCode},
+          reason = #{reason},
+          description = #{description}
+        where
+        id = #{id}
+    </update>
+    <select id="findDimByCode" resultMap="tdim">
+        select *
+        from zoom_dt_dim
+        where code = #{code}
+        order by id
+    </select>
+</mapper>

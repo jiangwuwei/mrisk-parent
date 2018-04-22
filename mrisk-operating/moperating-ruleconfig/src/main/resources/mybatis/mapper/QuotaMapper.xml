@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zoom.risk.operating.ruleconfig.dao.QuotaMapper">
+    <resultMap id="BaseResultMap" type="com.zoom.risk.operating.ruleconfig.model.Quota">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="scene_no" jdbcType="VARCHAR" property="sceneNo"/>
+        <result column="quota_no" jdbcType="VARCHAR" property="quotaNo"/>
+        <result column="quota_template_id" jdbcType="BIGINT" property="quotaTemplateId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="source_type" jdbcType="TINYINT" property="sourceType"/>
+        <result column="access_source" jdbcType="TINYINT" property="accessSource"/>
+        <result column="quota_data_type" jdbcType="TINYINT" property="quotaDataType"/>
+        <result column="quota_content" jdbcType="VARCHAR" property="quotaContent"/>
+        <result column="quota_content_json" jdbcType="VARCHAR" property="quotaContentJson"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="created_date" jdbcType="TIMESTAMP" property="createdDate"/>
+        <result column="modified_date" jdbcType="TIMESTAMP" property="modifiedDate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, scene_no, quota_no, quota_template_id, name, source_type, access_source, quota_data_type, 
+    quota_content,quota_content_json, status, description, created_date, modified_date
+  </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from zoom_quota
+        where id = #{id,jdbcType=BIGINT}
+        and status != 3
+    </select>
+    <select id="selectPage" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from zoom_quota
+        <if test="sceneNo != 'all'">
+            where
+            scene_no = #{sceneNo}
+            and status != 3
+        </if>
+        order by scene_no
+        <if test="limit != 0">
+            limit #{limit}
+            offset #{offset}
+        </if>
+
+    </select>
+    <select id="selectCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+  	select count(1)
+  	from zoom_quota
+  	where
+  		scene_no = #{sceneNo}
+  		 and status != 3
+  </select>
+    <select id="selectBySceneNo" parameterType="map" resultMap="BaseResultMap">
+  	select *
+  	from zoom_quota
+  	where scene_no =  #{sceneNo,jdbcType=VARCHAR}
+  	and
+  		status = #{status, jdbcType=INTEGER}
+  </select>
+    <select id="selectIdsByQuotaNos" parameterType="list" resultType="java.lang.Long">
+        select id
+        from zoom_quota
+        where
+        quota_no in (
+        <foreach item="item" index="index" collection="list"
+                 separator=",">
+            "${item}"
+        </foreach>)
+        and status != 3
+    </select>
+    <select id="selectByName" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from zoom_quota
+        where name like "%${quotaName}%"
+        and status != 3
+        order by scene_no
+        <if test="limit != 0">
+            limit #{limit}
+            offset #{offset}
+        </if>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from zoom_quota
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+    <insert id="insert" parameterType="com.zoom.risk.operating.ruleconfig.model.Quota">
+    insert into zoom_quota (id, scene_no, quota_no,
+      quota_template_id, name, source_type, 
+      access_source, quota_data_type, quota_content, quota_content_json,
+      status, description)
+    values (#{id,jdbcType=BIGINT}, #{sceneNo,jdbcType=VARCHAR}, #{quotaNo,jdbcType=VARCHAR}, 
+      #{quotaTemplateId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{sourceType,jdbcType=TINYINT}, 
+      #{accessSource,jdbcType=TINYINT}, #{quotaDataType,jdbcType=TINYINT}, #{quotaContent,jdbcType=VARCHAR}, #{quotaContentJson,jdbcType=VARCHAR},
+      #{status,jdbcType=TINYINT}, #{description,jdbcType=VARCHAR})
+  </insert>
+
+    <insert id="insertSelective" parameterType="com.zoom.risk.operating.ruleconfig.model.Quota">
+        insert into zoom_quota
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="sceneNo != null">
+                scene_no,
+            </if>
+            <if test="quotaNo != null">
+                quota_no,
+            </if>
+            <if test="quotaTemplateId != null">
+                quota_template_id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="sourceType != null">
+                source_type,
+            </if>
+            <if test="accessSource != null">
+                access_source,
+            </if>
+            <if test="quotaDataType != null">
+                quota_data_type,
+            </if>
+            <if test="quotaContent != null">
+                quota_content,
+            </if>
+            <if test="quotaContentJson != null">
+                quota_content_json,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="createdDate != null">
+                created_date,
+            </if>
+            <if test="modifiedDate != null">
+                modified_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="sceneNo != null">
+                #{sceneNo,jdbcType=VARCHAR},
+            </if>
+            <if test="quotaNo != null">
+                #{quotaNo,jdbcType=VARCHAR},
+            </if>
+            <if test="quotaTemplateId != null">
+                #{quotaTemplateId,jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="sourceType != null">
+                #{sourceType,jdbcType=TINYINT},
+            </if>
+            <if test="accessSource != null">
+                #{accessSource,jdbcType=TINYINT},
+            </if>
+            <if test="quotaDataType != null">
+                #{quotaDataType,jdbcType=TINYINT},
+            </if>
+            <if test="quotaContent != null">
+                #{quotaContent,jdbcType=VARCHAR},
+            </if>
+            <if test="quotaContentJson != null">
+                #{quotaContentJson,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="createdDate != null">
+                #{createdDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifiedDate != null">
+                #{modifiedDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.zoom.risk.operating.ruleconfig.model.Quota">
+        update zoom_quota
+        <set>
+            <if test="sceneNo != null">
+                scene_no = #{sceneNo,jdbcType=VARCHAR},
+            </if>
+            <if test="quotaNo != null">
+                quota_no = #{quotaNo,jdbcType=VARCHAR},
+            </if>
+            quota_template_id = #{quotaTemplateId,jdbcType=BIGINT},
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="sourceType != null">
+                source_type = #{sourceType,jdbcType=TINYINT},
+            </if>
+            <if test="accessSource != null">
+                access_source = #{accessSource,jdbcType=TINYINT},
+            </if>
+            <if test="quotaDataType != null">
+                quota_data_type = #{quotaDataType,jdbcType=TINYINT},
+            </if>
+            <if test="quotaContent != null">
+                quota_content = #{quotaContent,jdbcType=VARCHAR},
+            </if>
+            quota_content_json = #{quotaContentJson,jdbcType=VARCHAR},
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            modified_date = now(),
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.zoom.risk.operating.ruleconfig.model.Quota">
+    update zoom_quota
+    set scene_no = #{sceneNo,jdbcType=VARCHAR},
+      quota_no = #{quotaNo,jdbcType=VARCHAR},
+      quota_template_id = #{quotaTemplateId,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      source_type = #{sourceType,jdbcType=TINYINT},
+      access_source = #{accessSource,jdbcType=TINYINT},
+      quota_data_type = #{quotaDataType,jdbcType=TINYINT},
+      quota_content = #{quotaContent,jdbcType=VARCHAR},
+      quota_content_json = #{quotaContentJson,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      description = #{description,jdbcType=VARCHAR},
+      modified_date = now()
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+    <update id="updateStatus" parameterType="map">
+		update zoom_quota
+		set status=#{status}
+		where
+			id = #{quotaId,jdbcType=BIGINT}
+	</update>
+
+</mapper>

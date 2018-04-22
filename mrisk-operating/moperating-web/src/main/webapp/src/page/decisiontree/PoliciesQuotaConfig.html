@@ -1,0 +1,244 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@taglib  prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>决策树策略管理</title>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/src/css/page/page_index.css"/>">
+    <script type="text/javascript" src="<c:url value="/src/js/app/util/popUtil.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="/src/js/app/page/scenesPolicies.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="/src/js/app/common/common.js"/>"></script>
+    <script type="text/javascript" src="<c:url value='/src/js/lib/jquery-3.1.0.min.js'/>"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".label_tab").on("click", function(){
+                if ($(this).find('.iconfont').hasClass('up')) {
+                    $(this).find('.iconfont').removeClass('up');
+                    $(this).find('.iconfont').addClass('down');
+                    $(this).find(".iconfont").html("&#xe612");
+                }else{
+                    $(this).find('.iconfont').removeClass('down');
+                    $(this).find('.iconfont').addClass('up');
+                    $(this).find(".iconfont").html("&#xe69a");
+                }
+//                $(this).find(".iconfont").html("&#xe612");
+                $(this).closest(".list-celue").find(".list-celue-ul").slideToggle();
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="list mar20 tablebox">
+    <div class="list-celue">
+        <div class="list-celue-title clearfix">
+            <p class="list-icons">
+                <i class="iconfont" title="添加" onclick="toEditPolicy('0901',0)"></i>
+            </p>
+            <h2><div class="label_tab" style="width: 70%">
+                <i class="iconfont up"></i><span>登录场景(0901)</span>
+            </div>
+            </h2>
+        </div>
+
+        <ul class="list-celue-ul" style="display: block;" id="wrapper0">
+            <li class="clearfix">
+                <p class="list-icons">
+                    <i class="iconfont icon-delete" policyid="42" title="删除策略"></i>
+                </p>
+                <h2>
+                    <div class="label_tab_2" style="width: 70%">
+                        <i class="dot"></i><span>APP登录</span><span>APP登录</span><span>APP登录</span>
+                    </div>
+                </h2>
+            </li>
+            <li class="clearfix" style="display:none">
+                <table style="width:95%;text-align:center;" border="1px">
+                    <thead>
+                    <tr>
+                        <td>参数中文名</td>
+                        <td>参数名</td>
+                        <td>参数类型</td>
+                        <td>是否必须</td>
+                        <td>缺省值</td>
+                        <td>参数描述</td>
+                        <td>操作</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr id="instance10">
+                        <td>手机号码</td>
+                        <td>mobile</td>
+                        <td>
+                            字符串
+                        </td>
+                        <td>
+                            <font color="red">不许空</font>
+                        </td>
+                        <td>
+                            空值
+
+                        </td>
+                        <td></td>
+                        <td>
+                            <div class="operate">
+                                <i class="iconfont" title="编辑" onclick="editParamInstance('13')"></i>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr id="instance13">
+                        <td>用户姓名</td>
+                        <td>userName</td>
+                        <td>
+
+                            字符串
+
+                        </td>
+                        <td>
+                            可为空
+
+                        </td>
+                        <td>
+                            空值
+
+                        </td>
+                        <td></td>
+                        <td>
+                            <div class="operate">
+                                <i class="iconfont" title="编辑" onclick="editParamInstance('13')"></i>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </li>
+
+            <li class="clearfix">
+                <p class="list-icons">
+                    <i class="iconfont icon-delete" policyid="42" title="删除策略"></i>
+                </p>
+                <h2>
+                    <div class="label_tab_2" style="width: 70%">
+                        <i class="dot"></i><span>APP登录</span><span>APP登录</span><span>APP登录</span>
+                    </div>
+                </h2>
+            </li>
+            <li class="clearfix" style="display:none">
+                <table style="width:95%;text-align:center;" border="1px">
+                    <thead>
+                    <th>
+                    <td>参数中文名</td>
+                    <td>参数名</td>
+                    <td>参数类型</td>
+                    <td>是否必须</td>
+                    <td>缺省值</td>
+                    <td>参数描述</td>
+                    <td>操作</td>
+                    </th>
+                    </thead>
+                    <tbody>
+                    <tr id="instance10">
+                        <td>手机号码</td>
+                        <td>mobile</td>
+                        <td>
+
+                            字符串
+
+                        </td>
+                        <td>
+
+                            <font color="red">不许空</font>
+                        </td>
+                        <td>
+                            空值
+
+                        </td>
+                        <td></td>
+                        <td>
+                            <div class="operate">
+                                <i class="iconfont" title="编辑" onclick="editParamInstance('13')"></i>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr id="instance13">
+                        <td>用户姓名</td>
+                        <td>userName</td>
+                        <td>
+
+                            字符串
+
+                        </td>
+                        <td>
+                            可为空
+
+                        </td>
+                        <td>
+                            空值
+
+                        </td>
+                        <td></td>
+                        <td>
+                            <div class="operate">
+                                <i class="iconfont" title="编辑" onclick="editParamInstance('13')"></i>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </li>
+        </ul>
+    </div>
+
+
+    <div class="list-celue" sceneno="0902" policiesname="密码修改" description="demo" createddatestr="2017-05-25 09:30:31">
+        <div class="list-celue-title clearfix">
+            <p class="list-icons">
+                <i class="iconfont" title="添加" onclick="toEditPolicy('0902',0)"></i>
+                <i class="iconfont update_btn" title="编辑"></i>
+                <i class="iconfont delete_policies" policyid="" title="删除"></i>
+            </p>
+            <h2><div class="label_tab" style="width: 70%">
+                <i class="iconfont up"></i><span>密码修改(0902)</span>
+            </div>
+            </h2>
+        </div>
+        <ul class="list-celue-ul" style="display: block;" id="wrapper1">
+
+            <li class="clearfix">
+                <p class="list-icons">
+                    <i class="boxs rule-run-state" updateid="43" status="2">
+                        <span class="closed to_update_status" tostatus="1">关闭</span>
+                        <span class="selected to_update_status" tostatus="2">正式</span>
+
+                    </i>
+
+                    <i title="编辑" class="iconfont icon-edit to_edit_policy" policyid="43" onclick="toEditPolicy('0902', 43)"></i>
+                    <i class="iconfont icon-delete delete_policy" policyid="43" title="删除策略"></i>
+                </p>
+                <h2>
+                    <i class="dot"></i><span>支付密码修改</span><span>支付密码修改</span><span>支付密码修改</span><span>支付密码修改</span>
+                </h2>
+            </li>
+            <li class="clearfix">
+                <p class="list-icons">
+                    <i class="boxs rule-run-state" updateid="42" status="2">
+                        <span class="closed to_update_status" tostatus="1">关闭</span>
+                        <span class="selected to_update_status" tostatus="2">正式</span>
+
+                    </i>
+
+                    <i title="编辑" class="iconfont icon-edit to_edit_policy" policyid="42" onclick="toEditPolicy('0901', 42)"></i>
+                    <i class="iconfont icon-delete delete_policy" policyid="42" title="删除策略"></i>
+                </p>
+                <h2>
+                    <i class="dot"></i><span>APP登录</span><span>APP登录</span><span>APP登录</span>
+                </h2>
+            </li>
+
+        </ul>
+    </div>
+</div>
+</body>
+</html>

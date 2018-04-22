@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zoom.risk.operating.web.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.zoom.risk.operating.web.model.User" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="COMPANY_NO" property="companyNo" jdbcType="VARCHAR" />
+    <result column="LOGIN_NAME" property="loginName" jdbcType="VARCHAR" />
+    <result column="LOGIN_PSW" property="loginPsw" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="TELEPHONE" property="telephone" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+    <result column="ROLE_ID" property="roleId" jdbcType="BIGINT" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="MODIFIED_DATE" property="modifiedDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, COMPANY_NO, LOGIN_NAME, LOGIN_PSW, NAME, TELEPHONE, STATUS, ROLE_ID, EMAIL, CREATE_DATE, 
+    MODIFIED_DATE
+  </sql>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from zoom_sys_user
+    where STATUS!=3 AND LOGIN_NAME != "Administrator"
+  </select>
+  <select id="selectByLoginName" resultType="java.lang.Integer" parameterType="java.lang.String">
+    SELECT count(1)
+    FROM zoom_sys_user
+    WHERE LOGIN_NAME = #{loginName,jdbcType=VARCHAR}
+  </select>
+  <select id="selectActiveUserByName" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from zoom_sys_user
+    where LOGIN_NAME = #{loginName}
+    and status = 1
+  </select>
+  <select id="selectActiveUserById" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from zoom_sys_user
+    where ID = #{userId}
+    and status = 1
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from zoom_sys_user
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from zoom_sys_user
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.zoom.risk.operating.web.model.User" >
+    insert into zoom_sys_user (ID, COMPANY_NO, LOGIN_NAME,
+      LOGIN_PSW, NAME, TELEPHONE, 
+      STATUS, ROLE_ID, EMAIL)
+    values (#{id,jdbcType=BIGINT}, #{companyNo,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, 
+      #{loginPsw,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{roleId,jdbcType=BIGINT}, #{email,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zoom.risk.operating.web.model.User" >
+    insert into zoom_sys_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="companyNo != null" >
+        COMPANY_NO,
+      </if>
+      <if test="loginName != null" >
+        LOGIN_NAME,
+      </if>
+      <if test="loginPsw != null" >
+        LOGIN_PSW,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="telephone != null" >
+        TELEPHONE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="roleId != null" >
+        ROLE_ID,
+      </if>
+      <if test="email != null" >
+        EMAIL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="companyNo != null" >
+        #{companyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="loginName != null" >
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPsw != null" >
+        #{loginPsw,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null" >
+        #{roleId,jdbcType=BIGINT},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedDate != null" >
+        #{modifiedDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zoom.risk.operating.web.model.User" >
+    update zoom_sys_user
+    <set >
+      <if test="companyNo != null" >
+        COMPANY_NO = #{companyNo,jdbcType=VARCHAR},
+      </if>
+        LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+      <if test="loginPsw != null" >
+        LOGIN_PSW = #{loginPsw,jdbcType=VARCHAR},
+      </if>
+        NAME = #{name,jdbcType=VARCHAR},
+      <if test="telephone != null" >
+        TELEPHONE = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null" >
+        ROLE_ID = #{roleId,jdbcType=BIGINT},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey">
+    update zoom_sys_user
+    set  LOGIN_PSW = #{loginPsw,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

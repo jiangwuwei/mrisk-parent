@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zoom.risk.jade.dao.HitRulesMapper" >
+  <insert id="batchInsertMap" useGeneratedKeys="true" parameterType="list">
+    insert into zoom_risk_record_hit_rules(risk_id,rule_id,rule_name, scene, uid, rule_decision, rule_no) values
+    <foreach item="item" index="index" collection="list" separator=",">
+      <if test="item.riskId != null" >
+        (#{item.riskId},
+      </if>
+      <if test="item.riskId == null" >
+        (null,
+      </if>
+      <if test="item.uuid != null" >
+        #{item.uuid},
+      </if>
+      <if test="item.uuid == null" >
+        null,
+      </if>
+      <if test="item.name != null" >
+        #{item.name},
+      </if>
+      <if test="item.name == null" >
+        null,
+      </if>
+      <if test="item.scene != null" >
+        #{item.scene},
+      </if>
+      <if test="item.scene == null" >
+        null,
+      </if>
+      <if test="item.uid != null" >
+        #{item.uid},
+      </if>
+      <if test="item.uid == null" >
+        null,
+      </if>
+      <if test="item.decision != null" >
+        #{item.decision},
+      </if>
+      <if test="item.decision == null" >
+        null,
+      </if>
+      <if test="item.ruleNo != null" >
+        #{item.ruleNo})
+      </if>
+      <if test="item.ruleNo == null" >
+        null)
+      </if>
+    </foreach>
+  </insert>
+</mapper>

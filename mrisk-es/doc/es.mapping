@@ -1,0 +1,236 @@
+http://10.60.137.90:9200/risk-201712/_mapping/event
+
+
+{
+    "date_detection": false,
+    "_all": {
+        "enabled": true
+    },
+    "properties": {
+        "riskId": {
+            "type": "string",
+            "index": "not_analyzed"
+        },
+        "takingTime": {
+            "type": "long",
+            "index": "not_analyzed"
+        },
+        "riskDate": {
+            "type": "string",
+            "index": "not_analyzed"
+        },
+        "scene": {
+            "type": "string",
+            "index": "not_analyzed"
+        },
+        "uid": {
+            "type": "string",
+            "index": "not_analyzed"
+        },
+        "platform": {
+            "type": "string",
+            "index": "not_analyzed"
+        },
+        "riskStatus": {
+            "type": "string",
+            "index": "not_analyzed"
+        },
+        "deviceFingerprint": {
+            "type": "string",
+            "index": "not_analyzed"
+        },
+        "deviceFpip": {
+            "type": "string",
+            "index": "not_analyzed"
+        },
+        "sourceIp": {
+            "type": "string",
+            "index": "not_analyzed"
+        },
+        "token": {
+            "type": "string",
+            "index": "no"
+        },
+        "riskLongDate": {
+            "type": "date",
+            "index": "not_analyzed",
+            "format": "yyy-MM-dd HH:mm:ss||epoch_millis"
+        }
+    },
+    "dynamic_templates": [
+        {
+            "str": {
+                "match": "*",
+                "match_mapping_type": "string",
+                "mapping": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                }
+            }
+        }
+    ]
+}
+
+http://10.60.137.90:9200/risk-00000
+{
+    "settings": {
+        "number_of_shards": 5,
+        "number_of_replicas": 1
+    },
+    "mappings": {
+        "event": {
+            "date_detection": false,
+            "_all": {
+                "enabled": true
+            },
+            "properties": {
+                "riskId": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "takingTime": {
+                    "type": "long",
+                    "index": "not_analyzed"
+                },
+                "riskDate": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "scene": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "uid": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "platform": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "riskStatus": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "deviceFingerprint": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "deviceFpip": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "sourceIp": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "token": {
+                    "type": "string",
+                    "index": "no"
+                },
+                "riskLongDate": {
+                    "type": "date",
+                    "index": "not_analyzed",
+                    "format": "yyy-MM-dd HH:mm:ss||epoch_millis"
+                },
+                "payAmount": {
+                    "type": "double"
+                },
+                "couponMoney": {
+                    "type": "double"
+                },
+                "transferAmount": {
+                    "type": "double"
+                },
+                "actualSellAmount": {
+                    "type": "double"
+                },
+                "assetProfitRate": {
+                    "type": "double"
+                },
+                "assetDiscountRate": {
+                    "type": "double"
+                },
+                "paymentAmount": {
+                    "type": "double"
+                },
+                "loanAmount": {
+                    "type": "double"
+                },
+                "monthIncome": {
+                    "type": "double"
+                },
+                "insuranceAmount": {
+                    "type": "double"
+                }
+            },
+            "dynamic_templates": [
+                {
+                    "str": {
+                        "match": "*",
+                        "match_mapping_type": "string",
+                        "mapping": {
+                            "type": "string",
+                            "index": "not_analyzed"
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}
+
+
+
+{
+    "settings": {
+        "number_of_shards": 10,
+        "number_of_replicas": 1
+    },
+    "mappings": {
+        "monitor": {
+            "date_detection": false,
+            "_all": {
+                "enabled": true
+            },
+            "properties": {
+                "deviceFingerprint": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "gatewayStatus": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "platform": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "riskDate": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "riskId": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "riskLongDate": {
+                    "type": "date",
+                    "index": "not_analyzed",
+                    "format": "yyy-MM-dd HH:mm:ss||epoch_millis"
+                },
+                "riskType": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "scene": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "takingTime": {
+                    "type": "long"
+                }
+            }
+        }
+    }
+}

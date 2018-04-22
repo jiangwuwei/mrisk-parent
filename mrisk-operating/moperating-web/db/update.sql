@@ -1,0 +1,69 @@
+
+alter table zoom_scenes add scene_type SMALLINT null comment '场景类别 1:反欺诈 2:决策树';
+update zoom_scenes set scene_type = 1;
+
+
+INSERT INTO `zoom_dt_dim` (`code`,`id`,`name`) VALUES ('DV','DV0000001','短信增强校验');
+INSERT INTO `zoom_dt_dim` (`code`,`id`,`name`) VALUES ('DV','DV0000002','指纹增强校验');
+INSERT INTO `zoom_dt_dim` (`code`,`id`,`name`) VALUES ('DV','DV0000003','手机支付密码增强校验');
+INSERT INTO `zoom_dt_dim` (`code`,`id`,`name`) VALUES ('QuotaSourceType','1','聚信立');
+INSERT INTO `zoom_dt_dim` (`code`,`id`,`name`) VALUES ('QuotaSourceType','2','天行');
+INSERT INTO `zoom_dt_dim` (`code`,`id`,`name`) VALUES ('QuotaSourceType','3','百融');
+INSERT INTO `zoom_dt_dim` (`code`,`id`,`name`) VALUES ('QuotaSourceType','4','华道征信');
+INSERT INTO `zoom_dt_dim` (`code`,`id`,`name`) VALUES ('QuotaSourceType','5','邦盛科技');
+INSERT INTO `zoom_dt_dim` (`code`,`id`,`name`) VALUES ('QuotaSourceType','9','上下文(内部)');
+INSERT INTO `zoom_dt_dim` (`code`,`id`,`name`) VALUES ('RefuseReason','RC0000001','准入条件');
+INSERT INTO `zoom_dt_dim` (`code`,`id`,`name`) VALUES ('RefuseReason','RC0000002','芝麻分太低');
+
+
+INSERT INTO `zoom_sys_user` (`ID`,`COMPANY_NO`,`LOGIN_NAME`,`LOGIN_PSW`,`NAME`,`TELEPHONE`,`STATUS`,`ROLE_ID`,`EMAIL`,`CREATE_DATE`,`MODIFIED_DATE`)
+VALUES (1,'1','Administrator','612b3fd390677d42','admin','15611266622',1,NULL,NULL,'2017-06-06 14:26:58','2017-06-13 10:00:32');
+
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (1,NULL,'财富大盘','jinrongdapan','http://10.60.144.92',1,NULL,NULL,'2017-06-06 14:33:29','2017-06-15 10:33:27');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (2,NULL,'风控实时大盘','fengkongdapan','http://10.60.144.92/riskScreen.html',2,NULL,NULL,'2017-06-08 18:24:45','2017-06-15 10:33:33');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (3,NULL,'风险大盘','fengxiandapan',NULL,3,NULL,NULL,'2017-06-08 18:25:43','2017-06-15 10:46:36');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (4,NULL,'监控预警','jiankongbaojing',NULL,8,NULL,NULL,'2017-06-08 18:26:35','2017-06-15 10:47:25');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (5,NULL,'名单库管理','mingdankuguanli',NULL,7,NULL,NULL,'2017-06-08 18:38:59','2017-06-15 10:47:13');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (13,3,'风险大盘','fengxiandapan',NULL,2,NULL,'shijian',NULL,'2017-06-14 15:01:52');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (15,13,'决策结果统计','juecejieguotongji','/src/page/riskevent/DecisionResultStatistics.jsp',1,NULL,NULL,NULL,'2017-06-13 17:48:52');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (16,13,'设备指纹获取率','shebeizhiwenhuoqulv','/src/page/riskevent/DeviceFingerPrintRate.jsp',2,NULL,NULL,NULL,'2017-06-15 10:49:08');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (17,13,'命中规则详情','mingzhongguizexiangqing','/monitor/ruleList.do',3,NULL,NULL,NULL,'2017-06-13 11:14:35');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (31,5,'名单库管理','mingdankuguanli','',2,NULL,'peizhi',NULL,'2017-06-13 11:14:36');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (32,31,'名单库场景配置','mingdankuchangjingpeizhi','/rosterController/rosterBusiType.do',3,NULL,NULL,NULL,'2017-06-14 10:36:20');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (33,31,'名单库导入','mingdankudaoru','/rosterController/getContentList.do',3,NULL,NULL,NULL,'2017-06-14 10:36:20');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (34,31,'名单库操作日志','mingdankucaozuorizhi','/rosterController/getLogList.do',3,NULL,NULL,NULL,'2017-06-13 11:14:36');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (35,NULL,'系统管理','dingbuxitongguanli',NULL,999,NULL,NULL,'2017-06-08 19:07:19','2017-06-14 15:50:11');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (36,35,'系统管理','xitongguanli',NULL,1,NULL,'xitong','2017-06-08 19:07:19','2017-06-13 15:16:35');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (37,36,'用户管理','yonghuguanli','/system/user.do',3,NULL,NULL,'2017-06-08 19:07:19','2017-06-13 11:45:06');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (38,36,'角色管理','jueseguanli','/system/role.do',3,NULL,NULL,'2017-06-08 19:07:19','2017-06-13 11:45:08');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (39,36,'菜单管理','caidanguanli','/system/menu.do',3,NULL,NULL,'2017-06-08 19:07:19','2017-06-13 11:45:11');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (47,NULL,'事件中心','fengxianshijianzxin',NULL,4,NULL,NULL,NULL,'2017-06-15 10:33:43');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (49,NULL,'策略中心','celuezhongxin',NULL,5,NULL,NULL,NULL,'2017-06-15 10:33:52');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (50,47,'事件中心','shijiezhongxin',NULL,1,NULL,'xitong',NULL,'2017-06-14 18:23:53');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (51,49,'反欺诈策略','fanqizhacelue',NULL,1,NULL,'xitong',NULL,'2017-06-14 18:23:39');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (53,49,'决策树策略','jueceshucelue',NULL,1,NULL,'xitong',NULL,'2017-06-14 18:23:44');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (54,51,'反欺诈场景管理','fanqizhacelueguanli','/scenes/list.do?sceneNo=all',1,NULL,NULL,NULL,'2017-06-15 10:08:26');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (55,51,'反欺诈策略管理','fanqizhacelueguanli','/policies/list.do?sceneNo=all',3,NULL,NULL,NULL,'2017-06-15 10:49:30');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (56,51,'反欺诈指标管理','fanqizhazhibiaoguanli','/quota/list.do',1,NULL,NULL,NULL,'2017-06-15 10:10:37');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (57,53,'决策树场景管理','jueceshuchangjingguanli','/scenes/list.do?sceneNo=all&sceneType=2',1,NULL,NULL,NULL,'2017-06-15 10:15:37');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (58,53,'决策树策略管理','jueceshucelueguanli','/dtPolicies/list.do?sceneNo=all',2,NULL,NULL,NULL,'2017-06-15 10:49:43');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (59,53,'决策树指标管理','jueceshuzhibiaoguanli','/dtQuotaTemplateController/quotaTemplateList.do',3,NULL,NULL,NULL,'2017-06-15 10:50:17');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (60,53,'决策树指标应用','jueceshuzhibiaoyingyong','/dtQuotaController/policiesQuotaConfig.do',4,NULL,NULL,NULL,'2017-06-15 10:50:50');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (61,4,'风险预警中心','fengxianyujzhongxin',NULL,1,NULL,'xitong',NULL,'2017-06-14 18:23:33');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (62,NULL,'配置管理中心','zhibiaozhuruguanli',NULL,6,NULL,NULL,NULL,'2017-06-16 10:54:22');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (63,62,'指标注册管理','zhibiaozhuruguanli',NULL,1,NULL,'xitong',NULL,'2017-06-14 18:23:12');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (64,63,'指标元数据管理','zhibiaoyuanshujguanli','/quotaMetaController/quotaDefinitionList.do',1,NULL,NULL,NULL,'2017-06-15 10:25:59');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (65,63,'指标参数字典','zhibiaocanshuzidian','/quotaMetaController/paramTemplateList.do',3,NULL,NULL,NULL,'2017-06-15 10:51:20');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (66,63,'同步指标','tongbuzhibiao','/quotaMetaController/showAddedQuotaMeta.do',1,NULL,NULL,NULL,'2017-06-15 10:21:18');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (67,NULL,'运营监控','fengxianyunyingjiankong',NULL,9,NULL,NULL,NULL,'2017-06-15 10:47:31');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (68,67,'风险运营监控','fengxianyunyingjiankong',NULL,1,NULL,'xitong',NULL,'2017-06-14 18:23:18');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (69,68,'事件请求量监控','shijianqingqiuliangjiankong','http://10.60.44.50:5601/goto/99c01372d22437e49efd5b166bbbc2fb',1,NULL,NULL,NULL,'2017-06-15 11:27:51');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (70,68,'ID活跃频率统计','IDhuoyuepindutongji','http://10.60.44.50:5601/goto/38f09ad58b669fe3b9f55f0a454979c7',2,NULL,NULL,NULL,'2017-06-15 11:27:51');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (71,68,'设备指纹活跃频率','shebeizhiwenhuoyuedutjing','http://10.60.44.50:5601/goto/332f84cbc32fdc543d79e07a55f3b610',4,NULL,NULL,NULL,'2017-06-15 11:27:51');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (72,68,'IP活跃频率统计','IPhuoyuedutongji','http://10.60.44.50:5601/goto/0c20df08ef86e9ce82d6f255ffa49cbc',3,NULL,NULL,NULL,'2017-06-15 11:27:51');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (73,68,'规则效率评估','guizexiaoguopinggu','http://10.60.44.50:5601/goto/213feca2853cf189a8a84da87ef0360c',5,NULL,NULL,NULL,'2017-06-15 11:27:51');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (74,50,'事件查询中心','eventQueryCenter','/monitor/eventList.do',1,NULL,NULL,NULL,NULL);
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (75,61,'风险预警中心','fengxianyujin','http://10.60.44.104:8081/task/categoryList',1,NULL,NULL,NULL,'2017-06-15 17:22:29');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (82,62,'决策树维表配置','DECISIONTREECONFNIG',NULL,3,NULL,'xitong',NULL,'2017-06-16 10:26:20');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (83,82,'拒绝码管理','DECLINECODEDIM','/dtDimController/dimList.do?code=RefuseReason',1,NULL,NULL,NULL,'2017-06-16 10:48:42');
+INSERT INTO `zoom_sys_menu` (`ID`,`PARENT_ID`,`MENU_NAME`,`MENU_CODE`,`MENU_URL`,`MENU_ORDER`,`DISPLAY`,`ICONCLS`,`CREATE_DATE`,`MODIFIED_DATE`) VALUES (86,82,'指令码管理','ACTIONCODEDIM','/dtDimController/dimList.do?code=DV',2,NULL,NULL,NULL,NULL);

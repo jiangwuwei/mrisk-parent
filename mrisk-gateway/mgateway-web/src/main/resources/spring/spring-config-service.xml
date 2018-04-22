@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/task
+		http://www.springframework.org/schema/task/spring-task-4.0.xsd">
+
+	<context:component-scan base-package="com.zoom.risk.platform.es"></context:component-scan>
+
+	<context:component-scan base-package="com.zoom.risk.gateway">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.RestController" />
+		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+	</context:component-scan>
+
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+                <value>classpath:conf/*.properties</value>
+			</list>
+		</property>
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+	</bean>
+
+	<!--线程池用来异步执行网关数据插入以及Kafak数据发送-->
+	<bean id="riskPoolExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<property name="corePoolSize" value="100" />
+		<property name="maxPoolSize" value="200" />
+		<property name="queueCapacity" value="200" />
+		<property name="keepAliveSeconds" value="500" />
+		<property name="rejectedExecutionHandler">
+			<!-- AbortPolicy CallerRunsPolicy DiscardOldestPolicy DiscardPolicy-->
+			<bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy" />
+		</property>
+	</bean>
+
+	<!--定时调度任务，主要负责规则以及指标等内容变更同步操作-->
+	<task:scheduler id="monitorScheduler" pool-size="2"/>
+
+	<task:scheduled-tasks scheduler="monitorScheduler">
+		<task:scheduled ref="threadPoolMonitor" method="monitorThreadPool" fixed-delay="120000" initial-delay="60000"/>
+	</task:scheduled-tasks>
+
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
+
+</beans>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zoom.risk.operating.scard.dao.JadeModeDefinitionMapper">
+
+  <resultMap id="JadeMode" type="com.zoom.risk.operating.scard.model.JadeMode">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="apply_type" jdbcType="INTEGER" property="applyType" />
+    <result column="type_name" jdbcType="VARCHAR" property="typeName" />
+  </resultMap>
+
+  <resultMap id="JadeModeDefinition" type="com.zoom.risk.operating.scard.model.JadeModeDefinition">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="type_id" jdbcType="INTEGER" property="typeId" />
+    <result column="chinese_name" jdbcType="VARCHAR" property="chineseName" />
+    <result column="param_name" jdbcType="VARCHAR" property="paramName" />
+    <result column="db_name" jdbcType="VARCHAR" property="dbName" />
+    <result column="db_type" jdbcType="INTEGER" property="dbType" />
+    <result column="length" jdbcType="INTEGER" property="length" />
+    <result column="decimal_place" jdbcType="INTEGER" property="decimalPlace" />
+  </resultMap>
+
+
+
+  <select id="selectModelByPrimaryKey" parameterType="java.lang.Integer" resultMap="JadeMode">
+    select
+      id,
+      type_name,
+      apply_type
+    from jade_model_type
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectModeByApplyType" resultMap="JadeMode">
+    SELECT
+      id,
+      type_name,
+      apply_type
+    FROM jade_model_type
+    WHERE apply_type = 2
+    ORDER BY id DESC
+  </select>
+
+  <insert id="insertMode" parameterType="com.zoom.risk.operating.scard.model.JadeMode">
+    INSERT INTO jade_model_type (id, type_name, apply_type)
+    VALUES (#{id,jdbcType=INTEGER}, #{typeName,jdbcType=VARCHAR}, 2)
+  </insert>
+
+  <update id="updateMode" parameterType="com.zoom.risk.operating.scard.model.JadeMode">
+    update jade_model_definition
+    <set>
+      <if test="typeName != null">
+        type_name = #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT} and apply_type = 2
+  </update>
+
+  <delete id="deleteMode" parameterType="java.lang.Integer">
+    DELETE FROM jade_model_type
+    WHERE id = #{id,jdbcType=INTEGER} and apply_type = 2
+  </delete>
+
+
+  <sql id="JadeModeDefinition_List">
+    id, type_id, chinese_name, param_name, db_name, db_type, length, decimal_place
+  </sql>
+
+  <select id="selectDefinitionByPrimaryKey" parameterType="java.lang.Long" resultMap="JadeModeDefinition">
+    select 
+    <include refid="JadeModeDefinition_List" />
+    from jade_model_definition
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectDefinitionByModelType" parameterType="java.lang.Integer" resultMap="JadeModeDefinition">
+    select
+    <include refid="JadeModeDefinition_List" />
+    from jade_model_definition
+    where type_id  = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAllScardDefinition"  resultMap="JadeModeDefinition">
+    select
+    <include refid="JadeModeDefinition_List" />
+    from jade_model_definition
+    where type_id  in ( SELECT id FROM jade_model_type WHERE apply_type = 2 ) order by type_id
+  </select>
+
+
+  <delete id="deleteDefinition" parameterType="java.lang.Long">
+    DELETE FROM jade_model_definition
+    WHERE id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insertDefinition" parameterType="com.zoom.risk.operating.scard.model.JadeModeDefinition">
+    INSERT INTO jade_model_definition (id, type_id, chinese_name, param_name, db_name, db_type, length, decimal_place, default_value, busi_nullable, nullable, updatable, nullable_condition )
+    VALUES (#{id,jdbcType=BIGINT},#{typeId,jdbcType=INTEGER}, #{chineseName,jdbcType=VARCHAR}, #{paramName,jdbcType=VARCHAR}, #{dbName,jdbcType=VARCHAR},
+      #{dbType,jdbcType=INTEGER},#{length,jdbcType=INTEGER},#{decimalPlace,jdbcType=INTEGER},null, 0,0,1,0)
+  </insert>
+
+  <update id="updateDefinition" parameterType="com.zoom.risk.operating.scard.model.JadeModeDefinition">
+    update jade_model_definition
+    <set>
+      <if test="chineseName != null">
+        chinese_name = #{chineseName,jdbcType=VARCHAR},
+      </if>
+      <if test="paramName != null">
+        param_name = #{paramName,jdbcType=VARCHAR},
+      </if>
+      <if test="dbType != null">
+        db_type = #{dbType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+	
+</mapper>

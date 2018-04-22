@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zoom.risk.operating.web.dao.MenuMapper" >
+  <resultMap id="BaseResultMap" type="com.zoom.risk.operating.web.model.Menu" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="PARENT_ID" property="parentId" jdbcType="BIGINT" />
+    <result column="MENU_NAME" property="menuName" jdbcType="VARCHAR" />
+    <result column="MENU_CODE" property="menuCode" jdbcType="VARCHAR" />
+    <result column="MENU_URL" property="menuUrl" jdbcType="VARCHAR" />
+    <result column="MENU_ORDER" property="menuOrder" jdbcType="INTEGER" />
+    <result column="DISPLAY" property="display" jdbcType="VARCHAR" />
+    <result column="ICONCLS" property="iconcls" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="MODIFIED_DATE" property="modifiedDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, PARENT_ID, MENU_NAME, MENU_CODE, MENU_URL, MENU_ORDER, DISPLAY, ICONCLS, CREATE_DATE, 
+    MODIFIED_DATE
+  </sql>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from zoom_sys_menu ORDER BY MENU_ORDER ASC
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from zoom_sys_menu
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByParentId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from zoom_sys_menu
+    where PARENT_ID = #{menuId}
+      or
+        id = #{menuId} ORDER BY MENU_ORDER ASC
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from zoom_sys_menu
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.zoom.risk.operating.web.model.Menu" >
+    insert into zoom_sys_menu (ID, PARENT_ID, MENU_NAME,
+      MENU_CODE, MENU_URL, MENU_ORDER, 
+      DISPLAY, ICONCLS)
+    values (#{id,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, #{menuName,jdbcType=VARCHAR}, 
+      #{menuCode,jdbcType=VARCHAR}, #{menuUrl,jdbcType=VARCHAR}, #{menuOrder,jdbcType=INTEGER}, 
+      #{display,jdbcType=VARCHAR}, #{iconcls,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zoom.risk.operating.web.model.Menu" >
+    insert into zoom_sys_menu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="parentId != null" >
+        PARENT_ID,
+      </if>
+      <if test="menuName != null" >
+        MENU_NAME,
+      </if>
+      <if test="menuCode != null" >
+        MENU_CODE,
+      </if>
+      <if test="menuUrl != null" >
+        MENU_URL,
+      </if>
+      <if test="menuOrder != null" >
+        MENU_ORDER,
+      </if>
+      <if test="display != null" >
+        DISPLAY,
+      </if>
+      <if test="iconcls != null" >
+        ICONCLS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="menuName != null" >
+        #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuCode != null" >
+        #{menuCode,jdbcType=VARCHAR},
+      </if>
+      <if test="menuUrl != null" >
+        #{menuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="menuOrder != null" >
+        #{menuOrder,jdbcType=INTEGER},
+      </if>
+      <if test="display != null" >
+        #{display,jdbcType=VARCHAR},
+      </if>
+      <if test="iconcls != null" >
+        #{iconcls,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zoom.risk.operating.web.model.Menu" >
+    update zoom_sys_menu
+    <set >
+      <if test="parentId != null" >
+        PARENT_ID = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="menuName != null" >
+        MENU_NAME = #{menuName,jdbcType=VARCHAR},
+      </if>
+        MENU_CODE = #{menuCode,jdbcType=VARCHAR},
+        MENU_URL = #{menuUrl,jdbcType=VARCHAR},
+      <if test="menuOrder != null" >
+        MENU_ORDER = #{menuOrder,jdbcType=INTEGER},
+      </if>
+        DISPLAY = #{display,jdbcType=VARCHAR},
+        ICONCLS = #{iconcls,jdbcType=VARCHAR},
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zoom.risk.operating.web.model.Menu" >
+    update zoom_sys_menu
+    set PARENT_ID = #{parentId,jdbcType=BIGINT},
+      MENU_NAME = #{menuName,jdbcType=VARCHAR},
+      MENU_CODE = #{menuCode,jdbcType=VARCHAR},
+      MENU_URL = #{menuUrl,jdbcType=VARCHAR},
+      MENU_ORDER = #{menuOrder,jdbcType=INTEGER},
+      DISPLAY = #{display,jdbcType=VARCHAR},
+      ICONCLS = #{iconcls,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

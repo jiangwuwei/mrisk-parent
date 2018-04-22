@@ -1,0 +1,105 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.zoom</groupId>
+		<artifactId>mrisk-gateway</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>mgateway-service</artifactId>
+	
+	<name>${artifactId} V:${project.version}</name>
+	<description>风控系统-风控网关-逻辑服务模块</description>
+
+	<dependencies>
+
+		<!-- Risk Gateway Rpc Api -->
+		<dependency>
+			<groupId>com.zoom</groupId>
+			<artifactId>mfraud-api</artifactId>
+		</dependency>
+
+		<!-- Risk Scard Rpc Api -->
+		<dependency>
+			<groupId>com.zoom</groupId>
+			<artifactId>mscard-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.zoom</groupId>
+			<artifactId>mes-client</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.zoom</groupId>
+			<artifactId>mdecision-api</artifactId>
+		</dependency>
+		
+		<!-- Risk Jade api -->
+		<dependency>
+			<groupId>com.zoom</groupId>
+			<artifactId>mjade-api</artifactId>
+		</dependency>
+
+		<!-- Risk rule engine Api -->
+		<dependency>
+			<groupId>com.zoom</groupId>
+			<artifactId>mengine-risk-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.zoom</groupId>
+			<artifactId>mengine-decision-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.zoom</groupId>
+			<artifactId>mengine-scard-api</artifactId>
+		</dependency>
+
+		<!-- Risk Gateway common -->
+		<dependency>
+			<groupId>com.zoom</groupId>
+			<artifactId>mgateway-common</artifactId>
+		</dependency>
+
+				
+		<!-- Log4j2 API -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+		</dependency>
+		
+		<!-- Spring -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-expression</artifactId>
+		</dependency>
+
+	</dependencies>
+
+</project>

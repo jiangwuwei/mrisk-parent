@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:task="http://www.springframework.org/schema/task"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	           http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+			   http://www.springframework.org/schema/context
+	           http://www.springframework.org/schema/context/spring-context-4.0.xsd
+			   http://www.springframework.org/schema/task
+		       http://www.springframework.org/schema/task/spring-task-4.0.xsd">
+
+	<context:component-scan base-package="com.zoom.risk.platform.engine"/>
+	<context:component-scan base-package="com.zoom.risk.platform.datacenter"/>
+	<context:component-scan base-package="com.zoom.risk.platform.decision"/>
+	<context:component-scan base-package="com.zoom.risk.platform.roster"/>
+	<context:component-scan base-package="com.zoom.risk.platform.scard"/>
+	<context:component-scan base-package="com.zoom.risk.platform.config"/>
+	<context:component-scan base-package="com.zoom.risk.platform.refresh"/>
+	<context:component-scan base-package="com.zoom.risk.platform.es"/>
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:conf/*.properties</value>
+			</list>
+		</property>
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+	</bean>
+
+	<!--定时调度任务，主要负责规则以及指标等内容变更同步操作-->
+	<task:scheduler id="monitorScheduler" pool-size="2"/>
+
+	<task:scheduled-tasks scheduler="monitorScheduler">
+		<!--
+		<task:scheduled ref="policyCacheService" method="refresh" fixed-delay="120000" initial-delay="180000"/>
+		<task:scheduled ref="dtreeCacheService" method="refresh" fixed-delay="120000" initial-delay="180000"/>
+		<task:scheduled ref="scardCacheService" method="refresh" fixed-delay="120000" initial-delay="180000"/>
+		<task:scheduled ref="rosterInnerApiService" method="refresh" fixed-delay="120000" initial-delay="60000"/>
+		-->
+		<task:scheduled ref="quotaThreadPoolMonitor" method="monitorThreadPool" fixed-delay="30000" initial-delay="60000"/>
+	</task:scheduled-tasks>
+
+
+	<!--线程池用来异步执行Kafak数据发送-->
+	<bean id="esClientThreadPoolExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<property name="corePoolSize" value="${es.thread.corePoolSize}" />
+		<property name="maxPoolSize" value="${es.thread.maxPoolSize}" />
+		<property name="queueCapacity" value="${es.thread.queueCapacity}" />
+		<property name="keepAliveSeconds" value="300" />
+		<property name="rejectedExecutionHandler">
+			<!-- AbortPolicy CallerRunsPolicy DiscardOldestPolicy DiscardPolicy-->
+			<bean class="java.util.concurrent.ThreadPoolExecutor$DiscardPolicy" />
+		</property>
+	</bean>	
+		
+	<!--线程池用来并行收集规则中的指标-->
+	<bean id="quotaCollectorThreadPoolExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<property name="corePoolSize" value="${collector.thread.corePoolSize}" />
+		<property name="maxPoolSize" value="${collector.thread.maxPoolSize}" />
+		<property name="queueCapacity" value="${collector.thread.queueCapacity}" />
+		<property name="keepAliveSeconds" value="300" />
+		<!-- 线程池对拒绝任务（无线程可用）的处理策略，目前只支持AbortPolicy、CallerRunsPolicy；默认为后者 -->
+		<property name="rejectedExecutionHandler">
+			<!-- AbortPolicy:直接抛出java.util.concurrent.RejectedExecutionException异常 -->
+			<!-- CallerRunsPolicy:主线程直接执行该任务，执行完之后尝试添加下一个任务到线程池中，可以有效降低向线程池内添加任务的速度 -->
+			<!-- DiscardOldestPolicy:抛弃旧的任务、暂不支持；会导致被丢弃的任务无法再次被执行 -->
+			<!-- DiscardPolicy:抛弃当前任务、暂不支持；会导致被丢弃的任务无法再次被执行 -->
+			<bean class="java.util.concurrent.ThreadPoolExecutor$DiscardPolicy" />
+		</property>
+	</bean>
+	
+</beans>

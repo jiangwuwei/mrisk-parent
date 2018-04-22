@@ -1,0 +1,82 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.zoom</groupId>
+		<artifactId>mrisk-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>mrisk-engine</artifactId>
+	<packaging>pom</packaging>
+
+	<name>${project.artifactId} V:${project.version}</name>
+	<description>风控系统-瑶池库群</description>
+ 
+	<modules> 
+		<module>mengine-risk-api</module>
+		<module>mengine-risk-core</module>
+		<module>mengine-web</module>
+		<module>mengine-common</module>
+		<module>mengine-decision-api</module>
+		<module>mengine-decision-core</module>
+		<module>mengine-datacenter</module>
+		<module>mengine-roster</module>
+		<module>mengine-roster-api</module>
+		<module>mengine-scard-api</module>
+		<module>mengine-scard-core</module>
+	</modules>
+
+	<!-- 统一版本号、参数等管理 -->
+	<properties>
+
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>mengine-roster-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>mengine-scard-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>mengine-roster</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>mengine-decision-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>mengine-common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>mengine-risk-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>mengine-datacenter</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		
+		</dependencies>
+	</dependencyManagement>
+
+</project>

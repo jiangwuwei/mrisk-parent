@@ -1,0 +1,1 @@
+mvn -settings "D:\software\maven-3.5.2\conf\settings-bkjk.xml" install:install-file -DgroupId=com.alipay -DartifactId=sdk-java -Dversion=2017.10.27 -Dpackaging=jar -Dfile=D:\work\workspace\risk-credit-gateway\risk-credit-thirdparty\risk-credit-zhima\src\main\libs\alipay-sdk-java_20171027120314.jar

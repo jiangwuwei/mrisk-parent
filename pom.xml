@@ -1,0 +1,609 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.zoom</groupId>
+	<artifactId>mrisk-parent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>${project.artifactId} V:${project.version}</name>
+	<description>熵盾信贷与反欺诈系统</description>
+
+	<modules>
+		<module>mrisk-api</module>
+		<module>mrisk-es</module>
+		<module>mrisk-kafka</module>
+		<module>mrisk-jade</module>
+		<module>mrisk-engine</module>
+		<module>mrisk-gateway</module>
+		<module>mrisk-operating</module>
+		<module>mrisk-platform</module>
+		<module>mrisk-thirdparty</module>
+
+    </modules>
+
+	<!-- 统一版本号、参数等管理 -->
+	<properties>
+		<jdk.version>1.8</jdk.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+		<spring.version>4.2.8.RELEASE</spring.version>
+		<google.guava.version>19.0</google.guava.version>
+		<google.gson.version>2.5</google.gson.version>
+		<org.slf4j.version>1.7.21</org.slf4j.version>
+		<apache.log4j2.version>2.5</apache.log4j2.version>
+		<junit.version>4.12</junit.version>
+		<alibaba.dubbo.version>2.8.4</alibaba.dubbo.version>
+		<esotericsoftware.kryo.version>2.24.0</esotericsoftware.kryo.version>
+		<javakaffee.kryo.serializers.version>0.26</javakaffee.kryo.serializers.version>
+		<ruedigermoeller.fst.version>1.55</ruedigermoeller.fst.version>
+		<org.zookeeper.version>3.4.6</org.zookeeper.version>
+		<com.zkclient.version>0.7</com.zkclient.version>
+		<jedis.ext.version>2.9.0</jedis.ext.version>
+		<zoom.platform.utils.version>0.0.2</zoom.platform.utils.version>
+		<zoom.platform.common.version>0.0.1-SNAPSHOT</zoom.platform.common.version>
+		<apache.httpcomponents.version>4.5.2</apache.httpcomponents.version>
+		<apache.httpcomponents.core.version>4.4.4</apache.httpcomponents.core.version>
+		<apache.commons.lang3.version>3.4</apache.commons.lang3.version>
+		<mysql.driver.version>5.1.38</mysql.driver.version>
+		<mybatis.version>3.4.0</mybatis.version>
+		<mybatis.spring.version>1.3.0</mybatis.spring.version>
+		<fastjson.version>1.2.28</fastjson.version>
+		<apache.commons.lang3.version>3.4</apache.commons.lang3.version>
+		<datasource.c3p0.version>0.9.1.2</datasource.c3p0.version>
+
+		<jackson.version>2.8.8</jackson.version>
+		<javassist.version>3.12.1.GA</javassist.version>
+		<elasticsearch.version>2.4.0</elasticsearch.version>
+		<mvel2.version>2.3.1.Final</mvel2.version>
+
+		<freemarker.version>2.3.23</freemarker.version>
+		<kafka.0.9.0.1.version>0.9.0.1</kafka.0.9.0.1.version>
+
+		<javax.servlet.version>3.1.0</javax.servlet.version>
+
+		<curator.version>4.0.0</curator.version>
+
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+
+			<!-- kafka-producer  -->
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>kafka-producer</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.curator</groupId>
+				<artifactId>curator-framework</artifactId>
+				<version>${curator.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.curator</groupId>
+				<artifactId>curator-client</artifactId>
+				<version>${curator.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.curator</groupId>
+				<artifactId>curator-recipes</artifactId>
+				<version>${curator.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>mes-query</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-ctr</artifactId>
+				<version>2.1.1</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>thirdparty-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>mplatform-config</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<!-- risk begin -->
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>mfraud-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>mscard-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>mengine-scard-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>mdecision-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<!-- Servlet API -->
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>${javax.servlet.version}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<!-- Risk Gateway common -->
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>mrisk-gateway-common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<!-- es-client  -->
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>mes-client</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>mengine-risk-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>mengine-decision-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>mjade-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>mplatform-rpc</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>mplatform-httpclient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>mplatform-sharding</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>mplatform-common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<!-- risk end -->
+
+			<dependency>
+				<groupId>net.sf.json-lib</groupId>
+				<artifactId>json-lib</artifactId>
+				<version>2.4</version>
+				<classifier>jdk15</classifier>
+			</dependency>
+
+			<!--kafka client-->
+			<dependency>
+				<groupId>org.apache.kafka</groupId>
+				<artifactId>kafka-clients</artifactId>
+				<version>${kafka.0.9.0.1.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.kafka</groupId>
+				<artifactId>kafka_2.10</artifactId>
+				<version>${kafka.0.9.0.1.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.apache.zookeeper</groupId>
+						<artifactId>zookeeper</artifactId>
+					</exclusion>
+					<exclusion>
+						<artifactId>snakeyaml</artifactId>
+						<groupId>org.yaml</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<!-- freemarker -->
+			<dependency>
+				<groupId>org.freemarker</groupId>
+				<artifactId>freemarker</artifactId>
+				<version>${freemarker.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>c3p0</groupId>
+				<artifactId>c3p0</artifactId>
+				<version>${datasource.c3p0.version}</version>
+			</dependency>
+
+			<!-- Guava -->
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>${google.guava.version}</version>
+			</dependency>
+
+			<dependency>
+			    <groupId>mysql</groupId>
+			    <artifactId>mysql-connector-java</artifactId>
+			    <version>${mysql.driver.version}</version>
+			</dependency>
+			
+			<dependency>
+			    <groupId>org.mybatis</groupId>
+			    <artifactId>mybatis</artifactId>
+			    <version>${mybatis.version}</version>
+			</dependency>
+	
+			<dependency>
+			    <groupId>org.mybatis</groupId>
+			    <artifactId>mybatis-spring</artifactId>
+			    <version>${mybatis.spring.version}</version>
+			</dependency>
+		
+			<!-- Log4j2 + Slf4j -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${org.slf4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-api</artifactId>
+				<version>${apache.log4j2.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-core</artifactId>
+				<version>${apache.log4j2.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-slf4j-impl</artifactId>
+				<version>${apache.log4j2.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-jcl</artifactId>
+				<version>${apache.log4j2.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>jstl</groupId>
+				<artifactId>jstl</artifactId>
+				<version>1.2</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${apache.commons.lang3.version}</version>
+			</dependency>
+
+			<!-- Spring -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-aop</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjweaver</artifactId>
+				<version>1.8.10</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jdbc</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-tx</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context-support</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-expression</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-web</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<!-- HttpClient -->
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient</artifactId>
+				<version>${apache.httpcomponents.version}</version>
+			</dependency>
+
+			<!-- HttpCore -->
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpcore</artifactId>
+				<version>${apache.httpcomponents.core.version}</version>
+			</dependency>
+
+			<!-- Dubbo -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>dubbo</artifactId>
+				<version>${alibaba.dubbo.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-context</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>com.esotericsoftware.kryo</groupId>
+				<artifactId>kryo</artifactId>
+				<version>${esotericsoftware.kryo.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>de.javakaffee</groupId>
+				<artifactId>kryo-serializers</artifactId>
+				<version>${javakaffee.kryo.serializers.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>de.ruedigermoeller</groupId>
+				<artifactId>fst</artifactId>
+				<version>${ruedigermoeller.fst.version}</version>
+			</dependency>
+
+			<!-- Zookeeper -->
+			<dependency>
+				<groupId>org.apache.zookeeper</groupId>
+				<artifactId>zookeeper</artifactId>
+				<version>${org.zookeeper.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-log4j12</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<!-- ZK Client -->
+			<dependency>
+				<groupId>com.101tec</groupId>
+				<artifactId>zkclient</artifactId>
+				<version>${com.zkclient.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-log4j12</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<!-- Jedis -->
+			<dependency>
+				<groupId>redis.clients</groupId>
+				<artifactId>jedis</artifactId>
+				<version>${jedis.ext.version}</version>
+			</dependency>
+
+			<!-- Junit -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>${fastjson.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.google.code.gson</groupId>
+				<artifactId>gson</artifactId>
+				<version>${google.gson.version}</version>
+			</dependency>
+
+			<!-- Spring Test -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-test</artifactId>
+				<version>${spring.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.elasticsearch</groupId>
+				<artifactId>elasticsearch</artifactId>
+				<version>${elasticsearch.version}</version>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/javassist/javassist -->
+			<dependency>
+				<groupId>javassist</groupId>
+				<artifactId>javassist</artifactId>
+				<version>${javassist.version}</version>
+			</dependency>
+
+			<!-- mvel2 -->
+			<dependency>
+				<groupId>org.mvel</groupId>
+				<artifactId>mvel2</artifactId>
+				<version>${mvel2.version}</version>
+			</dependency>
+
+			<!-- Jackson -->
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-core</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<!-- 发布到仓库配置 -->
+	<distributionManagement>
+		<repository>
+			<id>fnrd</id>
+			<name>fnrd-releases</name>
+			<url>http://nexus.bkjk-inc.com/nexus/content/repositories/Bkjk-Business-Releases/</url>
+			<uniqueVersion>true</uniqueVersion>
+		</repository>
+		<snapshotRepository>
+			<id>fnrd</id>
+			<name>fnrd-snapshots</name>
+			<url>http://nexus.bkjk-inc.com/nexus/content/repositories/Bkjk-Business-Snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+	
+	<!-- 插件管理 -->
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<source>${jdk.version}</source>
+					<encoding>UTF8</encoding>
+					<target>${jdk.version}</target>
+				</configuration>
+			</plugin>
+			<!-- 发布源码
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+					<attach>true</attach>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			 -->
+		</plugins>
+
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>*.*</include>
+					<include>**/*.*</include>
+				</includes>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>test</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>${profiles.dir}/test</directory>
+						<filtering>true</filtering>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+		<profile>
+			<id>demo</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>${profiles.dir}/demo</directory>
+						<filtering>true</filtering>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+		<profile>
+			<id>production</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>${profiles.dir}/production</directory>
+						<filtering>true</filtering>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+	</profiles>
+
+
+</project>

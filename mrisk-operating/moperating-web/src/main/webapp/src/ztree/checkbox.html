@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+	<TITLE> ZTREE DEMO - checkbox</TITLE>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="./css/zTreeStyle/zTreeStyle.css" type="text/css">
+	<script type="text/javascript" src="./js/jquery-1.4.4.min.js"></script>
+	<script type="text/javascript" src="./js/jquery.ztree.all.min.js"></script>
+	<SCRIPT type="text/javascript">
+		var setting = {
+			check: {
+				enable: true
+			},
+			data: {
+				simpleData: {
+					enable: true
+				}
+			}
+		};
+
+		var zNodes =[
+			{ id:1, pId:0, name:"随意勾选 1", open:true, iconSkin:"pIcon01"},
+			{ id:11, pId:1, name:"随意勾选 1-1", open:true},
+			{ id:111, pId:11, name:"随意勾选 1-1-1", iconSkin:"icon06"},
+			{ id:112, pId:11, name:"随意勾选 1-1-2", iconSkin:"icon06"},
+			{ id:12, pId:1, name:"随意勾选 1-2", open:true},
+			{ id:121, pId:12, name:"随意勾选 1-2-1"},
+			{ id:122, pId:12, name:"随意勾选 1-2-2"},
+			{ id:2, pId:0, name:"随意勾选 2", checked:true, open:true},
+			{ id:21, pId:2, name:"随意勾选 2-1"},
+			{ id:22, pId:2, name:"随意勾选 2-2", open:true},
+			{ id:221, pId:22, name:"随意勾选 2-2-1", checked:true},
+			{ id:222, pId:22, name:"随意勾选 2-2-2"},
+			{ id:23, pId:2, name:"随意勾选 2-3"}
+		];
+		zNodes5 =
+		[
+			{
+				"checked": false,
+				"iconSkin": "pIcon01",
+				"id": 1,
+				"name": "金融大盘",
+				"open": false
+			},
+			{
+				"checked": false,
+				"iconSkin": "pIcon01",
+				"id": 2,
+				"name": "风控大盘",
+				"open": true
+			},
+			{
+				"checked": false,
+				"iconSkin": "pIcon01",
+				"id": 3,
+				"name": "风控运营",
+				"open": true
+			},
+			{
+				"checked": false,
+				"iconSkin": "pIcon01",
+				"id": 4,
+				"name": "监控报警",
+				"open": true
+			},
+			{
+				"checked": false,
+				"iconSkin": "pIcon01",
+				"id": 5,
+				"name": "名单库管理",
+				"open": true
+			},
+			{
+				"checked": false,
+				"iconSkin": "pIcon01",
+				"id": 10,
+				"name": "人工审核",
+				"open": true
+			},
+			{
+				"checked": false,
+				"iconSkin": "pIcon01",
+				"id": 11,
+				"name": "处罚中心",
+				"open": true
+			},
+			{
+				"checked": false,
+				"id": 13,
+				"name": "风控事件中心",
+				"open": true,
+				"pId": 3
+			},
+			{
+				"checked": false,
+				"iconSkin": "icon06",
+				"id": 14,
+				"name": "事件查询中心",
+				"open": true,
+				"pId": 13
+			},
+			{
+				"checked": false,
+				"iconSkin": "icon06",
+				"id": 15,
+				"name": "决策结果统计",
+				"open": true,
+				"pId": 13
+			},
+			{
+				"checked": false,
+				"iconSkin": "icon06",
+				"id": 16,
+				"name": "设备指纹获取率",
+				"open": true,
+				"pId": 13
+			},
+			{
+				"checked": false,
+				"iconSkin": "icon06",
+				"id": 17,
+				"name": "命中规则详情",
+				"open": true,
+				"pId": 13
+			},
+			{
+				"checked": false,
+				"id": 18,
+				"name": "反欺诈配置管理",
+				"open": true,
+				"pId": 3
+			},
+			{
+				"checked": false,
+				"iconSkin": "icon06",
+				"id": 19,
+				"name": "反欺诈场景管理",
+				"open": true,
+				"pId": 18
+			},
+			{
+				"checked": false,
+				"iconSkin": "icon06",
+				"id": 20,
+				"name": "反欺诈策略管理",
+				"open": true,
+				"pId": 18
+			},
+			{
+				"checked": false,
+				"iconSkin": "icon06",
+				"id": 21,
+				"name": "反欺诈指标管理",
+				"open": true,
+				"pId": 18
+			},
+			{
+				"checked": false,
+				"id": 22,
+				"name": "决策树配置管理",
+				"open": true,
+				"pId": 3
+			},
+			{
+				"checked": false,
+				"iconSkin": "icon06",
+				"id": 23,
+				"name": "决策树场景管理",
+				"open": true,
+				"pId": 22
+			},
+			{
+				"checked": false,
+				"iconSkin": "icon06",
+				"id": 24,
+				"name": "策略树策略管理",
+				"open": true,
+				"pId": 22
+			},
+			{
+				"checked": false,
+				"iconSkin": "icon06",
+				"id": 25,
+				"name": "策略树指标模板",
+				"open": true,
+				"pId": 22
+			},
+			{
+				"checked": false,
+				"iconSkin": "icon06",
+				"id": 26,
+				"name": "场景指标配置",
+				"open": true,
+				"pId": 22
+			},
+			{
+				"checked": false,
+				"id": 27,
+				"name": "指标接入管理",
+				"open": true,
+				"pId": 3
+			},
+			{
+				"checked": false,
+				"iconSkin": "icon06",
+				"id": 28,
+				"name": "同步决策树指标",
+				"open": true,
+				"pId": 27
+			},
+			{
+				"checked": false,
+				"iconSkin": "icon06",
+				"id": 29,
+				"name": "指标元数据管理",
+				"open": true,
+				"pId": 27
+			},
+			{
+				"checked": false,
+				"iconSkin": "icon06",
+				"id": 30,
+				"name": "指标参数字典",
+				"open": true,
+				"pId": 27
+			},
+			{
+				"checked": false,
+				"id": 31,
+				"name": "名单库管理",
+				"open": true,
+				"pId": 3
+			},
+			{
+				"checked": false,
+				"iconSkin": "icon06",
+				"id": 32,
+				"name": "名单库场景配置",
+				"open": true,
+				"pId": 31
+			},
+			{
+				"checked": false,
+				"iconSkin": "icon06",
+				"id": 33,
+				"name": "名单库导入",
+				"open": true,
+				"pId": 31
+			},
+			{
+				"checked": false,
+				"iconSkin": "icon06",
+				"id": 34,
+				"name": "名单库操作日志",
+				"open": true,
+				"pId": 31
+			}
+		];
+
+		function  loadMenu(roleId) {
+			$.ajax({
+				type: "POST",
+				url: "<c:url value='/system/findMenuByRole.do'/>",
+				dataType:'json',
+				data:{
+					"roleId":roleId
+				},
+				error: function(request) {
+					alert("Connection error!");
+				},
+				success: function(data) {
+					if ( data.nodes ) {
+						$.fn.zTree.init($("#treeDemo"), setting, data.nodes);
+					}
+				}
+			})
+		}
+
+		$(document).ready(function(){
+			//loadMenu("${param.roleId}");
+			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+		});
+
+	</SCRIPT>
+</HEAD>
+
+<BODY>
+<div class="content_wrap">
+	<div class="zTreeDemoBackground left">
+		<ul id="treeDemo" class="ztree"></ul>
+	</div>
+</div>
+</BODY>
+</HTML>

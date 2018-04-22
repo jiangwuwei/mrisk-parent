@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zoom.risk.operating.ruleconfig.dao.RuleQuotaLinkMapper">
+	<resultMap id="BaseResultMap"
+		type="com.zoom.risk.operating.ruleconfig.model.RuleQuotaLink">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="rule_id" jdbcType="BIGINT" property="ruleId" />
+		<result column="quota_id" jdbcType="BIGINT" property="quotaId" />
+		<result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+		<result column="modified_date" jdbcType="TIMESTAMP" property="modifiedDate" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, rule_id, quota_id, created_date, modified_date
+	</sql>
+
+	<insert id="batchMapInsert" useGeneratedKeys="true"
+		parameterType="map">
+		insert into zoom_rule_quota_link(rule_id,quota_id) values
+		<foreach item="item" index="index" collection="quotaList"
+			separator=",">
+			(#{ruleId},	#{item})
+		</foreach>
+	</insert>
+	
+	<insert id="delByRuleIds"	parameterType="list">
+		delete from zoom_rule_quota_link
+		where rule_id in (
+		<foreach item="item" index="index" collection="list" separator=",">
+			#{item}
+		</foreach>
+		)
+	</insert>
+
+	<delete id="delByRuleId" parameterType="java.lang.Long">
+		delete from zoom_rule_quota_link where rule_id = #{ruleId}
+	</delete>
+
+	<select id="selectQuotaCount" parameterType="java.lang.Long" resultType="java.lang.Integer">
+		select count(1)
+		from zoom_rule_quota_link
+		where quota_id = #{quotaId}
+	</select>
+	
+	<select id="selectRuleCount" parameterType="java.lang.Long" resultType="java.lang.Integer">
+		select count(1)
+		from zoom_rule_quota_link
+		where rule_id = #{ruleId}
+	</select>
+
+	<select id="selectCountBy" parameterType="java.lang.String" resultType="java.lang.Integer">
+		${value}
+	</select>
+</mapper>

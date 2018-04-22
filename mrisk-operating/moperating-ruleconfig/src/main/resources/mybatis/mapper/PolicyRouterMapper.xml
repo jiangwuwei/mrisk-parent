@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zoom.risk.operating.ruleconfig.dao.PolicyRouterMapper">
+  <resultMap id="BaseResultMap" type="com.zoom.risk.operating.ruleconfig.model.PolicyRouter">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="scene_no" jdbcType="VARCHAR" property="sceneNo" />
+    <result column="policy_id" jdbcType="BIGINT" property="policyId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="router_no" jdbcType="VARCHAR" property="routerNo" />
+    <result column="router_expression" jdbcType="VARCHAR" property="routerExpression" />
+    <result column="router_expression_json" jdbcType="VARCHAR" property="routerExpressionJson" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="weight_value" jdbcType="INTEGER" property="weightValue" />
+    <result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+    <result column="modified_date" jdbcType="TIMESTAMP" property="modifiedDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, scene_no, policy_id, name, router_expression, router_expression_json, router_no, status, description, weight_value, created_date,
+    modified_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zoom_policy_router
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectBySceneNo" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from zoom_policy_router
+    where scene_no = #{sceneNo}
+  </select>
+  <select id="existPolicy" resultType="java.lang.Integer">
+    select
+     count(*)
+    from zoom_policy_router
+    where policy_id = #{policyId}
+  </select>
+  <select id="selectDistinctSceneNo" resultType="java.lang.String">
+    select
+     DISTINCT scene_no
+    from zoom_policy_router
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from zoom_policy_router
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.zoom.risk.operating.ruleconfig.model.PolicyRouter">
+    insert into zoom_policy_router (scene_no, policy_id,
+      name, router_expression, router_expression_json, description,
+      weight_value, router_no, status
+      )
+    values (#{sceneNo,jdbcType=VARCHAR}, #{policyId,jdbcType=BIGINT},
+      #{name,jdbcType=VARCHAR}, #{routerExpression,jdbcType=VARCHAR}, #{routerExpressionJson},#{description,jdbcType=VARCHAR},
+      #{weightValue,jdbcType=INTEGER}, #{routerNo}, #{status})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.zoom.risk.operating.ruleconfig.model.PolicyRouter">
+    update zoom_policy_router
+    set
+      name = #{name,jdbcType=VARCHAR},
+      router_expression = #{routerExpression,jdbcType=VARCHAR},
+      router_expression_json = #{routerExpressionJson},
+      description = #{description,jdbcType=VARCHAR},
+      weight_value = #{weightValue,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

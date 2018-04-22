@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zoom.risk.operating.scard.dao.SCardRuleMapper">
+
+    <resultMap id="BaseResultMap" type="com.zoom.risk.operating.scard.model.SCardRule">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="scard_id" jdbcType="BIGINT" property="scardId"/>
+        <result column="route_name" jdbcType="VARCHAR" property="routeName"/>
+        <result column="route_expression" jdbcType="VARCHAR" property="routeExpression"/>
+        <result column="final_result" jdbcType="VARCHAR" property="finalResult"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id, scard_id, route_name, route_expression, final_result
+    </sql>
+
+    <select id="getRulesBySCard" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from zoom_sc_result_rule
+        where scard_id = #{scardId,jdbcType=BIGINT}
+    </select>
+
+    <insert id="saveScardRule" parameterType="com.zoom.risk.operating.scard.model.SCardRule"  useGeneratedKeys="true" keyProperty="id">
+        insert into zoom_sc_result_rule (scard_id, route_name, route_expression, final_result) values
+            (
+            #{scardId,jdbcType=BIGINT},
+            #{routeName,jdbcType=VARCHAR},
+            #{routeExpression,jdbcType=VARCHAR},
+            #{finalResult,jdbcType=VARCHAR}
+            )
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.zoom.risk.operating.scard.model.SCardRule">
+        update zoom_sc_result_rule
+        <set>
+            <if test="routeName != null">
+                route_name = #{routeName,jdbcType=VARCHAR},
+            </if>
+            <if test="routeExpression != null">
+                route_expression = #{routeExpression,jdbcType=VARCHAR},
+            </if>
+            <if test="finalResult != null">
+                final_result = #{finalResult,jdbcType=FLOAT}
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from zoom_sc_result_rule
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+</mapper>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zoom.risk.operating.ruleconfig.dao.QuotaTemplateMapper">
+  <resultMap id="BaseResultMap" type="com.zoom.risk.operating.ruleconfig.model.QuotaTemplate">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="quota_type" jdbcType="TINYINT" property="quotaType" />
+    <result column="quota_data_type" jdbcType="TINYINT" property="quotaDataType" />
+    <result column="source_type" jdbcType="TINYINT" property="sourceType" />
+    <result column="access_source" jdbcType="TINYINT" property="accessSource" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="quota_content" jdbcType="VARCHAR" property="quotaContent" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+    <result column="modified_date" jdbcType="TIMESTAMP" property="modifiedDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, quota_type, source_type, access_source, name, quota_content, description, created_date, 
+    modified_date,quota_data_type
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zoom_quota_template
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from zoom_quota_template
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.zoom.risk.operating.ruleconfig.model.QuotaTemplate">
+    insert into zoom_quota_template (id, quota_type,quota_data_type, source_type,
+      access_source, name, quota_content,
+      description, created_date, modified_date
+      )
+    values (#{id,jdbcType=BIGINT}, #{quotaType,jdbcType=TINYINT},#{quotaDataType,jdbcType=TINYINT}, #{sourceType,jdbcType=TINYINT},
+      #{accessSource,jdbcType=TINYINT}, #{name,jdbcType=VARCHAR}, #{quotaContent,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{createdDate,jdbcType=TIMESTAMP}, #{modifiedDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zoom.risk.operating.ruleconfig.model.QuotaTemplate">
+    insert into zoom_quota_template
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="quotaType != null">
+        quota_type,
+      </if>
+      <if test="quotaDataType != null">
+        quota_data_type,
+      </if>
+      <if test="sourceType != null">
+        source_type,
+      </if>
+      <if test="accessSource != null">
+        access_source,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="quotaContent != null">
+        quota_content,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="createdDate != null">
+        created_date,
+      </if>
+      <if test="modifiedDate != null">
+        modified_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="quotaType != null">
+        #{quotaType,jdbcType=TINYINT},
+      </if>
+      <if test="quotaDataType != null">
+        #{quotaDataType,jdbcType=TINYINT},
+      </if>
+      <if test="sourceType != null">
+        #{sourceType,jdbcType=TINYINT},
+      </if>
+      <if test="accessSource != null">
+        #{accessSource,jdbcType=TINYINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="quotaContent != null">
+        #{quotaContent,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDate != null">
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedDate != null">
+        #{modifiedDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zoom.risk.operating.ruleconfig.model.QuotaTemplate">
+    update zoom_quota_template
+    <set>
+      <if test="quotaType != null">
+        quota_type = #{quotaType,jdbcType=TINYINT},
+      </if>
+      <if test="quotaDataType != null">
+        quota_data_type = #{quotaDataType,jdbcType=TINYINT},
+      </if>
+      <if test="sourceType != null">
+        source_type = #{sourceType,jdbcType=TINYINT},
+      </if>
+      <if test="accessSource != null">
+        access_source = #{accessSource,jdbcType=TINYINT},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="quotaContent != null">
+        quota_content = #{quotaContent,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      modified_date = now(),
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zoom.risk.operating.ruleconfig.model.QuotaTemplate">
+    update zoom_quota_template
+    set quota_type = #{quotaType,jdbcType=TINYINT},
+      quota_data_type = #{quotaDataType,jdbcType=TINYINT},
+      source_type = #{sourceType,jdbcType=TINYINT},
+      access_source = #{accessSource,jdbcType=TINYINT},
+      name = #{name,jdbcType=VARCHAR},
+      quota_content = #{quotaContent,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      modified_date = #{modifiedDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from zoom_quota_template
+  </select>
+</mapper>

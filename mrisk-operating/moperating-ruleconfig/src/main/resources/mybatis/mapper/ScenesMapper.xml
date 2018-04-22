@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zoom.risk.operating.ruleconfig.dao.ScenesMapper">
+    <resultMap id="BaseResultMap" type="com.zoom.risk.operating.ruleconfig.model.Scenes">
+        <id column="scene_no" jdbcType="VARCHAR" property="sceneNo"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="scene_type" jdbcType="INTEGER" property="sceneType"/>
+        <result column="created_date" jdbcType="TIMESTAMP" property="createdDate"/>
+        <result column="modified_date" jdbcType="TIMESTAMP" property="modifiedDate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    scene_no, name, description, scene_type, created_date, modified_date
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from zoom_scenes
+        where scene_no = #{sceneNo,jdbcType=VARCHAR}
+    </select>
+    <select id="selectByType" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from zoom_scenes
+        where
+        1 = 1
+        <if test="sceneType != null">
+            and scene_type = #{sceneType}
+        </if>
+    </select>
+    <select id="selectPage" parameterType="map" resultMap="BaseResultMap">
+        select
+          <include refid="Base_Column_List"/>
+        from zoom_scenes
+        where
+          scene_type = #{sceneType}
+        <if test="sceneNo != 'all'">
+            and scene_no = #{sceneNo}
+        </if>
+        order by scene_no
+        <if test="limit != 0">
+            limit #{limit}
+            offset #{offset}
+        </if>
+    </select>
+    <select id="selectCount" resultType="java.lang.Integer">
+        select count(1)
+        from zoom_scenes
+        where
+        scene_type = #{sceneType}
+        <if test="sceneNo != 'all'">
+            and scene_no = #{sceneNo}
+        </if>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from zoom_scenes
+    where scene_no = #{sceneNo,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.zoom.risk.operating.ruleconfig.model.Scenes">
+    insert into zoom_scenes (scene_no, name, description, scene_type)
+    values (#{sceneNo}, #{name}, #{description}, #{sceneType})
+  </insert>
+    <insert id="insertSelective" parameterType="com.zoom.risk.operating.ruleconfig.model.Scenes">
+        insert into zoom_scenes
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sceneNo != null">
+                scene_no,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="createdDate != null">
+                created_date,
+            </if>
+            <if test="modifiedDate != null">
+                modified_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sceneNo != null">
+                #{sceneNo,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="createdDate != null">
+                #{createdDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifiedDate != null">
+                #{modifiedDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zoom.risk.operating.ruleconfig.model.Scenes">
+        update zoom_scenes
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            modified_date = now(),
+        </set>
+        where scene_no = #{sceneNo,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.zoom.risk.operating.ruleconfig.model.Scenes">
+    update zoom_scenes
+    set name = #{name,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+       modified_date = now()
+    where scene_no = #{sceneNo,jdbcType=VARCHAR}
+  </update>
+
+    <select id="existScene" parameterType="map" resultType="java.lang.Integer">
+  	select count(1)
+  	from zoom_scenes
+  	where 
+  		scene_no = #{sceneNo, jdbcType=VARCHAR}
+  		OR
+  		name = #{name, jdbcType=VARCHAR}
+  </select>
+</mapper>

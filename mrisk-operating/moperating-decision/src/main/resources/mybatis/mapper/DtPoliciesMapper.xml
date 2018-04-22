@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zoom.risk.operating.decision.dao.DtPoliciesMapper">
+  <resultMap id="BaseResultMap" type="com.zoom.risk.operating.decision.po.TPolicies">
+    <id column="scene_no" jdbcType="VARCHAR" property="sceneNo" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+    <result column="modified_date" jdbcType="TIMESTAMP" property="modifiedDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    scene_no, name, description, created_date, modified_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zoom_dt_policies
+    where scene_no = #{sceneNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from zoom_dt_policies
+    where scene_no = #{sceneNo,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zoom.risk.operating.decision.po.TPolicies">
+    insert into zoom_dt_policies (scene_no, name, description)
+    values (#{sceneNo,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.zoom.risk.operating.decision.po.TPolicies">
+    update zoom_dt_policies
+    set name = #{name,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      modified_date =now()
+    where scene_no = #{sceneNo,jdbcType=VARCHAR}
+  </update>
+  
+   <select id="selectPage" parameterType="map" resultMap="BaseResultMap">
+  	select
+  		<include refid="Base_Column_List"/>
+  	from zoom_dt_policies
+	<if test="sceneNo != 'all'">
+	where
+		scene_no = #{sceneNo}
+	</if>
+	order by scene_no
+	<if test="limit != 0">
+		limit #{limit}
+		offset #{offset}
+	</if>
+  </select>
+  <select id="selectByName" parameterType="map" resultMap="BaseResultMap">
+  	select
+  		<include refid="Base_Column_List"/>
+  	from zoom_dt_policies
+	where name like "%${policiesName}%"
+	order by scene_no
+	<if test="limit != 0">
+		limit #{limit}
+		offset #{offset}
+	</if>
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+  	select
+  		<include refid="Base_Column_List"/>
+  	from zoom_dt_policies
+  </select>
+   <select id="selectCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+	select count(1)
+	from zoom_dt_policies
+	<if test="sceneNo != 'all'">
+		where
+		scene_no = #{sceneNo}
+	</if>
+  </select>
+  <select id="exists" parameterType="map" resultType="java.lang.Integer">
+  	select count(1)
+  	from zoom_dt_policies
+  	where 
+  		scene_no = #{sceneNo, jdbcType=VARCHAR}
+  		OR
+  		name = #{name, jdbcType=VARCHAR}
+  </select>
+</mapper>

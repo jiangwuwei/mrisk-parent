@@ -1,0 +1,117 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.zoom</groupId>
+		<artifactId>mrisk-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>mrisk-thirdparty</artifactId>
+	<packaging>pom</packaging>
+
+	<name>${project.artifactId} V:${project.version}</name>
+	<description>风控系统-瑶池库群</description>
+ 
+	<modules> 
+		<module>thirdparty-zhima</module>
+		<module>thirdparty-bairong</module>
+		<module>thirdparty-tongdun</module>
+		<module>thirdparty-minivision</module>
+		<module>thirdparty-tencent</module>
+		<module>thirdparty-service</module>
+		<module>thirdparty-api</module>
+		<module>thirdparty-web</module>
+		<module>thirdparty-common</module>
+	</modules>
+
+	<!-- 统一版本号、参数等管理 -->
+	<properties>
+
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-ctr</artifactId>
+				<version>2.1.1</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>mplatform-rpc</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>mthirdparty-common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>thirdparty-tencent</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>thirdparty-zhima</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>thirdparty-tongdun</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>thirdparty-bairong</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>thirdparty-minivision</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>thirdparty-common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>thirdparty-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>thirdparty-service</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<!-- 百融 -->
+			<dependency>
+				<groupId>com.bairong</groupId>
+				<artifactId>bs-api</artifactId>
+				<version>3.40</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.alipay</groupId>
+				<artifactId>sdk-java</artifactId>
+				<version>2017.10.27</version>
+			</dependency>
+		
+		</dependencies>
+	</dependencyManagement>
+
+</project>

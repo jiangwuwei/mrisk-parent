@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo" xsi:schemaLocation="http://www.springframework.org/schema/beans
+	           http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+			   http://www.springframework.org/schema/context
+	           http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	           http://www.springframework.org/schema/tx
+	           http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+	           http://code.alibabatech.com/schema/dubbo 
+	           http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+	           http://www.springframework.org/schema/aop
+	           http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+	<!-- 应用信息 -->
+    <dubbo:application name="${dubbo.application.name}" owner="${dubbo.application.owner}" />
+    
+    <!-- 服务分组信息 -->
+    <dubbo:provider group="${dubbo.group}" retries="0" />
+    
+    <!-- 注册中心信息 -->
+    <dubbo:registry address="${dubbo.registry.address}" group="${dubbo.registry.group}"/> 
+    <!-- 协议信息 -->
+	<dubbo:protocol name="${dubbo.protocol.name}" port="${dubbo.protocol.port}" serialization="${dubbo.protocol.serialization}" threads="${dubbo.protocol.threads}" />   
+  
+    <!-- 瑶池服务 -->
+	<dubbo:service interface="com.zoom.risk.jade.api.JadeDataApi" version="${dubbo.gateway.version}" ref="jadeDataApi" timeout="${dubbo.protocol.timeout}" />
+		
+</beans>

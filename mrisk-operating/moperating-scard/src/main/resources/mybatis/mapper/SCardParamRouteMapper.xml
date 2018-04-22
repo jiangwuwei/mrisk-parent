@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zoom.risk.operating.scard.dao.SCardParamRouteMapper">
+
+    <resultMap id="BaseResultMap" type="com.zoom.risk.operating.scard.model.SCardParamRoute">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="param_id" jdbcType="BIGINT" property="paramId"/>
+        <result column="param_name" jdbcType="VARCHAR" property="paramName"/>
+        <result column="route_name" jdbcType="VARCHAR" property="routeName"/>
+        <result column="route_expression" jdbcType="VARCHAR" property="routeExpression"/>
+        <result column="db_type" jdbcType="INTEGER" property="dbType"/>
+        <result column="route_score" jdbcType="VARCHAR" property="routeScore"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id, param_id, param_name, route_name, route_expression, db_type, route_score
+    </sql>
+
+    <select id="getRoutesBySCard" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from zoom_sc_params_route
+        where param_id in ( select id from zoom_sc_params where scard_id = #{scardId,jdbcType=BIGINT} )
+    </select>
+
+    <select id="getRoutesByParam" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from zoom_sc_params_route
+        where param_id = #{paramId,jdbcType=BIGINT}
+    </select>
+
+
+    <insert id="saveParamRoute" parameterType="com.zoom.risk.operating.scard.model.SCardParamRoute"  useGeneratedKeys="true" keyProperty="id">
+        insert into zoom_sc_params_route (param_id, param_name, route_name, route_expression, db_type, route_score) values
+            (
+            #{paramId,jdbcType=BIGINT},
+            #{paramName,jdbcType=VARCHAR},
+            #{routeName,jdbcType=VARCHAR},
+            #{routeExpression,jdbcType=VARCHAR},
+            #{dbType,jdbcType=INTEGER},
+            #{routeScore,jdbcType=VARCHAR}
+            )
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.zoom.risk.operating.scard.model.SCardParamRoute">
+        update zoom_sc_params_route
+        <set>
+            <if test="routeName != null">
+                route_name = #{routeName,jdbcType=VARCHAR},
+            </if>
+            <if test="routeExpression != null">
+                route_expression = #{routeExpression,jdbcType=VARCHAR},
+            </if>
+            <if test="routeScore != null">
+                route_score = #{routeScore,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from zoom_sc_params_route
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+
+</mapper>

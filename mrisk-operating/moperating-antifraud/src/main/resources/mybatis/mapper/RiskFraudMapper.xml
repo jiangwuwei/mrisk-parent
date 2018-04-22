@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.4//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zoom.risk.operating.antifraud.dao.RiskFraudMapper">
+
+	<resultMap id="eventQuantity" type="com.zoom.risk.operating.antifraud.vo.EventQuantity">
+		<result column="decision_code" property="decisionCode" jdbcType="VARCHAR"/>
+		<result column="count" property="quantity" jdbcType="INTEGER"/>
+		<result column="dateStr" property="dateStr" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<resultMap id="deviceQuantity" type="com.zoom.risk.operating.antifraud.vo.DeviceQuantity">
+		<result column="device" property="device" jdbcType="VARCHAR"/>
+		<result column="quantity" property="quantity" jdbcType="INTEGER"/>
+		<result column="dateStr" property="dateStr" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<select id="getEventQuantityToday" resultMap="eventQuantity" parameterType="Map">
+		select 
+			decision_code,
+			count(1) as count
+		from 
+			zoom_risk_event
+		where 
+			risk_date > curdate()
+		<if test="platform !=null and platform !=''">  
+    		and
+			platform = #{platform,jdbcType=VARCHAR}
+		</if>	
+		group by 
+			decision_code
+		order by
+			decision_code 
+	</select>
+	
+	<select id="getDeviceQuantity" resultMap="deviceQuantity" parameterType="Map">
+		select
+			count(1) as quantity ,device,dateStr
+		from
+			(
+				select
+					if((device_fingerprint is null),0,1) as device,
+					date_format(risk_date,'%Y-%m-%d') as dateStr
+				from
+					zoom_risk_event
+				where
+					risk_date &gt;= date_sub('${startDate}', interval 9 day)
+					and risk_date &lt;= '${endDate}'
+					and scene != '010101'
+					<if test="scene !=null and scene !=''">
+						and  scene = #{scene,jdbcType=VARCHAR}
+					</if>
+					<if test="platform !=null and platform !=''">
+						and platform = #{platform,jdbcType=VARCHAR}
+					</if>
+			) as tem
+		group by dateStr,device
+		order by dateStr,device
+	</select>
+	
+	<select id="getEventQuantity" resultMap="eventQuantity" parameterType="Map">
+		select
+			decision_code ,count(1) as quantity , dateStr
+		from
+			(
+				select 
+					decision_code ,date_format(risk_date,'%Y-%m-%d') as dateStr
+				from 
+					zoom_risk_event
+				where
+					risk_date &gt;= date_sub('${startDate}', interval 6 day)
+					and risk_date &lt;= '${endDate}'
+					<if test="scene !=null and scene !=''">
+						and  scene = #{scene,jdbcType=VARCHAR}
+					</if>
+					<if test="platform !=null and platform !=''">
+						and platform = #{platform,jdbcType=VARCHAR}
+					</if>
+			) as tem
+		group by dateStr,decision_code
+		order by dateStr,decision_code
+	</select>
+  
+</mapper>

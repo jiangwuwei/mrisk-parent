@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zoom.risk.jade.dao.RiskEventMapper" >
+  <insert id="singleInsertMap" useGeneratedKeys="true" parameterType="map">
+    insert into zoom_risk_event(risk_id,uid,scene, risk_date, risk_status, source_ip,serial_number,decision_code,device_fingerprint,device_fpip,taking_time,gateway_status,platform) values
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        #{riskId},
+        #{uid},
+        #{scene},
+        #{riskDate},
+        0,
+        #{sourceIp},
+        #{serialNumber},
+        #{decisionCode},
+        #{deviceFingerprint},
+        #{deviceFpip},
+        #{takingTime},
+        #{gatewayStatus},
+        #{platform},
+     </trim>
+  </insert>
+  
+  <update id="singleUpdateMap" parameterType="map" >
+    update zoom_risk_event
+        set risk_status = #{riskStatus,jdbcType=INTEGER}
+		where 
+		     <if test="riskId != null" >
+		        risk_id = #{riskId,jdbcType=VARCHAR}
+		     </if>
+		     <if test="serialNumber != null" >
+		        serial_number = #{serialNumber,jdbcType=VARCHAR}
+		     </if>
+			 and scene=#{scene,jdbcType=VARCHAR}
+		limit 1 
+  </update>
+  
+</mapper>

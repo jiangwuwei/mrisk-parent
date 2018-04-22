@@ -1,0 +1,87 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.zoom</groupId>
+		<artifactId>mrisk-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>mrisk-operating</artifactId>
+	<packaging>pom</packaging>
+
+	<name>${artifactId} V:${project.version}</name>
+	<description>风控运营---Operating</description>
+
+	<modules>
+		<module>moperating-common</module>
+		<module>moperating-web</module>
+		<module>moperating-antifraud</module>
+		<module>moperating-roster</module>
+        <module>moperating-ruleconfig</module>
+        <module>moperating-decision</module>
+		<module>moperating-quotameta</module>
+		<module>moperating-scard</module>
+    </modules>
+
+
+	<dependencyManagement>
+		<dependencies>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>moperating-ruleconfig</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>moperating-scard</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>moperating-quotameta</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>moperating-decision</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>moperating-roster</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>moperating-common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>moperating-antifraud</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>mplatform-sharding</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>mplatform-common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
+</project>

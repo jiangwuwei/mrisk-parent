@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.4//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zoom.risk.platform.engine.dao.EnginePolicyMapper">
+
+	<resultMap id="PolicySet" type="com.zoom.risk.platform.engine.vo.PolicySet">
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="scene_no" property="sceneNo" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<resultMap id="PolicyRouter" type="com.zoom.risk.platform.engine.vo.PolicyRouter">
+		<result column="id" property="id" jdbcType="BIGINT"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="policy_id" property="policyId" jdbcType="VARCHAR"/>
+		<result column="scene_no" property="sceneNo" jdbcType="VARCHAR"/>
+		<result column="router_no" property="routerNo" jdbcType="VARCHAR"/>
+		<result column="weight_value" property="weightValue" jdbcType="INTEGER"/>
+		<result column="router_expression" property="routerExpression" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<resultMap id="Policy" type="com.zoom.risk.platform.engine.vo.Policy">
+		<result column="id" property="id" jdbcType="BIGINT"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="policy_pattern" property="policyPattern" jdbcType="INTEGER"/>
+		<result column="scene_no" property="sceneNo" jdbcType="VARCHAR"/>
+		<result column="policy_no" property="policyNo" jdbcType="VARCHAR"/>
+		<result column="weight_value" property="weightValue" jdbcType="INTEGER"/>
+		<result column="weight_grade" property="weightGrade" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<resultMap id="Quota" type="com.zoom.risk.platform.engine.vo.Quota">
+		<result column="id" property="id" jdbcType="BIGINT"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="quota_no" property="quotaNo" jdbcType="VARCHAR"/>
+		<result column="scene_no" property="sceneNo" jdbcType="VARCHAR"/>
+		<result column="source_type" property="sourceType" jdbcType="INTEGER"/>
+		<result column="access_source" property="accessSource" jdbcType="INTEGER"/>
+		<result column="quota_data_type" property="quotaDataType" jdbcType="INTEGER"/>
+		<result column="quota_content" property="quotaContent" jdbcType="VARCHAR"/>
+		<result column="status" property="status" jdbcType="INTEGER"/>
+	</resultMap>
+
+	<resultMap id="Rule" type="com.zoom.risk.platform.engine.vo.Rule">
+		<result column="id" property="id" jdbcType="BIGINT"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="policy_id" property="policyId" jdbcType="VARCHAR"/>
+		<result column="scene_no" property="sceneNo" jdbcType="VARCHAR"/>
+		<result column="rule_no" property="ruleNo" jdbcType="VARCHAR"/>
+		<result column="rule_content" property="ruleContent" jdbcType="VARCHAR"/>
+		<result column="decision_code" property="decisionCode" jdbcType="INTEGER"/>
+		<result column="score" property="score" jdbcType="DECIMAL"/>
+		<result column="status" property="status" jdbcType="INTEGER"/>
+		<result column="action_code" property="actionCode" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<resultMap id="RuleQuotaLink" type="com.zoom.risk.platform.engine.vo.RuleQuotaLink">
+		<result column="id" property="id" jdbcType="BIGINT"/>
+		<result column="rule_id" property="ruleId" jdbcType="BIGINT"/>
+		<result column="quota_id" property="quotaId" jdbcType="BIGINT"/>
+	</resultMap>
+  
+	<select id="findPolicySet" resultMap="PolicySet">
+		select 
+			name,  
+			scene_no, 
+			description,
+			created_date,
+			modified_date
+		from 
+			zoom_policies
+		order by
+			scene_no
+	</select>
+  
+	<select id="findPolicyRouter" resultMap="PolicyRouter">
+		select 
+			r.id, 
+		    r.name, 
+		    r.policy_id, 
+		    r.scene_no, 
+		    r.router_no,
+		    r.weight_value,
+		    r.router_expression, 
+		    r.created_date,
+		    r.modified_date
+		from 
+			zoom_policy_router r
+		inner join 
+			zoom_policy p
+		on 
+			r.policy_id = p.id
+		where
+			r.status = 2
+		and
+			p.status = 2
+		order by 
+			scene_no, weight_value desc
+	</select>
+  
+  
+	<select id="findPolicy" resultMap="Policy">
+		select 
+			id,
+			name,
+			policy_pattern,
+			scene_no,
+			policy_no,
+			weight_value,
+			weight_grade,
+			created_date,
+			modified_date
+		from
+			zoom_policy
+		where 
+			status = 2
+		order by 
+			scene_no, weight_value desc
+		
+	</select>
+	
+	<select id="findQuota" resultMap="Quota">
+		select 
+			id,
+			name,
+			quota_no,
+			scene_no,
+			quota_template_id,
+			source_type,
+			access_source,
+			quota_data_type,
+			quota_content,
+			created_date,
+			modified_date
+		from
+			zoom_quota
+		where
+			status = 2
+		order by 
+			scene_no, modified_date desc
+		
+	</select>
+
+	<!-- 1: 关闭  2: 正式， 3: 删除  (逻辑删除)， 4: 模拟 -->
+	<select id="findRule" resultMap="Rule">
+		select 
+			id,
+			name,
+			policy_id,
+			scene_no,
+			rule_no,
+			rule_content,
+			decision_code,
+			score,
+			action_code,
+			status,
+			weight_value,
+			created_date,
+			modified_date
+		from
+			zoom_rule
+		where
+			status = 2 or status = 4
+		order by 
+			scene_no, weight_value desc
+
+	</select>
+	
+	<select id="findLink" resultMap="RuleQuotaLink">
+		select 
+			l.id,
+			rule_id,
+			quota_id
+		from
+			zoom_rule_quota_link l
+		inner join 
+			zoom_rule r
+		on 
+			r.id = l.rule_id 
+		where
+			 r.status = 2 or r.status = 4
+	</select>
+  
+</mapper>

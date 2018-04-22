@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zoom.risk.operating.web.dao.RoleMapper" >
+  <resultMap id="BaseResultMap" type="com.zoom.risk.operating.web.model.Role" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="ROLE_NAME" property="roleName" jdbcType="VARCHAR" />
+    <result column="ROLE_DESC" property="roleDesc" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="RoleRight" type="com.zoom.risk.operating.web.model.RoleRight">
+    <result column="ID" property="id" javaType="long" jdbcType="BIGINT"/>
+    <result column="MENU_ID" property="menuId" javaType="long" jdbcType="BIGINT"/>
+    <result column="ROLE_ID" property="roleId" javaType="long" jdbcType="BIGINT"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, ROLE_NAME, ROLE_DESC
+  </sql>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from zoom_sys_role
+  </select>
+  <select id="selectByRoleName" resultType="java.lang.Integer" parameterType="java.lang.String">
+    SELECT count(1)
+    FROM zoom_sys_role
+    WHERE ROLE_NAME = #{roleName,jdbcType=VARCHAR}
+  </select>
+  <select id="getRoleRightByRoleId" resultType="java.lang.Integer" parameterType="java.lang.Long">
+    SELECT count(1)
+    FROM zoom_sys_role_menu_link
+    WHERE ROLE_ID = #{roleId,jdbcType=BIGINT}
+  </select>
+  <select id="selectMenuIdByRoleId" resultType="java.lang.Long" parameterType="java.lang.Long">
+    SELECT MENU_ID
+    FROM zoom_sys_role_menu_link
+    WHERE ROLE_ID = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from zoom_sys_role
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByRoleId" parameterType="java.lang.Long" >
+    delete from zoom_sys_role_menu_link
+    where ROLE_ID = #{roleId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from zoom_sys_role
+    where ID = #{roleId,jdbcType=BIGINT}
+  </delete>
+  <insert  id="insertRoleRight" useGeneratedKeys="true">
+    insert into zoom_sys_role_menu_link ( ROLE_ID,MENU_ID )
+    values
+    <foreach item="item" index="index" collection="list" separator=",">
+      (
+      #{roleId},
+      #{item}
+      )
+    </foreach>
+  </insert>
+  <insert id="insert" parameterType="com.zoom.risk.operating.web.model.Role" >
+    insert into zoom_sys_role (ID, ROLE_NAME, ROLE_DESC
+      )
+    values (#{id,jdbcType=BIGINT}, #{roleName,jdbcType=VARCHAR}, #{roleDesc,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zoom.risk.operating.web.model.Role" >
+    insert into zoom_sys_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="roleName != null" >
+        ROLE_NAME,
+      </if>
+      <if test="roleDesc != null" >
+        ROLE_DESC,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="roleName != null" >
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleDesc != null" >
+        #{roleDesc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zoom.risk.operating.web.model.Role" >
+    update zoom_sys_role
+    <set >
+      <if test="roleName != null" >
+        ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+      </if>
+        ROLE_DESC = #{roleDesc,jdbcType=VARCHAR},
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zoom.risk.operating.web.model.Role" >
+    update zoom_sys_role
+    set ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+      ROLE_DESC = #{roleDesc,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

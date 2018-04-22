@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zoom.risk.operating.roster.dao.RosterMapper">
+
+	<resultMap id="roster" type="com.zoom.risk.operating.roster.vo.Roster">
+		<result column="id" property="id" javaType="java.lang.Long" />
+		<result column="roster_origin" property="rosterOrigin" javaType="java.lang.Integer" />
+		<result column="roster_type" property="rosterType" javaType="java.lang.Integer" />
+		<result column="content" property="content" javaType="java.lang.String" />
+		<result column="creator" property="creator" javaType="java.lang.String" />
+		<result column="created_date" property="createdDate" javaType="java.sql.Timestamp" />
+		<result column="modified_date" property="modifiedDate" javaType="java.sql.Timestamp" />
+		<result column="rosterOriginName" property="rosterOriginName" javaType="java.lang.String" />
+		<result column="rosterTypeName" property="rosterTypeName" javaType="java.lang.String" />
+	</resultMap>  
+  
+	<insert id="rosterBatchSave" useGeneratedKeys="true" parameterType="map">
+		insert into zoom_bi_roster_#{suffix} (roster_origin,roster_type,content, creator) values
+		<foreach item="item" index="index" collection="list" separator=",">
+		(
+			#{item.rosterOrigin},
+			#{item.rosterType},
+			#{item.content},
+			<if test="item.creator!= null">
+				#{item.creator}
+			</if>
+			<if test="item.creator == null">
+				null
+			</if>
+		)
+		</foreach>
+	</insert>
+
+	<insert id="rosterLogSave" useGeneratedKeys="true" parameterType="list">
+		insert into zoom_bi_roster_log (roster_busi_type, roster_origin, roster_type,content, status, oper_type, status_desc, creator) values
+		<foreach item="item" index="index" collection="list" separator=",">
+		(
+			#{item.rosterBusiType},
+			#{item.rosterOrigin},
+			#{item.rosterType},
+			#{item.content},
+			#{item.status},
+			#{item.operType},
+			#{item.statusDesc},
+			<if test="item.creator!= null">
+				#{item.creator}
+			</if>
+			<if test="item.creator == null">
+				null
+			</if>
+		)
+		</foreach>
+	</insert>
+
+	<delete id="deleteRoster" parameterType="map">
+		delete from zoom_bi_roster_#{suffix} where id in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item,jdbcType=BIGINT}
+		</foreach>
+	</delete>
+
+	<select id="findByRosterId"  resultMap="roster" parameterType="map">
+		select * from zoom_bi_roster_#{suffix} where id in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item,jdbcType=BIGINT}
+		</foreach>
+	</select>
+
+	<select id="findCountByRosterTypeContent" parameterType="map" resultType="java.lang.Integer">
+		select count(1) from zoom_bi_roster_#{suffix}
+			where
+				roster_type=#{rosterType,jdbcType=INTEGER}
+			and
+				content=#{content,jdbcType=VARCHAR}
+	</select>
+	
+	<insert id="batchInsertMap" useGeneratedKeys="true" parameterType="list">
+		insert into zoom_bi_roster_restriction(roster_busi_type,scene_no) values
+		<foreach item="item" index="index" collection="list" separator=",">
+			( #{item.rosterBusiType},#{item.sceneNo} )
+		</foreach>
+	</insert>
+	
+	<delete id="deleteByRosterType" parameterType="java.lang.Integer">
+		delete from
+			zoom_bi_roster_restriction
+		where
+			roster_busi_type = #{rosterBusiType,jdbcType=INTEGER}
+	</delete>
+
+	<select id="getSceneNo" parameterType="java.lang.Integer" resultType="map">
+		select
+			scene_no
+		from
+			zoom_bi_roster_restriction
+		where
+			roster_busi_type = #{rosterBusiType,jdbcType=INTEGER}
+	</select>
+
+	<select id="getAllScene"  resultType="map">
+		select
+			scene_no,name
+		from
+			zoom_scenes
+		order by
+			scene_no
+	</select>
+
+	<select id="getTypeByCode" resultType="map">
+		select
+			id,name
+		from
+			zoom_dim
+		where
+			code = #{code,jdbcType=VARCHAR}
+		order by
+			id
+	</select>
+
+	<select id="getRosterOrigin" resultType="map">
+		select
+			id,name
+		from
+			zoom_dim
+		where
+			code = 'RosterOrigin'
+		and
+			id &gt; #{rosterBusiTypeId,jdbcType=INTEGER}
+			  and id &lt; #{rosterBusiTypeLimit,jdbcType=INTEGER}
+	</select>
+
+	<select id="getContentList" resultMap="roster" parameterType="map">
+		select
+			r.id,r.content,r.roster_type,r.roster_origin,r.creator,r.created_date,d.name as rosterOriginName,f.name as rosterTypeName
+		from
+			zoom_bi_roster_#{suffix} as r
+		inner join
+			zoom_dim as d
+		on (r.roster_origin = d.id and d.code='RosterOrigin')
+		inner join
+			zoom_dim as f
+		on (r.roster_type = f.id and f.code='RosterType')
+		<where>
+			<if test="rosterType !=null">
+				roster_type = #{rosterType,jdbcType=INTEGER}
+			</if>
+			<if test="rosterType !=null">
+				and roster_type = #{rosterType,jdbcType=INTEGER}
+			</if>
+			<if test="content !=null and content != ''">
+				and content like '%${content}%'
+			</if>
+		</where>
+		order by created_date desc
+	  	limit #{limit}  offset #{offset}
+	</select>
+
+	<select id="getContentCount" resultType="java.lang.Integer" parameterType="map">
+		select
+			count(1)
+		from
+		zoom_bi_roster_#{suffix}
+		<where>
+			<if test="rosterType !=null">
+				roster_type = #{rosterType,jdbcType=INTEGER}
+			</if>
+			<if test="rosterOrigin !=null">
+				and roster_origin = #{rosterOrigin,jdbcType=INTEGER}
+			</if>
+			<if test="content !=null and content != ''">
+				and content like '%${content}%'
+			</if>
+		</where>
+
+	</select>
+
+	<select id="getLogList" resultType="java.util.Map" parameterType="map">
+		select
+		l.*, d.name as roster_busi_name, i.name as roster_type_name
+		from
+		risk_operating.zoom_bi_roster_log l
+		inner join
+		zoom_dim d on ( l.roster_busi_type = d.id and d.code='RosterBusiType')
+		inner join
+		zoom_dim i on ( l.roster_type = i.id and i.code='RosterType')
+		<where>
+			1 = 1
+			<if test="rosterBusiType !=null">
+				and roster_busi_type = #{rosterBusiType,jdbcType=INTEGER}
+			</if>
+			<if test="rosterType !=null">
+				and roster_type = #{rosterType,jdbcType=INTEGER}
+			</if>
+			<if test="content !=null and content != ''">
+				and content like '%${content}%'
+			</if>
+		</where>
+		order by created_date desc
+		limit #{limit}  offset #{offset}
+	</select>
+
+	<select id="getLogCount" resultType="java.lang.Integer" parameterType="map">
+		select
+		count(1)
+		from
+		zoom_bi_roster_log
+		<where>
+			1 = 1
+			<if test="rosterBusiType !=null">
+				and roster_busi_type = #{rosterBusiType,jdbcType=INTEGER}
+			</if>
+			<if test="rosterType !=null">
+				and roster_type = #{rosterType,jdbcType=INTEGER}
+			</if>
+			<if test="content !=null and content != ''">
+				and content like '%${content}%'
+			</if>
+		</where>
+	</select>
+
+</mapper>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    		http://www.springframework.org/schema/beans/spring-beans.xsd"
+       default-autowire="byName">
+  
+	<bean id="kafkaProducerService" class="com.zoom.risk.platform.kafka.producer.impl.KafkaProducerServiceImpl" init-method="startup" destroy-method="shutdown" >
+		<property name="bootstrapServers" value="${kafka.bootstrap.servers}"/>
+		<property name="defaultTopic" value="${kafka.topic}"/>
+		<property name="serializerClass" value="${kafka.serializer.class}"/>
+		<property name="kafkaCustomPartition" value="com.zoom.risk.platform.kafka.common.CustomPartition"/>
+	</bean>
+					
+</beans>

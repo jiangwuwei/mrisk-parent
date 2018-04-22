@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zoom.risk.operating.decision.dao.DtPolicyMapper">
+
+    <resultMap id="BaseResultMap" type="com.zoom.risk.operating.decision.po.TPolicy">
+        <result column="id" property="id" javaType="long" jdbcType="BIGINT"/>
+        <result column="scene_no" property="sceneNo" javaType="String" jdbcType="VARCHAR"/>
+        <result column="policy_no" property="policyNo" javaType="String" jdbcType="VARCHAR"/>
+        <result column="name" property="name" javaType="String" jdbcType="VARCHAR"/>
+        <result column="status" property="status" javaType="int" jdbcType="INTEGER"/>
+        <result column="weight_value" property="weightValue" javaType="int" jdbcType="INTEGER"/>
+        <result column="description" property="description" javaType="String" jdbcType="VARCHAR"/>
+        <result column="created_date" property="createdDate" javaType="java.util.Date" jdbcType="DATE"/>
+        <result column="modified_date" property="modifiedDate" javaType="java.util.Date" jdbcType="DATE"/>
+    </resultMap>
+
+  <sql id="Base_Column_List">
+    id, scene_no, name, status, weight_value, policy_no, description,
+    created_date, modified_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zoom_dt_policy
+    where id = #{id,jdbcType=BIGINT}
+      AND
+      status != 3
+  </select>
+  <select id="selectCountBySceneNo" parameterType="map" resultType="java.lang.Integer">
+  	select count(1)
+  	from zoom_dt_policy
+  	where 
+  		scene_no = #{sceneNo, jdbcType=VARCHAR}
+  		AND
+  		status != 3
+  </select>
+  <select id="selectBySceneNoList" parameterType="list" resultMap="BaseResultMap">
+	select 
+		<include refid="Base_Column_List"/> 
+	from zoom_dt_policy
+	where 
+		scene_no in (
+	<foreach item="item" index="index" collection="list"
+		separator="," >
+		"${item}"
+	</foreach>)
+    AND
+    status != 3
+  </select>
+    <select id="selectBySceneNo" parameterType="string" resultMap="BaseResultMap">
+	select 
+		<include refid="Base_Column_List"/> 
+	from zoom_dt_policy
+	where 
+		scene_no = #{sceneNo, jdbcType=VARCHAR }
+      AND
+      status != 3
+  </select>
+   <select id="exists" parameterType="map" resultType="java.lang.Integer">
+  	select count(1)
+  	from zoom_dt_policy
+  	where 
+  		scene_no = #{sceneNo, jdbcType=VARCHAR}
+  		and id != #{policyId, jdbcType=BIGINT}
+  		and (
+  			weight_value = #{weightValue, jdbcType=INTEGER}
+  			or
+  			name = #{policyName, jdbcType=VARCHAR}
+  		)
+  		AND status != 3
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from zoom_dt_policy
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.zoom.risk.operating.decision.po.TPolicy" useGeneratedKeys="true" keyProperty="id">
+    insert into zoom_dt_policy (id, scene_no, name, status, weight_value, policy_no, description)
+    values (#{id,jdbcType=BIGINT}, #{sceneNo,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT},
+     #{weightValue,jdbcType=INTEGER}, #{policyNo,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.zoom.risk.operating.decision.po.TPolicy">
+    update zoom_dt_policy
+    set
+      name= #{name,jdbcType=VARCHAR},
+      scene_no = #{sceneNo,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      weight_value = #{weightValue,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+   <update id="updateStatus" parameterType="map">
+		update zoom_dt_policy
+		set status=#{status}
+		where
+			id = #{policyId,jdbcType=BIGINT}
+	</update>
+	
+	
+</mapper>

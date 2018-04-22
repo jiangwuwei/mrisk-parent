@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo" xsi:schemaLocation="http://www.springframework.org/schema/beans
+	           http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	           http://code.alibabatech.com/schema/dubbo 
+	           http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	<!-- 应用信息 -->
+    <dubbo:application name="${dubbo.application.name}" owner="${dubbo.application.owner}" />
+    
+    <!-- 服务分组信息 -->
+    <dubbo:provider group="${dubbo.group}" retries="1" />
+    
+    <!-- 注册中心信息 -->
+    <dubbo:registry address="${dubbo.registry.address}" group="${dubbo.registry.group}"/> 
+    <!-- 协议信息 -->
+	<dubbo:protocol name="${dubbo.protocol.name}" port="${dubbo.protocol.port}" serialization="${dubbo.protocol.serialization}" threads="${dubbo.protocol.threads}" />
+
+	<dubbo:service interface="com.zoom.risk.platform.thirdparty.api.ThirdPartyApi" ref="thirdPartyApi" version="${dubbo.gateway.version}" timeout="${dubbo.protocol.timeout}"></dubbo:service>
+
+	<dubbo:service interface="com.zoom.risk.platform.thirdparty.api.ThirdPartyApi" ref="thirdPartyApi" group="test" version="${dubbo.gateway.version}" timeout="${dubbo.protocol.timeout}"></dubbo:service>
+</beans>

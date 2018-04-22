@@ -1,0 +1,47 @@
+@import "../iconfont/iconfont.css";
+
+html {
+  font-family: "Microsoft YaHei", FreeSans, Arimo, "Droid Sans", "wenquanyi micro hei", "Hiragino Sans GB", "Hiragino Sans GB W3", Arial, sans-serif;
+  _font-family: '宋体';
+  color:#333;
+}
+body,h1,h2,h3,h4,h5,h6,p,blockquote,dl,dt,dd,ul,ol,li,th,td{margin: 0;padding: 0;}
+iframe,frameset,frame{margin:0;padding:0;border:none;}
+h1,h2,h3,h4,h5,h6 {font-weight: 500;}
+ul,ol,li {list-style: none;}
+i{font-style:normal;}
+table {border-collapse: collapse;border-spacing: 0;}
+a {background-color: transparent;text-decoration: none;}
+a:active,a:hover {outline: 0;}
+img {border: 0;}
+input {line-height: normal;}
+input[type="checkbox"],
+input[type="radio"] {
+  box-sizing: border-box;
+  padding: 0;
+}
+textarea {
+  overflow: auto;
+}
+.clear{clear:both;font-size:0;}
+html,body {
+  width: 100%;
+  height: 100%;
+  font-size: 12px;
+}
+a {
+  color: #333;
+}
+.clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  visibility: hidden;
+  clear: both;
+}
+.clearfix {
+  *zoom: 1;
+}
+.left{float:left;}
+.right{float:right;}
+

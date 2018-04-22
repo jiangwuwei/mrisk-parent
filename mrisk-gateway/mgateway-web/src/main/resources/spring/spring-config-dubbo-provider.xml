@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo" xsi:schemaLocation="http://www.springframework.org/schema/beans
+	           http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	           http://code.alibabatech.com/schema/dubbo 
+	           http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	<!-- 应用信息 -->
+    <dubbo:application name="${dubbo.application.name}" owner="${dubbo.application.owner}" />
+    
+    <!-- 服务分组信息 -->
+    <dubbo:provider group="${dubbo.group}" retries="0" />
+    
+    <!-- 注册中心信息 -->
+    <dubbo:registry address="${dubbo.registry.address}" group="${dubbo.registry.group}"/> 
+    <!-- 协议信息 -->
+	<dubbo:protocol name="${dubbo.protocol.name}" port="${dubbo.protocol.port}" serialization="${dubbo.protocol.serialization}" threads="${dubbo.protocol.threads}" />   
+  
+    <!-- 声明需要暴露的服务接口 -->
+    <!-- 风控网关服务 -->
+	<dubbo:service interface="com.zoom.risk.gateway.fraud.api.RiskFraudApi" version="${dubbo.gateway.version}" ref="riskFraudApi" timeout="${dubbo.protocol.timeout}" />
+
+	<dubbo:service interface="com.zoom.risk.gateway.decision.api.RiskDTreeApi" version="${dubbo.gateway.version}" ref="riskDTreeApi" timeout="10000" />
+	<!-- 瑶池服务 -->
+	<dubbo:reference id="jadeDataApi" interface="com.zoom.risk.jade.api.JadeDataApi" version="${dubbo.gateway.version}" group="${dubbo.group}" timeout="1000" retries="0" />
+
+	<!-- 规则引擎核心 -->
+	<dubbo:reference id="ruleEngineApi" interface="com.zoom.risk.platform.engine.api.RuleEngineApi" version="${dubbo.gateway.version}" group="${dubbo.group}" timeout="1000" retries="0" />
+
+	<!-- 决策引擎服务 -->
+	<dubbo:reference id="dtreeEngineApi" interface="com.zoom.risk.platform.decision.api.DTreeEngineApi" version="${dubbo.gateway.version}" group="${dubbo.group}" timeout="${dubbo.dtree.timeout}" />
+
+	<!-- 评分卡引擎服务 -->
+	<dubbo:reference id="scardEngineApi" interface="com.zoom.risk.platform.scard.api.SCardEngineApi" version="${dubbo.gateway.version}" group="${dubbo.group}" timeout="${dubbo.dtree.timeout}" />
+
+
+</beans>

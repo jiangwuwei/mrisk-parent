@@ -1,0 +1,22 @@
+package com.zoom.risk.platform.thirdparty.tencent.service;
+
+import java.util.Map;
+
+/**
+ * @author jiangyulin
+ *Oct 27, 2015
+ */
+public interface ZhiMaEntryService {
+    public static final String serverUrl = "https://openapi.alipay.com/gateway.do";
+    public static String APP_ID = "2017110709781600";
+    public static final String CHARSET = "UTF-8";
+    public static final String JSON = "json";
+    public static final String SIGN_TYPE = "RSA2";
+    public static final String PRODUCT_CODE = "w1010100000000002733";
+    public static final String CERT_TYPE = "IDENTITY_CARD";
+    public static final String APP_PRIVATE_KEY = "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDd5hKvHpmfEcm4Kj38ScG+vXTzL7UuOP2ZHL9uV/UWPoBHLiIfVlUxsNe0TEIb3I05WGju10fUA/1v7P4m9451GyUDp/v/2jWXJRdIq/g7w2UaC//jXUtMBGknwDB5OWhGHqPqCB1OijXcQ4h8VUAfD4UrkONT6cpZBhjFqEHNnoieW1Wcv7ydsainQnCE/NAzXjVOd3KjVXCEMRNEO+FapB+ScISRdklIJ+2GCxqgMuQBtDVsv81SVCc0MnlrCh8onfWMd87Gm6RhWs4b8RkodIQWPl2SQHurQBzPabL1L+lmoaJ5aT+DK1khgJzDhZmEn9gvofR3QGhRDZUplrOdAgMBAAECggEBALEFyeQQ2mdPbojQklDBmqILTNBxP+5XIuFSUNm7q9eKFxYyFKDBZAfXV84LhDXr9nJIOLZJ4pCeekIfZAY8OlbsR9Qp4F0VfOlOesvL/aXX1ME5z3NYSyii4C0JIuKizLAb45Jh1NeCZUOKUMk3zYa5//hohyK7gWUR+xM8jvp0QNH4yWhd66ULvLNB7fchDAUPdhuHg91nnsCVOwAOnKvvvwfTDRoCLrs653rqYHOVeNrGUeui5flVWzrVJXYY3dTU9l0HDk/EqfsPn5vuKtQSuIpm/1bA5AAaAWV0VP3T0NZHIqbtYWzbmVX254Hbe2fdOSrANM98DYB0uMCIPTUCgYEA/sj2gSqsajdk46/KkZ9EIEoSFTmWEYDx1cegncGnQyyetc2bFZLiVTIzwHBZaj+BaB5LfyW+G99nOxhmLlCGee5Fas1a04z6WDINlSsyk3zKZW2KKwi2Bgr+kSfwaxDsCiRPxm0BIfx+2DeTz1LIZDL/dR34LZtlKsUZSxeWUPsCgYEA3vT2i7VZzlBO4sp1ChpoLekdJKypaAsoda8utDAXoMlxCW3I3CKz0NgZWKiwxEMmC9KRwWC2uI/zLBqe/DsPJ6LP671tQbNFrUXDdUbBiN3jsGBJuI8Dkac3/ruTLkXT0agEy4XQQXl30mq+ddvvyX9vNkWNwHSvNjgaEHPqWkcCgYB7fcJlBt78uI6xASKJBI4LrHspSHkhUMNmn9SMwjElEPp4GgjiIwiKzMNisdHU+qTpZ02meg+0CMtLTF8ycZtMfB2vT4uHYBxzJQeKVp6z99dN5BMFGrrHIQsUJiyUaGZP4Bu+jFTxOSXt/Loq0fAJCOLizDzfNiOJ4HCLAgq8gwKBgDOcm1IeCgsDdi9z1IIhOMqf8xohShoGszgC9JnLpDyZRSx8mIm1EtEepUdrzXexX6ZO+WS9ga7Zy94Cz5juBwUS4HTe5eLWoCOLScLlPTn0u5eBwq8RlC7seb7jJyAIFA+tiGagtGPjvYQdJ7fa0PhhIpp6oWTS3hh8BjSW0MJTAoGALcX4Mscirt3LHZm2J8TNlbuOObqH/Ah4y3Pt17tfnh2qWtXB/bz/oLqo/AfgPpXo+EGDttdRO+xG83EhiLv/mt1klikeh6NLMaHecr+AwaxH1KG6dAeydkbpBK36VmBcI5lkvcQlMDVJ/4+NnL1Ij0gg//aQftlEp5vA4yNA7BA=";
+    public static final String ALIPAY_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAs6WRY93q2XpGFUg9pSNjd/HEKS1kXub/Dg54fVDXDhSbpAo64sVqo3NEs7fGYPMtxsHHF+pkkFOHUk/bvzZOB0ZzX7xK8QXv8JuoGEpTx0tSY3gFRsnBVrakoNtzC8QjMZ/QmsgsQeyrT0sQKK9mjapiiPX5iDRJmB7aAym8PWFpeioANn80Vw5cknIJ4GPLsfPTwY9h47SzFMguOFxkmA31uKpHq2Is3I10urYK28FroC5raYW+7QfRbcdmyxHM9gy1C297Ny1nxoyf45EsMhncJ772Zpi6Jag920XPfDve3BUkZoWqT2YwUo1Oo0pS5vRVZ6CzvIWVGPaSvcHNhQIDAQAB";
+
+    public Map<String, Object> invoke(String idCardNumber, String userName, Integer admittanceScore);
+}
+

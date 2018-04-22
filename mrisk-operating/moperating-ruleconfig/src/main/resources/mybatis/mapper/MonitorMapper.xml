@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zoom.risk.operating.ruleconfig.dao.MonitorMapper">
+    <resultMap id="dtDim" type="com.zoom.risk.operating.ruleconfig.model.DtDim">
+        <id column="code" jdbcType="VARCHAR" property="code"/>
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+    </resultMap>
+
+    <resultMap id="dtQuotaTemplate" type="com.zoom.risk.operating.ruleconfig.model.DtQuotaTemplate">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="chinese_name" jdbcType="VARCHAR" property="chineseName"/>
+        <result column="param_name" jdbcType="VARCHAR" property="paramName"/>
+        <result column="data_type" jdbcType="INTEGER" property="dataType"/>
+        <result column="source_id" jdbcType="INTEGER" property="sourceId"/>
+        <result column="request_params" jdbcType="VARCHAR" property="requestParams"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+    </resultMap>
+
+    <resultMap id="dtParamTemplate" type="com.zoom.risk.operating.ruleconfig.model.DtParamTemplate">
+        <result column="id" property="id" javaType="long" jdbcType="BIGINT"/>
+        <result column="chinese_name" property="chineseName" javaType="String" jdbcType="VARCHAR"/>
+        <result column="name" property="name" javaType="String" jdbcType="VARCHAR"/>
+        <result column="data_type" property="dataType" javaType="int" jdbcType="INTEGER"/>
+        <result column="default_value" property="defaultValue" javaType="String" jdbcType="VARCHAR"/>
+        <result column="mandatory" property="mandatory" javaType="int" jdbcType="INTEGER"/>
+        <result column="description" property="description" javaType="String" jdbcType="VARCHAR"/>
+        <result column="modified_date" property="modifiedDate" javaType="java.sql.Timestamp" jdbcType="DATE"/>
+    </resultMap>
+
+    <resultMap id="scardParamMap"   type="java.util.HashMap">
+        <result column="chinese_name" property="chinese_name"/>
+        <result column="param_name" property="param_name" />
+    </resultMap>
+
+
+    <select id="selectAllDtDim" resultMap="dtDim">
+        select
+          code, id, name
+        from zoom_dt_dim
+  </select>
+
+    <select id="selectAllDtQuotaName" resultMap="dtQuotaTemplate">
+        select
+          chinese_name, param_name
+        from zoom_dt_quota_template
+    </select>
+
+    <select id="selectAllDtParamTemplate" resultMap="dtParamTemplate">
+        select
+        *
+        from
+        zoom_service_param_template
+        order by
+        id desc
+    </select>
+
+    <select id="selectMapForScardParam" resultMap="scardParamMap" parameterType="java.lang.Long">
+        select
+        chinese_name , param_name
+        from
+        zoom_sc_params
+        where scard_id = #{scardId, jdbcType=BIGINT}
+    </select>
+</mapper>

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zoom.risk.operating.decision.dao.DtQuotaMapper">
+
+
+    <resultMap id="tquota" type="com.zoom.risk.operating.decision.po.TQuota">
+        <result column="id" property="id" javaType="long" jdbcType="BIGINT"/>
+        <result column="template_id" property="templateId" javaType="long" jdbcType="BIGINT"/>
+        <result column="scene_no" property="sceneNo" javaType="String" jdbcType="VARCHAR"/>
+        <result column="quota_no" property="quotaNo" javaType="String" jdbcType="VARCHAR"/>
+        <result column="chinese_name" property="chineseName" javaType="String" jdbcType="VARCHAR"/>
+        <result column="param_name" property="paramName" javaType="String" jdbcType="VARCHAR"/>
+        <result column="source_type" property="sourceType" javaType="int" jdbcType="INTEGER"/>
+        <result column="data_type" property="dataType" javaType="int" jdbcType="INTEGER"/>
+        <result column="request_params" property="requestParams" javaType="String" jdbcType="VARCHAR"/>
+        <result column="status" property="status" javaType="int" jdbcType="INTEGER"/>
+        <result column="description" property="description" javaType="String" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="tquotaTemplate" type="com.zoom.risk.operating.decision.po.TQuotaTemplate">
+        <result column="id" property="id" javaType="long" jdbcType="BIGINT"/>
+        <result column="source_id" property="sourceId" javaType="int" jdbcType="INTEGER"/>
+        <result column="chinese_name" property="chineseName" javaType="String" jdbcType="VARCHAR"/>
+        <result column="param_name" property="paramName" javaType="String" jdbcType="VARCHAR"/>
+        <result column="source_type" property="sourceType" javaType="int" jdbcType="INTEGER"/>
+        <result column="data_type" property="dataType" javaType="int" jdbcType="INTEGER"/>
+        <result column="request_params" property="requestParams" javaType="String" jdbcType="VARCHAR"/>
+        <result column="description" property="description" javaType="String" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="tquotaTemplateVo" type="com.zoom.risk.operating.decision.vo.QuotaTemplateVo">
+        <result column="id" property="id" javaType="long" jdbcType="BIGINT"/>
+        <result column="source_id" property="sourceId" javaType="int" jdbcType="INTEGER"/>
+        <result column="source_name" property="sourceName" javaType="String" jdbcType="VARCHAR"/>
+        <result column="chinese_name" property="chineseName" javaType="String" jdbcType="VARCHAR"/>
+        <result column="param_name" property="paramName" javaType="String" jdbcType="VARCHAR"/>
+        <result column="source_type" property="sourceType" javaType="int" jdbcType="INTEGER"/>
+        <result column="data_type" property="dataType" javaType="int" jdbcType="INTEGER"/>
+        <result column="request_params" property="requestParams" javaType="String" jdbcType="VARCHAR"/>
+        <result column="description" property="description" javaType="String" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="findDimByCode" resultType="map" parameterType="String">
+        select
+            id, name
+        from
+            zoom_dt_dim
+        where
+            code = #{code,jdbcType=VARCHAR}
+        order by
+          id
+    </select>
+
+    <select id="findQuotaTemplate" resultMap="tquotaTemplateVo">
+        select
+            t.*, d.name as source_name
+        from
+            zoom_dt_quota_template t
+        inner join
+            zoom_dt_dim d
+        on
+           t.source_id = d.id and d.code = 'QuotaSourceType'
+        order by
+            source_id
+    </select>
+
+    <select id="findQuotaTemplateById" resultMap="tquotaTemplate">
+        select
+            *
+        from
+            zoom_dt_quota_template
+        where
+            id = #{id,jdbcType=BIGINT}
+        order by
+            source_id
+    </select>
+
+    <delete id="delQuotaTemplate" parameterType="Long">
+        delete
+        from
+            zoom_dt_quota_template
+        where
+            id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="saveQuotaTemplate" useGeneratedKeys="true">
+        insert into zoom_dt_quota_template(source_id,chinese_name,param_name,source_type, data_type,request_params,description) values
+        (
+            #{template.sourceId},
+            #{template.chineseName},
+            #{template.paramName},
+            #{template.sourceType},
+            #{template.dataType},
+            #{template.requestParams},
+            #{template.description}
+        )
+    </insert>
+
+    <update id="updateQuotaTemplate">
+        update
+            zoom_dt_quota_template
+        set
+            source_id = #{template.sourceId,jdbcType=INTEGER},
+            chinese_name = #{template.chineseName,jdbcType=VARCHAR},
+            param_name = #{template.paramName,jdbcType=VARCHAR},
+            data_type = #{template.dataType,jdbcType=INTEGER},
+            source_type = #{template.sourceType,jdbcType=VARCHAR},
+            description = #{template.description,jdbcType=VARCHAR}
+        where
+          id = #{template.id,jdbcType=BIGINT}
+    </update>
+
+    <select id="findQuotas" resultMap="tquota" parameterType="String">
+        select
+            *
+        from
+            zoom_dt_quota
+        where
+            scene_no = #{sceneNo,jdbcType=VARCHAR}
+        order by
+            param_name
+    </select>
+
+    <insert id="saveQuotasForPolicies" useGeneratedKeys="true">
+        insert into zoom_dt_quota(scene_no, template_id,quota_no,chinese_name,param_name,source_type, data_type, status,request_params,description) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            (
+                #{sceneNo},
+                #{item.templateId},
+                #{item.quotaNo},
+                #{item.chineseName},
+                #{item.paramName},
+                #{item.sourceType},
+                #{item.dataType},
+                2,
+                #{item.requestParams},
+                #{item.description}
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateQuota">
+        update
+            zoom_dt_quota
+        set
+            source_id = #{quota.sourceId,jdbcType=INTEGER},
+            chinese_name = #{quota.chineseName,jdbcType=VARCHAR},
+            param_name = #{quota.paramName,jdbcType=VARCHAR},
+            source_type = #{quota.sourceType,jdbcType=INTEGER},
+            data_type = #{quota.dataType,jdbcType=INTEGER},
+            description = #{description,jdbcType=VARCHAR}
+        where
+            id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateQuotaByParam">
+        update
+            zoom_dt_quota
+        set
+            chinese_name = #{chineseName,jdbcType=VARCHAR},
+            description = #{description,jdbcType=VARCHAR}
+        where
+            id = #{id,jdbcType=BIGINT}
+    </update>
+
+
+    <delete id="delQuota" parameterType="Long">
+        delete
+        from
+            zoom_dt_quota
+        where
+            id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <select id="findQuotaById" resultMap="tquota" parameterType="Long">
+        select
+            *
+        from
+            zoom_dt_quota
+        where
+            id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <update id="updateQuotaParam">
+        update
+            zoom_dt_quota
+        set
+            request_params = #{requestParams,jdbcType=VARCHAR}
+        where
+            id = #{id,jdbcType=BIGINT}
+    </update>
+
+</mapper>

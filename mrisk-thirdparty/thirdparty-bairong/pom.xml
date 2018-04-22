@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.zoom</groupId>
+		<artifactId>mrisk-thirdparty</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>thirdparty-bairong</artifactId>
+	<packaging>jar</packaging>
+
+	<name>${project.artifactId} V:${project.version}</name>
+	<description>百融核诉讼</description>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>com.bairong</groupId>
+			<artifactId>bs-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.zoom</groupId>
+			<artifactId>thirdparty-common</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<classifier>jdk15</classifier>
+		</dependency>
+
+		<!-- Junit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+</project>
