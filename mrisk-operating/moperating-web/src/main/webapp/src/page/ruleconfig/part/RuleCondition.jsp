@@ -9,7 +9,7 @@ isValueInput
 -->
 <ul class='ul-tiaojian clearfix mar20'>
     <li>
-        <select class="input-select" style='width:200px;' name="conditions[${condIndex}].attr" onchange="change_cond_ext(this,'_${condIndex}')">
+        <select class="input-select" style='width:250px;' name="conditions[${condIndex}].attr" onchange="change_cond_ext(this,'_${condIndex}')">
             <c:forEach items="${quotaList}" var="quota">
                 <option value="${quota.quotaNo}" attrType="${quota.quotaDataType}"
                         <c:if test="${attr eq quota.quotaNo}">selected="selected"</c:if>>
@@ -30,7 +30,7 @@ isValueInput
         </select>
     </li>
     <li>
-        <select class="input-select" style='width:60px;'  name="conditions[${condIndex}].oper">
+        <select class="input-select" style='width:85px;'  name="conditions[${condIndex}].oper">
             <option value=">" <c:if test="${oper eq '>'}">selected="selected"</c:if>> 大于</option>
             <option value=">=" <c:if test="${oper eq '>='}">selected="selected"</c:if>>大于等于</option>
             <option value="==" <c:if test="${oper eq '=='}">selected="selected"</c:if>> 等于</option>
