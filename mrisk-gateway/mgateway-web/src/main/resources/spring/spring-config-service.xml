@@ -44,11 +44,16 @@
 	</bean>
 
 	<!--定时调度任务，主要负责规则以及指标等内容变更同步操作-->
-	<task:scheduler id="monitorScheduler" pool-size="2"/>
+	<task:scheduler id="monitorScheduler" pool-size="1"/>
 
 	<task:scheduled-tasks scheduler="monitorScheduler">
 		<task:scheduled ref="threadPoolMonitor" method="monitorThreadPool" fixed-delay="120000" initial-delay="60000"/>
 	</task:scheduled-tasks>
+
+	<!--开启注解调度支持 @Async @Scheduled-->
+	<task:annotation-driven executor="ruleHitActionEvent" mode="proxy" proxy-target-class="true" />
+	<!-- 任务执行器 -->
+	<task:executor id="ruleHitActionEvent" pool-size="5" queue-capacity="200" keep-alive="180"  rejection-policy="DISCARD_OLDEST"/>
 
 	<aop:aspectj-autoproxy proxy-target-class="true"/>
 

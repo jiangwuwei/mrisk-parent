@@ -1,11 +1,11 @@
 package com.zoom.risk.gateway.proxy.engine;
 
+import com.zoom.risk.gateway.hitrule.framework.HitRuleFramework;
 import com.zoom.risk.gateway.proxy.RuleEngineProxy;
 import com.zoom.risk.gateway.service.RiskHelperService;
 import com.zoom.risk.gateway.service.utils.GsonUtil;
 import com.zoom.risk.gateway.service.utils.Utils;
 import com.zoom.risk.gateway.fraud.utils.RiskConstant;
-import com.zoom.risk.gateway.fraud.utils.RiskResult;
 import com.zoom.risk.platform.engine.api.DecisionResponse;
 import com.zoom.risk.platform.engine.api.DecisionRule;
 import com.zoom.risk.platform.engine.api.RuleEngineApi;
@@ -30,10 +30,13 @@ public class LejrRuleEngineProxy implements RuleEngineProxy {
     @Resource(name="riskHelperService")
     private RiskHelperService riskHelperService;
 
+    @Resource(name="hitRuleFramework")
+    private HitRuleFramework hitRuleFramework;
+
     @Override
     public Map<String, Object> evaluate(Map<String, Object> riskData) {
         long time = System.currentTimeMillis();
-        long ruleEngineTime = time;
+        long ruleEngineTime = 0L;
         Map<String,Object> resultMap = new HashMap<>();
         DecisionResponse decisionResponse = ruleEngineApi.evaluate(riskData);
         ruleEngineTime = System.currentTimeMillis() - time;
@@ -45,17 +48,17 @@ public class LejrRuleEngineProxy implements RuleEngineProxy {
             riskData.put(RiskConstant.RESULT_DECISION_CODE, decisionCode +"");
             List<DecisionRule> hitRules = decisionResponse.getHitRules();
             //只有通过时才返回actionCode，返回所有命中规则的actionCode
-            if (decisionCode == RiskResult.RISK_DECISION_CODE_PASS) {
-            	Set<String> actionCodeSet = new HashSet<>();
-                for (DecisionRule rule : hitRules) {
-                    String actionCode = rule.getActionCode();
-                    if (Utils.isNotEmpty(actionCode)) {
-                    	actionCodeSet.add(actionCode);
-                    }
+            Set<String> actionCodeSet = new HashSet<>();
+            for (DecisionRule rule : hitRules) {
+                String actionCode = rule.getActionCode();
+                if (Utils.isNotEmpty(actionCode)) {
+                    actionCodeSet.add(actionCode);
                 }
-                resultMap.put(RiskConstant.RESULT_ACTION_CODE, actionCodeSet);
-                riskData.put(RiskConstant.RESULT_ACTION_CODE, actionCodeSet);
             }
+            //规则结果处理
+            hitRuleFramework.publishEvent(actionCodeSet,riskData);
+            resultMap.put(RiskConstant.RESULT_ACTION_CODE, actionCodeSet);
+            riskData.put(RiskConstant.RESULT_ACTION_CODE, actionCodeSet);
             riskData.put(RiskConstant.HIT_RULES, riskHelperService.convertHitRules(hitRules));
             riskData.put(TAKINGTIME,decisionResponse.getExtendedValue(TAKINGTIME));
         }

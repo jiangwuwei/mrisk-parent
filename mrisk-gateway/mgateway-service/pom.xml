@@ -19,6 +19,11 @@
 			<artifactId>mfraud-api</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>com.zoom</groupId>
+			<artifactId>mgateway-hitrule</artifactId>
+		</dependency>
+
 		<!-- Risk Scard Rpc Api -->
 		<dependency>
 			<groupId>com.zoom</groupId>
