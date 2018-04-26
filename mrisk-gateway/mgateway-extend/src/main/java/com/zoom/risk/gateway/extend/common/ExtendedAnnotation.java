@@ -12,7 +12,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Component
-public @interface ContextExtendedAnnotation {
+public @interface ExtendedAnnotation {
 
     String value() default "";
 

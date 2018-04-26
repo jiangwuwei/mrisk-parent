@@ -1,7 +1,7 @@
 package com.zoom.risk.gateway.extend.service.impl;
 
 import com.zoom.risk.gateway.common.utils.RiskResult;
-import com.zoom.risk.gateway.extend.common.ContextExtendedAnnotation;
+import com.zoom.risk.gateway.extend.common.ExtendedAnnotation;
 import com.zoom.risk.gateway.extend.service.ContextExtension;
 
 import java.util.HashMap;
@@ -11,7 +11,7 @@ import java.util.Map;
  * @author jiangyulin
  *Sep 23, 2015
  */
-@ContextExtendedAnnotation(value = "initDataExtension", order = 1, includes = {RiskResult.RISK_BUSI_TYPE_ANTIFRAUD})
+@ExtendedAnnotation(value = "initDataExtension", order = 1, includes = {RiskResult.RISK_BUSI_TYPE_ANTIFRAUD})
 public class InitDataExtension implements ContextExtension {
     public static final String DEVICE_FINGERPRINT = "deviceFingerprint";
     public static final String DEVICE_FPIP = "deviceFpip";

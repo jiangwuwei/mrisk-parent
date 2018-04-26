@@ -1,7 +1,7 @@
 package com.zoom.risk.gateway.extend.framework;
 
 import com.zoom.risk.gateway.common.utils.RiskResult;
-import com.zoom.risk.gateway.extend.common.ContextExtendedAnnotation;
+import com.zoom.risk.gateway.extend.common.ExtendedAnnotation;
 import com.zoom.risk.gateway.extend.service.ContextExtension;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -44,13 +44,13 @@ public class RiskExtendFrameworkImpl implements com.zoom.risk.gateway.extend.ser
 	}
 
 	public synchronized void initializedExtendList(ApplicationContext applicationContext) {
-		String[] beanNames = applicationContext.getBeanNamesForAnnotation(ContextExtendedAnnotation.class);
+		String[] beanNames = applicationContext.getBeanNamesForAnnotation(ExtendedAnnotation.class);
 		if (beanNames.length > 0) {
 			for (String bean : beanNames) {
 				Object extendBean = applicationContext.getBean(bean);
 				if (extendBean instanceof ContextExtension) {
 					ContextExtension extendService = (ContextExtension) extendBean;
-					String[] busiTypes = extendService.getClass().getAnnotation(ContextExtendedAnnotation.class).includes();
+					String[] busiTypes = extendService.getClass().getAnnotation(ExtendedAnnotation.class).includes();
 					if ( busiTypes != null && busiTypes.length > 0 ) {
 						for (String busiType : busiTypes) {
 							if (busiType.equals(RiskResult.RISK_BUSI_TYPE_ANTIFRAUD)) {
@@ -63,22 +63,22 @@ public class RiskExtendFrameworkImpl implements com.zoom.risk.gateway.extend.ser
 						}
 					}
 				} else {
-					logger.warn("Bean named [{}] use ContextExtendedAnnotation annotation but not implements RiskCreditExtendService interface", bean);
+					logger.warn("Bean named [{}] use ExtendedAnnotation annotation but not implements RiskCreditExtendService interface", bean);
 				}
 			}
 			Collections.sort(antiFraudList, (es1,es2)-> {
-				ContextExtendedAnnotation extendAnnotation1 = es1.getClass().getAnnotation(ContextExtendedAnnotation.class);
-				ContextExtendedAnnotation extendAnnotation2 = es2.getClass().getAnnotation(ContextExtendedAnnotation.class);
+				ExtendedAnnotation extendAnnotation1 = es1.getClass().getAnnotation(ExtendedAnnotation.class);
+				ExtendedAnnotation extendAnnotation2 = es2.getClass().getAnnotation(ExtendedAnnotation.class);
 				return extendAnnotation1.order() - extendAnnotation2.order();
 			});
 			Collections.sort(dtreeList, (es1,es2)-> {
-				ContextExtendedAnnotation extendAnnotation1 = es1.getClass().getAnnotation(ContextExtendedAnnotation.class);
-				ContextExtendedAnnotation extendAnnotation2 = es2.getClass().getAnnotation(ContextExtendedAnnotation.class);
+				ExtendedAnnotation extendAnnotation1 = es1.getClass().getAnnotation(ExtendedAnnotation.class);
+				ExtendedAnnotation extendAnnotation2 = es2.getClass().getAnnotation(ExtendedAnnotation.class);
 				return extendAnnotation1.order() - extendAnnotation2.order();
 			});
 			Collections.sort(scardList, (es1,es2)-> {
-				ContextExtendedAnnotation extendAnnotation1 = es1.getClass().getAnnotation(ContextExtendedAnnotation.class);
-				ContextExtendedAnnotation extendAnnotation2 = es2.getClass().getAnnotation(ContextExtendedAnnotation.class);
+				ExtendedAnnotation extendAnnotation1 = es1.getClass().getAnnotation(ExtendedAnnotation.class);
+				ExtendedAnnotation extendAnnotation2 = es2.getClass().getAnnotation(ExtendedAnnotation.class);
 				return extendAnnotation1.order() - extendAnnotation2.order();
 			});
 			logger.info("initializedExtendList messages : antiFraudList {}, dtreeList {}, scardList {} ", antiFraudList, dtreeList, scardList);
