@@ -1,7 +1,7 @@
 package com.zoom.risk.gateway.monitor;
 
-import com.zoom.risk.gateway.fraud.utils.RiskResult;
-import com.zoom.risk.gateway.service.utils.GsonUtil;
+import com.zoom.risk.gateway.common.utils.RiskResult;
+import com.zoom.risk.gateway.common.utils.GsonUtil;
 import com.zoom.risk.gateway.fraud.utils.RiskConstant;
 import com.zoom.risk.platform.es.service.EsActionService;
 import org.apache.logging.log4j.LogManager;

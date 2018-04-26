@@ -1,13 +1,13 @@
 package com.zoom.risk.gateway.service.impl;
 
 import com.zoom.risk.gateway.proxy.RuleEngineProxy;
-import com.zoom.risk.gateway.service.RiskExtendService;
+import com.zoom.risk.gateway.extend.service.RiskExtendFramework;
 import com.zoom.risk.gateway.service.RiskFraudFacade;
 import com.zoom.risk.gateway.service.RiskHelperService;
-import com.zoom.risk.gateway.service.utils.GsonUtil;
-import com.zoom.risk.gateway.service.utils.Utils;
+import com.zoom.risk.gateway.common.utils.GsonUtil;
+import com.zoom.risk.gateway.common.utils.Utils;
 import com.zoom.risk.gateway.fraud.utils.RiskConstant;
-import com.zoom.risk.gateway.fraud.utils.RiskResult;
+import com.zoom.risk.gateway.common.utils.RiskResult;
 import com.zoom.risk.jade.api.JadeDataApi;
 import com.zoom.risk.platform.common.rpc.RpcResult;
 import com.zoom.risk.platform.common.rpc.RpcResults;
@@ -34,8 +34,8 @@ public class RiskFraudFacadeImpl implements RiskFraudFacade {
 	@Resource(name="jadeDataApi")
 	private JadeDataApi jadeDataApi;
 	
-	@Resource(name="riskExtendService")
-	private RiskExtendService riskExtendService;
+	@Resource(name="riskExtendFramework")
+	private RiskExtendFramework riskExtendFramework;
 
 	@Resource(name="riskPoolExecutor")
 	private ThreadPoolTaskExecutor riskPoolExecutor;
@@ -56,7 +56,7 @@ public class RiskFraudFacadeImpl implements RiskFraudFacade {
 		try {
 			LsManager.getInstance().check();
 			riskId =  riskHelperService.createRiskSystemData(riskScene, riskData, RiskResult.RISK_BUSI_TYPE_ANTIFRAUD);
-			riskExtendService.decorate(riskData, RiskResult.RISK_BUSI_TYPE_ANTIFRAUD);
+			riskExtendFramework.decorate(riskData, RiskResult.RISK_BUSI_TYPE_ANTIFRAUD);
             final String originalInputJson = GsonUtil.getGson().toJson(riskData);
             logger.info("RiskGateway original input: [{}]",originalInputJson );
             Map<String, Object> checkResult = zoomRuleEngine.evaluate(riskData);

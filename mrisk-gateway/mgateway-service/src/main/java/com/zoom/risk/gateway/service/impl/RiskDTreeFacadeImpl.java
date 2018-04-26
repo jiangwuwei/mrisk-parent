@@ -2,12 +2,12 @@ package com.zoom.risk.gateway.service.impl;
 
 import com.google.gson.reflect.TypeToken;
 import com.zoom.risk.gateway.service.RiskDTreeFacade;
-import com.zoom.risk.gateway.service.RiskExtendService;
+import com.zoom.risk.gateway.extend.service.RiskExtendFramework;
 import com.zoom.risk.gateway.service.RiskHelperService;
-import com.zoom.risk.gateway.service.utils.GsonUtil;
-import com.zoom.risk.gateway.service.utils.Utils;
+import com.zoom.risk.gateway.common.utils.GsonUtil;
+import com.zoom.risk.gateway.common.utils.Utils;
 import com.zoom.risk.gateway.fraud.utils.RiskConstant;
-import com.zoom.risk.gateway.fraud.utils.RiskResult;
+import com.zoom.risk.gateway.common.utils.RiskResult;
 import com.zoom.risk.platform.common.rpc.RpcResult;
 import com.zoom.risk.platform.common.rpc.RpcResults;
 import com.zoom.risk.platform.ctr.util.LsManager;
@@ -45,8 +45,8 @@ public class RiskDTreeFacadeImpl implements RiskDTreeFacade {
 	@Resource(name="riskHelperService")
 	private RiskHelperService riskHelperService;
 
-	@Resource(name="riskExtendService")
-	private RiskExtendService riskExtendService;
+	@Resource(name="riskExtendFramework")
+	private RiskExtendFramework riskExtendFramework;
 
 	@Override
 	public RpcResult<Map<String,Object>> evaluate(Map<String,Object> riskData){
@@ -61,7 +61,7 @@ public class RiskDTreeFacadeImpl implements RiskDTreeFacade {
             final String originalInputJson = GsonUtil.getGson().toJson(riskData);
             logger.info("RiskDTreeFacade original input: [{}]",originalInputJson );
 			//黑名单
-			riskExtendService.decorate(riskData, RiskResult.RISK_BUSI_TYPE_DECISION_TREE);
+			riskExtendFramework.decorate(riskData, RiskResult.RISK_BUSI_TYPE_DECISION_TREE);
 			DTreeResponse response = dtreeEngineApi.evaluate(riskData);
 			Map<String,Object> checkResult = new HashMap<>();
 			checkResult.put(RiskConstant.RISK_ID, riskId);

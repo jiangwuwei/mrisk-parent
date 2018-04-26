@@ -1,10 +1,10 @@
 package com.zoom.risk.gateway.service.impl;
 
 import com.zoom.risk.gateway.service.RiskHelperService;
-import com.zoom.risk.gateway.service.utils.Utils;
+import com.zoom.risk.gateway.common.utils.Utils;
 import com.zoom.risk.gateway.fraud.utils.RiskConstant;
-import com.zoom.risk.gateway.fraud.utils.RiskResult;
-import com.zoom.risk.gateway.fraud.utils.RiskUUIDFactory;
+import com.zoom.risk.gateway.common.utils.RiskResult;
+import com.zoom.risk.gateway.common.utils.RiskUUIDFactory;
 import com.zoom.risk.platform.common.rpc.RpcResult;
 import com.zoom.risk.platform.common.rpc.RpcResults;
 import com.zoom.risk.platform.engine.api.DecisionRule;

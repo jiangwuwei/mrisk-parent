@@ -17,6 +17,7 @@
 		<module>mgateway-web</module>
 		<module>mgateway-common</module>
 		<module>mgateway-hitrule</module>
+		<module>mgateway-extend</module>
 	</modules>
 
 	<dependencyManagement>
@@ -24,6 +25,11 @@
 			<dependency>
 				<groupId>com.zoom</groupId>
 				<artifactId>mgateway-service</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.zoom</groupId>
+				<artifactId>mgateway-extend</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>

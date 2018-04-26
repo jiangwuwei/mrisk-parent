@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.zoom.risk.gateway.service.utils;
+package com.zoom.risk.gateway.common.utils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

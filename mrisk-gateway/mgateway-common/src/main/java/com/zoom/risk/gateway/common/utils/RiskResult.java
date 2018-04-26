@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.zoom.risk.gateway.fraud.utils;
+package com.zoom.risk.gateway.common.utils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,14 +39,14 @@ public class RiskResult {
 	public static final String RISK_TYPE_MONITOR = "1";     //risk_monitor 索引
 	public static final String RISK_TYPE_EVENT = "2";       //risk_event   事件索引
 
-
+	public static final String RESULT_DECISION_CODE = "decisionCode";
+	public static final String RESULT_ACTION_CODE = "actionCode";
 
 
 	public static Map<String,Object> getDefaultResult(){
 		Map<String,Object> defaultResult = new HashMap<String,Object>();
-		defaultResult.put(RiskConstant.RESULT_DECISION_CODE, RISK_DECISION_CODE_PASS);
-		defaultResult.put(RiskConstant.RESULT_ACTION_CODE, null);
-		defaultResult.put(RiskConstant.RESULT_RULES_CODE, null);
+		defaultResult.put(RESULT_DECISION_CODE, RISK_DECISION_CODE_PASS);
+		defaultResult.put(RESULT_ACTION_CODE, null);
 		return defaultResult;
 	}
 

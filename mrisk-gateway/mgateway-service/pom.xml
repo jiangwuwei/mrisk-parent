@@ -24,6 +24,11 @@
 			<artifactId>mgateway-hitrule</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>com.zoom</groupId>
+			<artifactId>mgateway-extend</artifactId>
+		</dependency>
+
 		<!-- Risk Scard Rpc Api -->
 		<dependency>
 			<groupId>com.zoom</groupId>

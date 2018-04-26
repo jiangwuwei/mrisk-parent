@@ -1,4 +1,4 @@
-package com.zoom.risk.gateway.fraud.utils;
+package com.zoom.risk.gateway.common.utils;
 
 import java.util.UUID;
 

@@ -1,12 +1,12 @@
 package com.zoom.risk.gateway.service.impl;
 
-import com.zoom.risk.gateway.fraud.utils.RiskResult;
+import com.zoom.risk.gateway.common.utils.RiskResult;
 import com.zoom.risk.gateway.scard.utils.SCardConstant;
-import com.zoom.risk.gateway.service.RiskExtendService;
+import com.zoom.risk.gateway.extend.service.RiskExtendFramework;
 import com.zoom.risk.gateway.service.RiskHelperService;
 import com.zoom.risk.gateway.service.RiskSCardFacade;
-import com.zoom.risk.gateway.service.utils.GsonUtil;
-import com.zoom.risk.gateway.service.utils.Utils;
+import com.zoom.risk.gateway.common.utils.GsonUtil;
+import com.zoom.risk.gateway.common.utils.Utils;
 import com.zoom.risk.platform.common.rpc.RpcResult;
 import com.zoom.risk.platform.common.rpc.RpcResults;
 import com.zoom.risk.platform.scard.api.SCardEngineApi;
@@ -45,8 +45,8 @@ public class RiskSCardFacadeImpl implements RiskSCardFacade {
 	@Resource(name="riskHelperService")
 	private RiskHelperService riskHelperService;
 
-	@Resource(name="riskExtendService")
-	private RiskExtendService riskExtendService;
+	@Resource(name="riskExtendFramework")
+	private RiskExtendFramework riskExtendFramework;
 
 	@Override
 	public RpcResult<Map<String,Object>> evaluate(Map<String,Object> riskData){
@@ -60,7 +60,7 @@ public class RiskSCardFacadeImpl implements RiskSCardFacade {
             final String originalInputJson = GsonUtil.getGson().toJson(riskData);
             logger.info("RiskDTreeFacade original input: [{}]",originalInputJson );
 			//黑名单
-			riskExtendService.decorate(riskData, RiskResult.RISK_BUSI_TYPE_SCARD);
+			riskExtendFramework.decorate(riskData, RiskResult.RISK_BUSI_TYPE_SCARD);
 			ScoreCardResponse response = scardEngineApi.evaluate(riskData);
 			Map<String,Object> checkResult = new HashMap<>();
 			checkResult.put(SCardConstant.RISK_ID, riskId);

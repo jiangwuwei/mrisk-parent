@@ -1,4 +1,4 @@
-package com.zoom.risk.gateway.service.utils;
+package com.zoom.risk.gateway.common.utils;
 
 import com.zoom.risk.platform.ctr.util.LsManager;
 

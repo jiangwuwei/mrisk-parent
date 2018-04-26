@@ -1,4 +1,4 @@
-package com.zoom.risk.gateway.service.utils;
+package com.zoom.risk.gateway.common.utils;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

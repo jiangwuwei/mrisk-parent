@@ -1,4 +1,4 @@
-<%@ page import="com.zoom.risk.gateway.service.utils.Machines" %>
+<%@ page import="com.zoom.risk.gateway.common.utils.Machines" %>
 <%@page language="java" pageEncoding="utf-8" contentType="text/html"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
