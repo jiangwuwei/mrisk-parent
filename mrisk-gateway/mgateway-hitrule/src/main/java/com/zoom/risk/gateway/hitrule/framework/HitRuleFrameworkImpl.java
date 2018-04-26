@@ -18,7 +18,7 @@ import java.util.Set;
 
 /**
  * @author jiangyulin
- *May 1, 2018
+ *May 1, 2016
  */
 @Service("hitRuleFramework")
 public class HitRuleFrameworkImpl implements HitRuleFramework, ApplicationListener<ContextRefreshedEvent>, ApplicationContextAware {

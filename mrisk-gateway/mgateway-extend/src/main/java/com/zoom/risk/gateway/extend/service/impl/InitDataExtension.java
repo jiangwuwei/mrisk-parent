@@ -9,7 +9,7 @@ import java.util.Map;
 
 /**
  * @author jiangyulin
- *Sep 23, 2015
+ *Sep 23, 2016
  */
 @ExtendedAnnotation(value = "initDataExtension", order = 1, includes = {RiskResult.RISK_BUSI_TYPE_ANTIFRAUD})
 public class InitDataExtension implements ContextExtension {

@@ -7,7 +7,7 @@ import java.util.Set;
 
 /**
  * @author jiangyulin
- *May 1, 2018
+ *May 1, 2016
  */
 public class HitRuleEvent extends ApplicationEvent {
     private Set<String> actionCodes;

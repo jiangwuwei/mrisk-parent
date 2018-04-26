@@ -9,7 +9,7 @@ import java.util.Random;
 
 /**
  * @author jiangyulin
- *Sep 23, 2015
+ *Sep 23, 2016
  */
 @ExtendedAnnotation(value = "challengeNumberExtension",order = 3, includes = {RiskResult.RISK_BUSI_TYPE_ANTIFRAUD,RiskResult.RISK_BUSI_TYPE_DECISION_TREE,RiskResult.RISK_BUSI_TYPE_SCARD})
 public class ChallengeNumberExtension implements ContextExtension {

@@ -6,7 +6,7 @@ import java.lang.annotation.*;
 
 /**
  * @author jiangyulin
- *Sep 23, 2015
+ *Sep 23, 2016
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

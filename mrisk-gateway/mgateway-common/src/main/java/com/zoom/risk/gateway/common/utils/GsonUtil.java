@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.zoom.risk.gateway.common.utils;
 
 import com.google.gson.Gson;
