@@ -3,6 +3,7 @@ package com.zoom.risk.gateway.extend.framework;
 import com.zoom.risk.gateway.common.utils.RiskResult;
 import com.zoom.risk.gateway.extend.common.ExtendedAnnotation;
 import com.zoom.risk.gateway.extend.service.ContextExtension;
+import com.zoom.risk.gateway.extend.service.RiskExtendFramework;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.ApplicationContext;
@@ -20,7 +21,7 @@ import java.util.Map;
  *Oct 25, 2016
  */
 @Service("riskExtendFramework")
-public class RiskExtendFrameworkImpl implements com.zoom.risk.gateway.extend.service.RiskExtendFramework, ApplicationListener<ContextRefreshedEvent> {
+public class RiskExtendFrameworkImpl implements RiskExtendFramework, ApplicationListener<ContextRefreshedEvent> {
 	private static final Logger logger = LogManager.getLogger(RiskExtendFrameworkImpl.class);
 	private List<ContextExtension> antiFraudList = new ArrayList<>();
 	private List<ContextExtension> dtreeList = new ArrayList<>();
