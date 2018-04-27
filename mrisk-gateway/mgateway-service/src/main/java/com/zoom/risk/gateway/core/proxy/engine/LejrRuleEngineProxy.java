@@ -57,8 +57,8 @@ public class LejrRuleEngineProxy implements RuleEngineProxy {
             }
             //规则结果处理
             hitRuleFramework.publishEvent(actionCodeSet,riskData);
-            resultMap.put(RiskConstant.RESULT_ACTION_CODE, actionCodeSet);
-            riskData.put(RiskConstant.RESULT_ACTION_CODE, actionCodeSet);
+            resultMap.put(RiskConstant.RESULT_ACTION_CODES, actionCodeSet);
+            riskData.put(RiskConstant.RESULT_ACTION_CODES, actionCodeSet);
             riskData.put(RiskConstant.HIT_RULES, riskHelperService.convertHitRules(hitRules));
             riskData.put(TAKINGTIME,decisionResponse.getExtendedValue(TAKINGTIME));
         }

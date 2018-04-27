@@ -67,9 +67,9 @@ public class RiskDTreeFacadeImpl implements RiskDTreeFacade {
 			checkResult.put(RiskConstant.RISK_ID, riskId);
 			if ( response.isOK() ) {
 				checkResult.put(RiskConstant.RESULT_DECISION_CODE, response.getDecisionCode());
-				checkResult.put(RiskConstant.RESULT_ACTION_CODE, response.getActionCode());
+				checkResult.put(RiskConstant.RESULT_ACTION_CODES, response.getActionCode());
 				riskData.put(RiskConstant.RESULT_DECISION_CODE, response.getDecisionCode() +"");
-				riskData.put(RiskConstant.RESULT_ACTION_CODE, response.getActionCode());
+				riskData.put(RiskConstant.RESULT_ACTION_CODES, response.getActionCode());
 				riskData.put(TAKINGTIME,response.getExtendedValue(TAKINGTIME));
 				if ( riskData.containsKey(DEBUG)) {
 					//主要是过滤null对象

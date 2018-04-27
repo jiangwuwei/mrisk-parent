@@ -22,7 +22,7 @@ public interface RiskConstant {
 	public static final String PLATFORM_ANDROID = "ANDROID";
 	
 	public static final String RESULT_DECISION_CODE = "decisionCode";
-	public static final String RESULT_ACTION_CODE = "actionCode";
+	public static final String RESULT_ACTION_CODES = "actionCodes";
 	public static final String RESULT_RULES_CODE = "rulesCode";
 	
 	public static final String DEVICE_FINGERPRINT = "deviceFingerprint";
