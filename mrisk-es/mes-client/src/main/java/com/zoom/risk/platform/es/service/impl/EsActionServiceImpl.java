@@ -127,7 +127,7 @@ public class EsActionServiceImpl implements EsActionService {
 	 */
 	protected boolean createIndex(String index, String docId, String source, String indexType) {
 		Client client = esClientService.getClient();
-		logger.info("CreateIndex : before saving to es , index:{}, type: {} and json data : {}", index, indexType, source);
+		//logger.info("CreateIndex : before saving to es , index:{}, type: {} and json data : {}", index, indexType, source);
 		IndexRequestBuilder builder = client.prepareIndex(index,  indexType , docId);
 		builder.setSource(source);
 		IndexResponse  response = builder.execute().actionGet();
