@@ -1,4 +1,4 @@
-package com.ctr;
+package com.zoom.risk.platform.ctr;
 
 public class KeyPairs {
     public static final String PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAn4KO905Zlw8JsS44ZCOUQ8htuBFoKcszwZsh/6UTO8TmD7NzpUqUKSVgFfbiRQNID0bWhrl1EvaAhAbop+AaJGTPuKn22+UF2cwYRmRXhNRNT3kO+xWUwgdSv4JZj29qhK6bbnCD2IarhHJ6tDjugskb3NRw5nIOyzNt/oy1coStdJTZtS5NdGu8UOzbx/e6InA9xSTPAxCKTBEpTYilW93wOHcPlWMy01g9+fQDWJmW/Mqajw2otW3OHhvt6pdF0YILR2KuM0f5Fr+oJXqDoqi1pzYau4uVXUDNj02mE5iJs+bEGOZ8DUUCnn3tQSsHjShuPTz71OjP9fMy0o+GWwIDAQAB";

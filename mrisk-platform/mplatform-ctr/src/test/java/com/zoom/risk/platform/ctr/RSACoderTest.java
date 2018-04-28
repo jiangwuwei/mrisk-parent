@@ -1,4 +1,4 @@
-package com.ctr;
+package com.zoom.risk.platform.ctr;
 
 import com.zoom.risk.platform.ctr.util.RSACoder;
 
