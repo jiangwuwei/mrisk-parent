@@ -22,7 +22,7 @@ import java.util.Map;
  *Oct 25, 2015
  */
 
-@Service("baiRongEntryService")
+@Service("baiRongBaseEntryService")
 public class BaiRongBaseServiceImpl implements BaiRongEntryService {
     private static final Logger logger = LogManager.getLogger(BaiRongBaseServiceImpl.class);
 

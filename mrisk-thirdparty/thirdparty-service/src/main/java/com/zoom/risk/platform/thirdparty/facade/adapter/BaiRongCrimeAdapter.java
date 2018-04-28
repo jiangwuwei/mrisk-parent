@@ -1,6 +1,7 @@
 package com.zoom.risk.platform.thirdparty.facade.adapter;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.zoom.risk.platform.common.rpc.RpcResult;
 import com.zoom.risk.platform.ctr.util.LsManager;
 import com.zoom.risk.platform.thirdparty.bairong.service.BaiRongEntryService;
@@ -11,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -18,13 +20,12 @@ import java.util.Map;
  *Oct 26, 2015
  */
 @Invoker(value="baiRongThirdpartyAdapter",serviceName = "baiRongEntryService")
-public class BaiRongThirdpartyAdapter implements InvokerService {
-    private static final Logger logger = LogManager.getLogger(BaiRongThirdpartyAdapter.class);
+public class BaiRongCrimeAdapter implements InvokerService {
+    private static final Logger logger = LogManager.getLogger(BaiRongCrimeAdapter.class);
 
-    @Resource(name="baiRongEntryService")
-    private BaiRongEntryService baiRongEntryService;
-    @Resource(name="baiRongMockEntryService")
-    private BaiRongEntryService baiRongMockEntryService;
+    @Resource(name="baiRongCrimeService")
+    private BaiRongEntryService baiRongCrimeService;
+
     @Value("${useMock}")
     private boolean useMock;
 
@@ -35,18 +36,24 @@ public class BaiRongThirdpartyAdapter implements InvokerService {
         String mobile = String.valueOf(riskInput.get("mobile"));
         String userName = String.valueOf(riskInput.get("userName"));
         String idCardNumber = String.valueOf(riskInput.get("idCardNumber"));
-        BaiRongEntryService realEntryService = baiRongEntryService;
+        BaiRongEntryService realEntryService = baiRongCrimeService;
         if(useMock){
-            realEntryService = baiRongMockEntryService;
-        }
-        try {
-            Map<String, Object> result = realEntryService.invoke(idCardNumber, userName, mobile);
-            rpcResult.setData(result);
-        }catch (Exception e){
-            rpcResult.setErrorCode(RpcResult.ERROR_SERVER_500);
-           logger.error("", e);
+            rpcResult.setData(mockMap());
+        }else {
+            try {
+                Map<String, Object> result = realEntryService.invoke(idCardNumber, userName, mobile);
+                rpcResult.setData(result);
+            } catch (Exception e) {
+                rpcResult.setErrorCode(RpcResult.ERROR_SERVER_500);
+                logger.error("", e);
+            }
         }
         logger.info("BaiRongThirdpartyAdapter's result Map : {}", JSON.toJSONString(rpcResult));
         return rpcResult;
+    }
+
+    private Map<String,Object> mockMap(){
+        String crimeInfo = "{ \"personZT\": \"1\", \"personXD\": \"0\", \"personSD\": \"1\", \"personWF\": \"1\" }";
+        return JSON.parseObject(crimeInfo,new TypeReference<HashMap<String,Object>>(){});
     }
 }

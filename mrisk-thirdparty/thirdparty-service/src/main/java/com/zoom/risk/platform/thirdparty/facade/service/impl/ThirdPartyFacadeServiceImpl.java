@@ -33,8 +33,7 @@ public class ThirdPartyFacadeServiceImpl implements ThirdPartyFacadeService, App
     @Override
     public RpcResult<Map<String, Object>> invoke (String serviceName, Map<String, Object> riskInput){
         RpcResult<Map<String, Object>> rpcResult = null;
-        String riskId = String.valueOf(riskInput.get("riskId"));
-        threadLocalService.putRiskId(riskId);
+        threadLocalService.putRiskId((String)riskInput.get("riskId"));
         threadLocalService.putServiceName(serviceName);
         threadLocalService.putScene((String) riskInput.get("scene"));
         try {

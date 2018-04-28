@@ -15,9 +15,9 @@ import java.util.Map;
  *Oct 25, 2015
  */
 
-@Service("baiRongEntryService")
-public class BaiRongCourtServiceImpl extends BaiRongBaseServiceImpl implements BaiRongEntryService {
-    private static final Logger logger = LogManager.getLogger(BaiRongCourtServiceImpl.class);
+@Service("baiRongCourtService")
+public class BaiRongCourtEntryServiceImpl extends BaiRongBaseServiceImpl implements BaiRongEntryService {
+    private static final Logger logger = LogManager.getLogger(BaiRongCourtEntryServiceImpl.class);
 
     /**
      * 指标查询服务

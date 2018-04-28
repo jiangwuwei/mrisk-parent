@@ -3,11 +3,9 @@ package com.zoom.risk.platform.thirdparty.bairong.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.google.gson.reflect.TypeToken;
 import com.zoom.risk.platform.thirdparty.bairong.service.BaiRongEntryService;
-import net.sf.json.JSONObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,9 +15,9 @@ import java.util.Map;
  *Oct 25, 2015
  */
 
-@Service("baiRongEntryService")
-public class BaiRongCrimeServiceImpl extends BaiRongBaseServiceImpl implements BaiRongEntryService{
-    private static final Logger logger = LogManager.getLogger(BaiRongCrimeServiceImpl.class);
+@Service("baiRongCrimeService")
+public class BaiRongCrimeEntryServiceImpl extends BaiRongBaseServiceImpl implements BaiRongEntryService{
+    private static final Logger logger = LogManager.getLogger(BaiRongCrimeEntryServiceImpl.class);
 
     /**
      * 指标查询服务
