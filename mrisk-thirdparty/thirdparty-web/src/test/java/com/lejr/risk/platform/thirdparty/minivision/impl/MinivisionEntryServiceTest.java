@@ -1,7 +1,7 @@
 package com.zoom.risk.platform.thirdparty.minivision.impl;
 
 
-import com.zoom.risk.platform.thirdparty.minivision.service.MinivisionEntryService;
+import com.zoom.risk.platform.thirdparty.minivision.service.MinivisionBlacklistEntryService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -15,7 +15,7 @@ import java.util.Map;
 public class MinivisionEntryServiceTest {
 
     @Resource(name="minivisionEntryService")
-    private MinivisionEntryService minivisionEntryService;
+    private MinivisionBlacklistEntryService minivisionEntryService;
 
     @Test
     public void test(){

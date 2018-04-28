@@ -5,26 +5,25 @@ import com.zoom.risk.platform.common.rpc.RpcResult;
 import com.zoom.risk.platform.ctr.util.LsManager;
 import com.zoom.risk.platform.thirdparty.common.annotation.Invoker;
 import com.zoom.risk.platform.thirdparty.common.service.InvokerService;
-import com.zoom.risk.platform.thirdparty.minivision.service.MinivisionBlacklistEntryService;
+import com.zoom.risk.platform.thirdparty.minivision.service.MinivisionEntryService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
  * @author jiangyulin
  *Oct 26, 2015
  */
-@Invoker(value="minivisionThirdpartyAdapter",serviceName = "minivisionEntryService")
-public class MinivisionThirdpartyAdapter implements InvokerService {
-    private static final Logger logger = LogManager.getLogger(MinivisionThirdpartyAdapter.class);
+@Invoker(value="minivisionCrimeAdapter",serviceName = "minivisionCrimeEntryService")
+public class MinivisionCrimeAdapter implements InvokerService {
+    private static final Logger logger = LogManager.getLogger(MinivisionCrimeAdapter.class);
 
-    @Resource(name="minivisionEntryService")
-    private MinivisionBlacklistEntryService minivisionEntryService;
-    @Resource(name="minivisionMockEntryService")
-    private MinivisionBlacklistEntryService minivisionMockEntryService;
+    @Resource(name="minivisionCrimeService")
+    private MinivisionEntryService minivisionCrimeService;
     @Value("${useMock}")
     private boolean useMock;
 
@@ -35,18 +34,24 @@ public class MinivisionThirdpartyAdapter implements InvokerService {
         String mobile = String.valueOf(riskInput.get("mobile"));
         String userName = String.valueOf(riskInput.get("userName"));
         String idCardNumber = String.valueOf(riskInput.get("idCardNumber"));
-        MinivisionBlacklistEntryService realEntryService = minivisionEntryService;
         if(useMock){
-            realEntryService = minivisionMockEntryService;
+            rpcResult.setData(invokeMock());
+        }else {
+            try {
+                Map<String, Object> result = minivisionCrimeService.invoke(idCardNumber, userName, mobile);
+                rpcResult.setData(result);
+            } catch (Exception e) {
+                rpcResult.setErrorCode(RpcResult.ERROR_SERVER_500);
+                logger.error("", e);
+            }
         }
-        try {
-            Map<String, Object> result = realEntryService.invoke(idCardNumber, userName, mobile);
-            rpcResult.setData(result);
-        }catch (Exception e){
-            rpcResult.setErrorCode(RpcResult.ERROR_SERVER_500);
-           logger.error("", e);
-        }
-        logger.info("MinivisionThirdpartyAdapter's result Map : {}", JSON.toJSONString(rpcResult));
+        logger.info("MinivisionCrimeAdapter's result Map : {}", JSON.toJSONString(rpcResult));
         return rpcResult;
+    }
+
+    private Map<String, Object> invokeMock() {
+        Map<String,Object> resultMap = new HashMap<>();
+        resultMap.put("crimeHit","1");
+        return resultMap;
     }
 }
