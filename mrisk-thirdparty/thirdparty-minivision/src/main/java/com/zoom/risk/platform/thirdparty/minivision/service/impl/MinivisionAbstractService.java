@@ -3,10 +3,13 @@ package com.zoom.risk.platform.thirdparty.minivision.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zoom.risk.platform.common.httpclient.HttpClientService;
+import com.zoom.risk.platform.thirdparty.common.service.ThreadLocalService;
+import com.zoom.risk.platform.thirdparty.dbservice.ThirdPartyDbService;
 import com.zoom.risk.platform.thirdparty.minivision.service.MinivisionEntryService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -34,6 +37,15 @@ public class MinivisionAbstractService implements MinivisionEntryService {
 
     @Resource(name="minivisionHttpClientService")
     private HttpClientService httpClientService;
+
+    @Resource(name="thirdPartyPoolExecutor")
+    protected ThreadPoolTaskExecutor thirdPartyPoolExecutor;
+
+    @Resource(name="threadLocalService")
+    protected ThreadLocalService threadLocalService;
+
+    @Resource(name="thirdPartyDbService")
+    private ThirdPartyDbService thirdPartyDbService;
 
     public static final String BlacklistHit = "blacklistHit";
 
@@ -71,4 +83,21 @@ public class MinivisionAbstractService implements MinivisionEntryService {
     public Map<String, Object> invoke(String idCardNumber, String name, String mobile) {
         return null;
     }
+
+    protected void saveThirdpartyLog(String idCardNumber, String userName, String mobile, String responseJson ,long takingTime){
+        final String riskId = threadLocalService.getRiskId();
+        final String serviceName = threadLocalService.getServiceName();
+        final String scene = threadLocalService.getScene();
+        thirdPartyPoolExecutor.submit(()->{
+            Map<String, String> requestMap = new HashMap<>();
+            requestMap.put("idCardNumber",idCardNumber);
+            requestMap.put("mobile",mobile);
+            requestMap.put("userName",userName);
+            String requestJson = JSON.toJSONString(requestMap);
+            thirdPartyDbService.saveThirdpartyLog(serviceName,scene,riskId,requestJson,responseJson,takingTime);
+        });
+    }
+
+
+
 }

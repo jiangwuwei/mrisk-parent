@@ -49,7 +49,7 @@ public class BaiRongCourtServiceImpl extends BaiRongBaseServiceImpl implements B
                         }
                     }
                 }
-                super.saveThirdpartyLog(idCardNumber, userName, mobile, courtResultJson, null,  System.currentTimeMillis()-time );
+                super.saveThirdpartyLog(idCardNumber, userName, mobile, courtResultJson, (System.currentTimeMillis()-time) );
             }catch (Exception e){
                 logger.error("", e);
             }

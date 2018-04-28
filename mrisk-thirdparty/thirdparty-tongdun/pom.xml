@@ -21,6 +21,11 @@
 
 		<dependency>
 			<groupId>com.zoom</groupId>
+			<artifactId>thirdparty-db</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.zoom</groupId>
 			<artifactId>thirdparty-common</artifactId>
 		</dependency>
 
@@ -30,6 +35,8 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+
 
 	</dependencies>
 

@@ -53,7 +53,7 @@ public class BaiRongCrimeServiceImpl extends BaiRongBaseServiceImpl implements B
                         }
                     }
                 }
-                super.saveThirdpartyLog(idCardNumber, userName, mobile, null, badInfoResultJson,  System.currentTimeMillis()-time );
+                super.saveThirdpartyLog(idCardNumber, userName, mobile, badInfoResultJson,  System.currentTimeMillis()-time );
             }catch (Exception e){
                 logger.error("", e);
             }

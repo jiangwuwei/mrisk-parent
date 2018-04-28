@@ -24,6 +24,7 @@ public class MinivisionBlacklistEntryServiceImpl extends MinivisionAbstractServi
         Map<String,Object> resultMap = new HashMap<>();
         resultMap.put(BlacklistHit,"-1");
         try{
+            long time = System.currentTimeMillis();
             String blackListResponse = this.sendBlackListRequest(idCardNumber,name,mobile);
             logger.info("BlackListService Response : {}",blackListResponse);
             Map<String,Object> blackListMap = (Map<String, Object>) JSON.parse(blackListResponse);
@@ -31,6 +32,7 @@ public class MinivisionBlacklistEntryServiceImpl extends MinivisionAbstractServi
             if(!StringUtils.isEmpty(blackListResult)){
                 resultMap.put(BlacklistHit,blackListResult);
             }
+            super.saveThirdpartyLog(idCardNumber,name,mobile,JSON.toJSONString(resultMap),System.currentTimeMillis()-time);
         }catch (Exception e){
             logger.error("",e);
         }

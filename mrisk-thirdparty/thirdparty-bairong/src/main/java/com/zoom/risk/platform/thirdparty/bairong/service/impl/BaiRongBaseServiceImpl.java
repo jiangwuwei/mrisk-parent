@@ -2,9 +2,9 @@ package com.zoom.risk.platform.thirdparty.bairong.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.bfd.facade.MerchantServer;
-import com.google.gson.reflect.TypeToken;
 import com.zoom.risk.platform.thirdparty.bairong.service.BaiRongEntryService;
 import com.zoom.risk.platform.thirdparty.common.service.ThreadLocalService;
+import com.zoom.risk.platform.thirdparty.dbservice.ThirdPartyDbService;
 import net.sf.json.JSONObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -47,6 +47,9 @@ public class BaiRongBaseServiceImpl implements BaiRongEntryService {
 
     @Resource(name="threadLocalService")
     protected ThreadLocalService threadLocalService;
+
+    @Resource(name="thirdPartyDbService")
+    private ThirdPartyDbService thirdPartyDbService;
 
     @Override
     public Map<String, Object> invoke(String idCardNumber, String userName, String mobile) {
@@ -105,25 +108,18 @@ public class BaiRongBaseServiceImpl implements BaiRongEntryService {
         return tokenId;
     }
 
-    protected void saveThirdpartyLog(String idCardNumber, String userName, String mobile, String courtResultJson, String badInfoResultJson, long takingTime){
+    protected void saveThirdpartyLog(String idCardNumber, String userName, String mobile, String responseJson, long takingTime){
         final String riskId = threadLocalService.getRiskId();
-        //final String serviceName = threadLocalService.getServiceName();
-        //final String scene = threadLocalService.getScene();
+        final String serviceName = threadLocalService.getServiceName();
+        final String scene = threadLocalService.getScene();
         thirdPartyPoolExecutor.submit(()->{
             Map<String, String> requestMap = new HashMap<>();
             Map<String, String> responseMap = new HashMap<>();
             requestMap.put("idCardNumber",idCardNumber);
             requestMap.put("mobile",mobile);
             requestMap.put("userName",userName);
-            String responseJson = courtResultJson;
-            if ( courtResultJson != null ){
-                responseJson = courtResultJson;
-            }
-            if ( badInfoResultJson != null ){
-                responseJson = badInfoResultJson;
-            }
             String requestJson = JSON.toJSONString(requestMap);
-            //thirdPartyDbService.saveThirdpartyLog(serviceName,riskId,scene,requestJson,responseJson,takingTime);
+            thirdPartyDbService.saveThirdpartyLog(serviceName,scene,riskId,requestJson,responseJson,takingTime);
         });
     }
 }

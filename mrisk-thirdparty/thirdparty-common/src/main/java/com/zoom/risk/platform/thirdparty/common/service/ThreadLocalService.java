@@ -10,6 +10,14 @@ public interface ThreadLocalService {
 
     public void putRiskId(String riskId);
 
+    public String getServiceName();
+
+    public void putServiceName(String serviceName);
+
+    public String getScene();
+
+    public void putScene(String scene);
+
     public void remove();
 
 }

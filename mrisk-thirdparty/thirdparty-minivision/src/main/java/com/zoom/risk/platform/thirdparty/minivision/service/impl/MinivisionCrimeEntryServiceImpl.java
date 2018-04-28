@@ -24,6 +24,7 @@ public class MinivisionCrimeEntryServiceImpl extends MinivisionAbstractService i
         Map<String,Object> resultMap = new HashMap<>();
         resultMap.put(CrimeHit,"-1");
         try {
+            long time = System.currentTimeMillis();
             String crimeInfoResponse = this.sendCrimeInfoRequest(idCardNumber,name);
             logger.info("CrimeInfoService Response : {}",crimeInfoResponse);
             Map<String, Object> crimeInfoMap = (Map<String, Object>) JSON.parse(crimeInfoResponse);
@@ -31,6 +32,7 @@ public class MinivisionCrimeEntryServiceImpl extends MinivisionAbstractService i
             if (!StringUtils.isEmpty(crimeInfoResult)) {
                 resultMap.put(CrimeHit, crimeInfoResult);
             }
+            super.saveThirdpartyLog(idCardNumber,name,mobile,JSON.toJSONString(resultMap),System.currentTimeMillis()-time);
         }catch (Exception e){
             logger.error("",e);
         }

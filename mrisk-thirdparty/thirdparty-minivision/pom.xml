@@ -24,6 +24,11 @@
 			<artifactId>thirdparty-common</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>com.zoom</groupId>
+			<artifactId>thirdparty-db</artifactId>
+		</dependency>
+
 		<!-- Junit -->
 		<dependency>
 			<groupId>junit</groupId>

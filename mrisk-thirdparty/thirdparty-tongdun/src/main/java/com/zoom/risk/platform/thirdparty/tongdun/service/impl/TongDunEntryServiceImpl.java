@@ -5,11 +5,14 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.gson.reflect.TypeToken;
 import com.zoom.risk.platform.common.httpclient.HttpClientService;
 import com.zoom.risk.platform.common.httpclient.HttpResponseWapper;
+import com.zoom.risk.platform.thirdparty.common.service.ThreadLocalService;
 import com.zoom.risk.platform.thirdparty.common.utils.ThirdPartyConstants;
+import com.zoom.risk.platform.thirdparty.dbservice.ThirdPartyDbService;
 import com.zoom.risk.platform.thirdparty.tongdun.service.TongDunEntryService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -34,11 +37,21 @@ public class TongDunEntryServiceImpl implements TongDunEntryService {
     private String partnerKey;
     @Resource(name="tongdunHttpClientService")
     private HttpClientService httpClientService;
+    @Resource(name="thirdPartyDbService")
+    private ThirdPartyDbService thirdPartyDbService;
+    @Resource(name="threadLocalService")
+    private ThreadLocalService threadLocalService;
+    @Resource(name="thirdPartyPoolExecutor")
+    private ThreadPoolTaskExecutor thirdPartyPoolExecutor;
 
     public Map<String, Object> invoke(String idCardNumber, String accountName, String accountMobile ) {
-        Integer score = this.handleResponse( sendRequest(idCardNumber,accountName,accountMobile) ) ;
+        long time = System.currentTimeMillis();
+        HttpResponseWapper<String> responseWapper = sendRequest(idCardNumber,accountName,accountMobile);
+        String response = responseWapper.getResponse();
+        Integer score = this.handleResponse(responseWapper) ;
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put(ThirdPartyConstants.QUOTA_KEY, score);
+        this.saveThirdpartyLog(idCardNumber,accountName,accountMobile,response,System.currentTimeMillis()-time);
         return resultMap;
     }
 
@@ -69,4 +82,20 @@ public class TongDunEntryServiceImpl implements TongDunEntryService {
         logger.info("Request url and parameters logger = [ url={}, parameters={}]", postUrl, JSON.toJSONString(paramMap));
         return httpClientService.executePost(postUrl, paramMap);
     }
+
+    private void saveThirdpartyLog(String idCardNumber, String userName, String mobile, String responseJson ,long takingTime){
+        final String riskId = threadLocalService.getRiskId();
+        final String serviceName = threadLocalService.getServiceName();
+        final String scene = threadLocalService.getScene();
+        thirdPartyPoolExecutor.submit(()->{
+            Map<String, String> requestMap = new HashMap<>();
+            requestMap.put("idCardNumber",idCardNumber);
+            requestMap.put("mobile",mobile);
+            requestMap.put("userName",userName);
+            String requestJson = JSON.toJSONString(requestMap);
+            thirdPartyDbService.saveThirdpartyLog(serviceName,scene,riskId,requestJson,responseJson,takingTime);
+        });
+    }
+
+
 }
