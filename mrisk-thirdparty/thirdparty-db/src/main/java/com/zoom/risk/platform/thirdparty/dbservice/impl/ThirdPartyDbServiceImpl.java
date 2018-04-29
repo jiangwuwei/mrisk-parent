@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -18,6 +19,7 @@ public class ThirdPartyDbServiceImpl implements ThirdPartyDbService {
     private JdbcTemplate jdbcTemplate;
 
     @Override
+    @Transactional
     public void saveThirdpartyLog(String serviceName,String scene, String riskId, String requestParams, String responseBody, long takingTime) {
         logger.info("Save to db [serviceName:{},scene:{},riskId:{},requestParams:{},responseBody:{},takingTime:{}]",serviceName,riskId,requestParams,responseBody,takingTime);
         jdbcTemplate.update(SaveThirdpartyLogSQL,serviceName,scene,riskId,requestParams,responseBody,takingTime);

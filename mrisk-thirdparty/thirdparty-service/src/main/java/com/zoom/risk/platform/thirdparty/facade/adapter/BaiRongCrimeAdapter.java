@@ -19,7 +19,7 @@ import java.util.Map;
  * @author jiangyulin
  *Oct 26, 2015
  */
-@Invoker(value="baiRongThirdpartyAdapter",serviceName = "baiRongEntryService")
+@Invoker(value="baiRongThirdpartyAdapter",serviceName = "baiRongCrimeEntryService")
 public class BaiRongCrimeAdapter implements InvokerService {
     private static final Logger logger = LogManager.getLogger(BaiRongCrimeAdapter.class);
 

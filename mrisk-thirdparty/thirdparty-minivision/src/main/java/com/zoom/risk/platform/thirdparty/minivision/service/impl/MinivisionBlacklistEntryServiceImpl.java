@@ -22,7 +22,7 @@ public class MinivisionBlacklistEntryServiceImpl extends MinivisionAbstractServi
     @Override
     public Map<String, Object> invoke(String idCardNumber, String name, String mobile) {
         Map<String,Object> resultMap = new HashMap<>();
-        resultMap.put(BlacklistHit,"-1");
+        resultMap.put(QUOTAKEY,"-1");
         try{
             long time = System.currentTimeMillis();
             String blackListResponse = this.sendBlackListRequest(idCardNumber,name,mobile);
@@ -30,7 +30,7 @@ public class MinivisionBlacklistEntryServiceImpl extends MinivisionAbstractServi
             Map<String,Object> blackListMap = (Map<String, Object>) JSON.parse(blackListResponse);
             String blackListResult = (String) blackListMap.get("RESULT");   //逾期黑名单状态码  1：命中  2：未命中 -1：异常情况
             if(!StringUtils.isEmpty(blackListResult)){
-                resultMap.put(BlacklistHit,blackListResult);
+                resultMap.put(QUOTAKEY,blackListResult);
             }
             super.saveThirdpartyLog(idCardNumber,name,mobile,JSON.toJSONString(resultMap),System.currentTimeMillis()-time);
         }catch (Exception e){

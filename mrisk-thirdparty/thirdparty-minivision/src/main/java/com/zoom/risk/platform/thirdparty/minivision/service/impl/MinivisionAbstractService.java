@@ -25,6 +25,7 @@ public class MinivisionAbstractService implements MinivisionEntryService {
     private static final Logger logger = LogManager.getLogger(MinivisionAbstractService.class);
     public static final String blakList = "BlackListCheck";
     public static final String crimeInfo = "CrimeInfoCheck";
+    public static final String QUOTAKEY = "quotaKey";
 
     @Value("${minivision.apiUrl}")
     private String apiUrl;
@@ -46,10 +47,6 @@ public class MinivisionAbstractService implements MinivisionEntryService {
 
     @Resource(name="thirdPartyDbService")
     private ThirdPartyDbService thirdPartyDbService;
-
-    public static final String BlacklistHit = "blacklistHit";
-
-    public static final String CrimeHit = "crimeHit";
 
 
     public String sendBlackListRequest(String idCardNumber,String name, String mobile){

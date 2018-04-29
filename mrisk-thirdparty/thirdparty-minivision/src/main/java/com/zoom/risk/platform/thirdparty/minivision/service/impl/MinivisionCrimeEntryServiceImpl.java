@@ -22,7 +22,7 @@ public class MinivisionCrimeEntryServiceImpl extends MinivisionAbstractService i
     @Override
     public Map<String, Object> invoke(String idCardNumber, String name, String mobile) {
         Map<String,Object> resultMap = new HashMap<>();
-        resultMap.put(CrimeHit,"-1");
+        resultMap.put(QUOTAKEY,"-1");
         try {
             long time = System.currentTimeMillis();
             String crimeInfoResponse = this.sendCrimeInfoRequest(idCardNumber,name);
@@ -30,7 +30,7 @@ public class MinivisionCrimeEntryServiceImpl extends MinivisionAbstractService i
             Map<String, Object> crimeInfoMap = (Map<String, Object>) JSON.parse(crimeInfoResponse);
             String crimeInfoResult = (String) crimeInfoMap.get("RESULT");   //违法行为状态码   1：命中   2：未命中 -1：系统异常
             if (!StringUtils.isEmpty(crimeInfoResult)) {
-                resultMap.put(CrimeHit, crimeInfoResult);
+                resultMap.put(QUOTAKEY, crimeInfoResult);
             }
             super.saveThirdpartyLog(idCardNumber,name,mobile,JSON.toJSONString(resultMap),System.currentTimeMillis()-time);
         }catch (Exception e){
