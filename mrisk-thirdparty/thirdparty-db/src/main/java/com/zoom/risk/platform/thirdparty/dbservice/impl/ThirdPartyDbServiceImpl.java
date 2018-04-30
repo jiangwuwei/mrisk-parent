@@ -19,9 +19,9 @@ public class ThirdPartyDbServiceImpl implements ThirdPartyDbService {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    @Transactional
+    @Transactional(value ="transactionManager", readOnly = false)
     public void saveThirdpartyLog(String serviceName,String scene, String riskId, String requestParams, String responseBody, long takingTime) {
-        logger.info("Save to db [serviceName:{},scene:{},riskId:{},requestParams:{},responseBody:{},takingTime:{}]",serviceName,riskId,requestParams,responseBody,takingTime);
+        logger.info("Save to db [serviceName:{},scene:{},riskId:{},requestParams:{},responseBody:{},takingTime:{}]",serviceName,scene,riskId,requestParams,responseBody,takingTime);
         jdbcTemplate.update(SaveThirdpartyLogSQL,serviceName,scene,riskId,requestParams,responseBody,takingTime);
     }
 }

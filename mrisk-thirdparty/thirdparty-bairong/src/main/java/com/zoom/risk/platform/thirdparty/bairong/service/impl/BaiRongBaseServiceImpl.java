@@ -83,7 +83,6 @@ public class BaiRongBaseServiceImpl implements BaiRongEntryService {
         if (result.contains("code")){
             code =  JSONObject.fromObject(result).getString("code");
             if ( !code.equals("00") && !code.equals("600000")) {
-                result = null;
                 if (code.equals("100007")) {
                     logger.error("Error!!! tokenid is empty!", result);
                 }
@@ -114,7 +113,6 @@ public class BaiRongBaseServiceImpl implements BaiRongEntryService {
         final String scene = threadLocalService.getScene();
         thirdPartyPoolExecutor.submit(()->{
             Map<String, String> requestMap = new HashMap<>();
-            Map<String, String> responseMap = new HashMap<>();
             requestMap.put("idCardNumber",idCardNumber);
             requestMap.put("mobile",mobile);
             requestMap.put("userName",userName);

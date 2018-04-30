@@ -32,7 +32,7 @@ public class MinivisionBlacklistEntryServiceImpl extends MinivisionAbstractServi
             if(!StringUtils.isEmpty(blackListResult)){
                 resultMap.put(QUOTAKEY,blackListResult);
             }
-            super.saveThirdpartyLog(idCardNumber,name,mobile,JSON.toJSONString(resultMap),System.currentTimeMillis()-time);
+            super.saveThirdpartyLog(idCardNumber,name,mobile, blackListResponse,System.currentTimeMillis()-time);
         }catch (Exception e){
             logger.error("",e);
         }

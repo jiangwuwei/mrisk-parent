@@ -3,7 +3,7 @@
 	<Properties>
 		<Property name="base">/data/tomcat/logs/risk-thirdparty/</Property>
 		<Property name="serverName">default</Property>
-		<Property name="logLevel">INFO</Property>
+		<Property name="logLevel">DEBUG</Property>
 	</Properties>
 	<Appenders>
 		<Console name="STDOUT">

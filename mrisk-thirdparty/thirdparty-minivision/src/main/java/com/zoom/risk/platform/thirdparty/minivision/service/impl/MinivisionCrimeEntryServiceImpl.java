@@ -32,7 +32,7 @@ public class MinivisionCrimeEntryServiceImpl extends MinivisionAbstractService i
             if (!StringUtils.isEmpty(crimeInfoResult)) {
                 resultMap.put(QUOTAKEY, crimeInfoResult);
             }
-            super.saveThirdpartyLog(idCardNumber,name,mobile,JSON.toJSONString(resultMap),System.currentTimeMillis()-time);
+            super.saveThirdpartyLog(idCardNumber,name,mobile,crimeInfoResponse,System.currentTimeMillis()-time);
         }catch (Exception e){
             logger.error("",e);
         }

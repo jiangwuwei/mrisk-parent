@@ -11,8 +11,6 @@
 	           http://www.springframework.org/schema/aop
 	           http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 
-	<tx:annotation-driven transaction-manager="transactionManager"/>
-
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
@@ -45,6 +43,7 @@
 		<property name="testConnectionOnCheckout" value="false" />
 	</bean>
 
+	<tx:annotation-driven transaction-manager="transactionManager" mode="proxy" proxy-target-class="false"/>
 
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="thirdpartyDataSource" />
